@@ -7,8 +7,12 @@ import java.io.File
 fun main(args : Array<String>) {
 
     val args = verificarEntrada(args)
+    val raiz = generarPath(args)
 
-
+    val arbol : Arbol = Arbol(raiz)
+    arbol.crearSubDirectorios()
+    val palabraMasLarga = arbol.nPalabraMasLarga()
+    println("[Main] palabra mas larga: $palabraMasLarga")
 }
 
 fun verificarEntrada(args : Array<String>) : Array<String> {
@@ -29,6 +33,8 @@ fun generarPath(args : Array<String>) : File {
 
     if(path.isFile)
         throw IllegalArgumentException("[Main] El path es un archivo, no un directorio")
+
+    println("[Main] Se está imprimiendo la arquitectura de ${path.path}")
 
     return path
 }
