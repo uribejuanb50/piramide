@@ -16,4 +16,8 @@ class Arbol (val path : File){
 
         paths?.forEach(iterar)
     }
+
+    fun nPalabraMasLarga() : Int {
+        return this.raiz.calcularMedidaPalabraMasLarga()
+    }
 }

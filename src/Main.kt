@@ -8,19 +8,14 @@ fun main(args : Array<String>) {
 
     val raiz = verificarEntrada(args)
 
+    val arbol : Arbol = Arbol(raiz)
+    arbol.crearSubdirectorios()
+    print(arbol.nPalabraMasLarga())
+
 }
 
-fun verificarEntrada(args : Array<String>) : File{
-
-    if(args.isEmpty()){
-        throw IllegalArgumentException("[Main] Está vacío cabrón")
-    }
-
-    val path = File(args.first())
-
-    if(path.isFile){
-        throw IllegalArgumentException("[Main] Es un archivo, no un directorio mi socio")
-    }
-
-    return path
+fun verificarEntrada(args : Array<String>) : Array<String> {
+    if(args.isEmpty())
+        throw IllegalArgumentException("[Main] Los argumentos de entrada están incompletos")
+    return args
 }
