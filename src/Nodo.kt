@@ -67,48 +67,73 @@ class Nodo (val nombre : String, val path : File) {
         return nivelMasAlto
     }
 
-    fun imprimirParaREADMEsencillo(md : ArrayList<String>, nivel : Int = 0) : String {
+    //para que imprima primero subdirectorios luego archivos
 
+    fun reversarListas() : Unit{
         if(this.path.isFile){
-            println("[con1] Nivel: $nivel ")
-            return this.nombre + "\n"
+            return
         }
         if(this.listaSubArchivos.isEmpty()){
-            println("[con2] Nivel: $nivel ")
-            return ""
+            return
         }
 
-        var arquitectura : String = this.nombre +"/\n"
-        var mdreadme = md
+        this.listaSubArchivos.reverse()
 
-        for((indice, subdirectorio) in this.listaSubArchivos.withIndex()){
+        for (subdirectorio in this.listaSubArchivos){
+            subdirectorio.reversarListas()
+        }
+    }
+    fun impresionUltraSencilla(nivel : Int = 0) : String {
+        val espacio : String = "   "
 
-            //estamos usando memoria dinamica, primero toca reasignar el valor usando la función
-            if(indice == this.listaSubArchivos.lastIndex){
-                arquitectura += if(nivel == 0) "" else mdreadme[nivel - 1]
-                arquitectura += "└── " + subdirectorio.imprimirParaREADMEsencillo(mdreadme, nivel + 1)
+        if(this.path.isFile){
+            return espacio.repeat(nivel) + this.nombre + "\n"
+        }
+        if(this.listaSubArchivos.isEmpty()){
+            return "\n"
+        }
+        var devolver : String = espacio.repeat(nivel) + this.nombre + "/\n"
 
-                if(nivel == 0) mdreadme[nivel] = "    " else mdreadme[nivel] = mdreadme[nivel - 1] + "    "
-
-                //println("[if1] Nivel: $nivel | arq: $arquitectura")
-            }
-            else {
-                if (nivel == 0) {
-                    mdreadme[nivel] = "│   "
-                    arquitectura += "├── " + this.nombre + "/\n"
-                    //el nivel se coloca en 1 porque ya llega de por si en 0, es redundante colocar nivel + 1 o 1 porque da lo mismo
-                    arquitectura += mdreadme[nivel] + subdirectorio.imprimirParaREADMEsencillo(mdreadme, 1)//no preguntes solo interiorizalo
-                    //println("[if2] Nivel: $nivel | arq: $arquitectura")
-                } else {
-                    mdreadme[nivel] = mdreadme[nivel - 1] + "│   "
-                    arquitectura += mdreadme[nivel] + subdirectorio.imprimirParaREADMEsencillo(mdreadme, nivel + 1)
-                    //println("[if3] Nivel: $nivel | arq: $arquitectura")
-                }
-            }
-
-            mdreadme = ArrayList(List(md.size) {""})
+        for(subdirectorio in this.listaSubArchivos){
+            devolver += subdirectorio.impresionUltraSencilla(nivel + 1)
         }
 
+        return devolver
+    }
+
+    fun imprimirParaREADMEsencillo(mdreadme : ArrayList<String>, nivel : Int = 0, flagUltimoPuesto : Boolean = false) : String {
+
+        if(this.path.isFile){
+            val conector = if(flagUltimoPuesto) "└── " else "├── "
+            return mdreadme[nivel - 1] + conector + this.nombre + "\n"
+        }
+        if(this.listaSubArchivos.isEmpty()){
+            val conector = if(flagUltimoPuesto) "└── " else "├── "
+            return mdreadme[nivel - 1] + conector + this.nombre + "/\n"
+        }
+
+        var arquitectura : String = ""
+
+        if(nivel == 0){
+            arquitectura = this.nombre + "/\n"
+            mdreadme[nivel] = ""
+        }
+        else{
+            val conector = if(flagUltimoPuesto) "└── " else "├── "
+            arquitectura += mdreadme[nivel - 1] + conector + this.nombre + "/\n"
+
+            mdreadme[nivel] = mdreadme[nivel - 1] + if(flagUltimoPuesto) "    " else "│   "
+        }
+
+        for((indice, subdirectorio) in this.listaSubArchivos.withIndex()) {
+
+            val ultimoPuesto = if(indice == this.listaSubArchivos.lastIndex) true else false
+
+            if(nivel > 0)
+                mdreadme[nivel] = mdreadme[nivel - 1] + (if(flagUltimoPuesto) "    " else "│   ")
+
+            arquitectura += subdirectorio.imprimirParaREADMEsencillo(mdreadme, nivel + 1, ultimoPuesto)
+        }
         return arquitectura
     }
 

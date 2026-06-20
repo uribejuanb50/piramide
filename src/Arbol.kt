@@ -27,6 +27,7 @@ class Arbol (val path : File){
     }
     fun imprimirParaREADMEsencillo(profundidad : Int) : String {
         this.iniciarMDReadME(profundidad)
-        return this.raiz.imprimirParaREADMEsencillo(this.mdreadme)
+        this.raiz.reversarListas()
+        return "Impresion re sencilla\n" + this.raiz.impresionUltraSencilla() + "\ncomplicada" + this.raiz.imprimirParaREADMEsencillo(this.mdreadme)
     }
 }
