@@ -86,9 +86,7 @@ class Nodo (val nombre : String, val path : File) {
             return
         }
 
-        println("[Nodo] previo a la impresión : ${this.listaSubArchivos.toCustomString()}")
         this.listaSubArchivos.sortWith(compareByDescending<Nodo> {it.path.isDirectory}.thenBy { it.nombre })
-        println("[Nodo] post a la impresión : ${this.listaSubArchivos.toCustomString()}")
 
         for (subdirectorio in this.listaSubArchivos){
             subdirectorio.reversarListas()
@@ -175,10 +173,6 @@ class Nodo (val nombre : String, val path : File) {
         }
 
         return retorno
-    }
-
-    init{
-        println("[Nodo] nombre: ${this.nombre}, path: ${this.path}")
     }
 }
 
