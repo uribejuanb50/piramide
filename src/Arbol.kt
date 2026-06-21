@@ -22,19 +22,22 @@ class Arbol (val path : File){
     fun crearSubDirectorios() : Unit {
         this.raiz.crearSubDirectorios()
     }
-
+    //solo para practicar
     fun nPalabraMasLarga() : Int {
         return this.raiz.calcularMedidaPalabraMasLarga()
     }
+
     fun calcularProfundidad() : Int{
         val profundidad = this.raiz.calcularProfundidad()
         this.profundidad = profundidad
         return profundidad
     }
+    //el baseline
     fun generarArquitecturaSencilla() : String {
         this.raiz.reversarListas()
         return this.raiz.impresionUltraSencilla()
     }
+    //el que genera con rayitas y bonito con eso
     fun generarArquitectura(profundidad : Int, mostrarOcultos : Boolean = false) : String {
         this.iniciarMDReadME(profundidad)
         this.raiz.reversarListas()
@@ -70,7 +73,19 @@ class Arbol (val path : File){
         return retorno
     }
 
-    fun generarDescripciones(){
+    fun generarREADME(arquitectura : String, descripcion : String) : String{
+
+        var readme = ""
+
+        readme += "# [Nombre del proyecto]\n"
+        readme += "> [Una línea que explica qué hace el proyecto. Clara, directa, sin tecnicismos innecesarios.]\n"
+        readme += "\n"
+        readme += "![[aqui va texto entre corchetes que es la desc de la imagen (obligatoria por SEO)]]([link imagen]\n"
+        readme += "\n"
+        readme += "---"
+        readme += "[link a demo o bloque de UI o respuesta de terminal (```shell //codigo// ```]"
+        readme += ""
+
 
     }
 }

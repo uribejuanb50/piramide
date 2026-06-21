@@ -16,6 +16,12 @@ fun verificarEntrada(args : Array<String>) : Int {
     if(args.isEmpty())
         throw IllegalArgumentException("[Main] Los argumentos de entrada están vacíos mani")
 
+    if(args.first() == "ayuda" || args.first() == "help")
+        throw IllegalArgumentException(
+            "[Main] los comandos disponibles son:\n"
+            + "TODO"
+        )
+
     if(args.size == 1) //1 argumento, devuelve el arbol sencillo de readme, no el baseline del ultra sencillo
         return 1
 
