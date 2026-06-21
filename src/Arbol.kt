@@ -34,7 +34,7 @@ class Arbol (val path : File){
     fun imprimirParaREADMEsencillo(profundidad : Int) : String {
         this.iniciarMDReadME(profundidad)
         this.raiz.reversarListas()
-        return "Impresion re sencilla\n" + this.raiz.impresionUltraSencilla() + "\ncomplicada" + this.raiz.imprimirParaREADMEsencillo(this.mdreadme)
+        return this.raiz.imprimirParaREADMEsencillo(this.mdreadme)
     }
 
     fun buscarArchivosPorNombre(busqueda : String, condicion : String) : String{
