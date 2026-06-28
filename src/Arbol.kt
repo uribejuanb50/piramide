@@ -19,6 +19,7 @@ class Arbol (val path : File){
         this.mdreadme = ArrayList(List (espacio) {""})
     }
 
+    //alimenta el arbol
     fun crearSubDirectorios() : Unit {
         this.raiz.crearSubDirectorios()
     }
@@ -27,6 +28,7 @@ class Arbol (val path : File){
         return this.raiz.calcularMedidaPalabraMasLarga()
     }
 
+    //la profundidad total del arbol
     fun calcularProfundidad() : Int{
         val profundidad = this.raiz.calcularProfundidad()
         this.profundidad = profundidad
@@ -44,6 +46,7 @@ class Arbol (val path : File){
         return this.raiz.generarArquitectura(this.mdreadme, mostrarEscondidos = mostrarOcultos)
     }
 
+    //nombre intuitivo no?
     fun buscarArchivosPorNombre(busqueda : String, condicion : String) : String{
         return try {
             val metodoBusqueda = this.mapaCondiciones.getValue(condicion)
@@ -53,10 +56,11 @@ class Arbol (val path : File){
         }
     }
 
-    fun organizarDescripciones() : String {
+    //agarra de a niveles y va explicandolos empezando por el más hacia la raiz
+    fun organizarDescripciones(ocultos : Boolean = false) : String {
 
         val mdinamica = mutableSetOf<String>()
-        val directorios = this.raiz.devolverPadresConHijos()
+        val directorios = this.raiz.devolverPadresConHijos(mostrarEscondidos = ocultos)
 
         var retorno = "## " + directorios.first() +"\n"
         mdinamica.add(directorios.first())
@@ -73,6 +77,7 @@ class Arbol (val path : File){
         return retorno
     }
 
+    //hace la estructura de un readme
     fun generarREADME(arquitectura : String, descripcion : String) : String{
         var readme = ""
         readme += "# [Nombre del proyecto]\n"
@@ -93,6 +98,7 @@ class Arbol (val path : File){
         readme += "---"
         readme += "\n"
         readme += "## Estructura del proyecto"
+        readme += "\n"
         readme += arquitectura
         readme += "\n"
         readme += descripcion
@@ -103,6 +109,11 @@ class Arbol (val path : File){
         readme += "[Habla de como la gente puede contribuir]"
 
         return readme
+    }
+
+    //elimina esa palabra hasta cierta cantidad de niveles
+    fun eliminarPalabra(palabra : String, nivelMax : Int? = null){
+        this.raiz.eliminarPalabra(palabra, nivelMax)
     }
 }
 

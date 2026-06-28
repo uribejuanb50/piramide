@@ -173,10 +173,13 @@ class Nodo (val nombre : String, val path : File) {
         return retorno
     }
 
-    fun devolverPadresConHijos() : ArrayList<String>{
+    fun devolverPadresConHijos(mostrarEscondidos : Boolean = false) : ArrayList<String>{
         if(this.path.isFile){
             return arrayListOf()
         }
+        if(!mostrarEscondidos && this.path.isHidden)
+            return arrayListOf()
+
         if(this.listaSubArchivos.isEmpty())
             return arrayListOf()
 
@@ -184,6 +187,9 @@ class Nodo (val nombre : String, val path : File) {
         lista.add(this.nombre + "/")
 
         for(subdirectorio in this.listaSubArchivos){
+            if(!mostrarEscondidos && subdirectorio.path.isHidden)
+                continue
+
             val strSubdirectorio = if(subdirectorio.path.isDirectory) "${subdirectorio.nombre}/" else subdirectorio.nombre
             lista.add(strSubdirectorio)
         }
@@ -191,6 +197,36 @@ class Nodo (val nombre : String, val path : File) {
             lista.addAll(subdirectorio.devolverPadresConHijos())
         }
         return lista
+    }
+
+    fun eliminarPalabra(palabra : String, nivelMax : Int? = null, carry : Int = 0) : Unit {
+        if(nivelMax != null && nivelMax == carry)
+            return
+
+        if(this.path.isFile)
+            limpiarArchivoJson(this.path)
+
+        if(this.listaSubArchivos.isEmpty())
+            return
+
+        for(subdirectorio in this.listaSubArchivos)
+            subdirectorio.eliminarPalabra(palabra, nivelMax, carry)
+
+        return
+    }
+
+    fun limpiarArchivoJson(archivo: File) {
+
+        // 1. Leer tod o el contenido del archivo como una cadena de texto
+        val contenidoOriginal = archivo.readText()
+
+        // 2. Reemplazar el patrón " — (100%)" por una cadena vacía
+        // Usamos un Regex para asegurar que capture exactamente el guion largo/corto y los paréntesis
+        val patron = " \\(100%\\)".toRegex()
+        val contenidoLimpio = contenidoOriginal.replace(patron, "")
+
+        // 3. Sobrescribir el archivo con el nuevo contenido limpio
+        archivo.writeText(contenidoLimpio)
     }
 
     init{

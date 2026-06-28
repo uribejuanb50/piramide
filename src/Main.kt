@@ -1,6 +1,7 @@
 package src
 
 import java.io.File
+import kotlin.system.exitProcess
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -10,6 +11,91 @@ fun main(args : Array<String>) {
     val raiz = generarPath(args)
     val resultado = manejarArbol(raiz, opcion, args)
     println(resultado)
+}
+
+
+
+//pone los flags según lo que digan
+fun validarFlags(args : Array<String>) : Pair<Map<String, Any>, Array<String>> {
+
+    val opcionesValidas = listOf(
+        "--escondidos", "--reversar", "--recortar", "--prueba", "--nivelMax", "--README", "--toArchivo", "--ayuda"
+        )
+    val nuevosArgs : ArrayList<String> = arrayListOf()
+    val diccionarioComandos = mutableMapOf<String, Any?>(
+        "escondidos" to false,
+        "reversar" to false,
+        "recortar" to false,
+        "prueba" to true,
+        "nivelMax" to null,
+        "README" to false,
+        "toArchivo" to null
+    )
+
+    for((indice, argumento) in args.withIndex()){
+
+        if(argumento !in opcionesValidas) {
+            nuevosArgs.add(argumento)
+            continue
+        }
+
+        when(argumento){
+            "--escondidos" -> diccionarioComandos["escondidos"] = true
+
+            "--reversar" -> reversar = true
+            "--recortar" -> recortar = true
+            "--prueba" -> prueba = true
+            "--README" -> README = true
+            "--nivelMax" -> {
+                val siguiente = args.getOrNull(indice + 1)
+
+                if(siguiente == null) {
+                    println("[Main] después de --nivelMax no había número")
+                    exitProcess(1)
+                }
+
+                try{
+                    nivelMax = siguiente.toInt()
+                }
+                catch (e : Exception){
+                    println("[Main] Conflicto al convertir número del --nivelMax en entero")
+                    exitProcess(1)
+                }
+            }
+            "--toArchivo" -> {
+                val siguiente = args.getOrNull(indice + 1)
+
+                if(siguiente == null){
+                    println("[Main] Hubo un error al leer el archivo después de --toArchivo")
+                    exitProcess(1)
+                }
+
+                val path = File(siguiente)
+                if(!path.exists()){
+                    println("[Main] el archivo a escribir no existe")
+                    exitProcess(1)
+                }
+            }
+            "--ayuda" -> {
+                println(
+                    """
+                    flags:
+                    --escondidos                //mostrar carpetas y archivos ocultos
+                    --reversar                  //reversar las listas internas y mostrar primero archivos que directorios
+                    --recortar                  //recorta palabras
+                    --prueba                    //lanzar prueba
+                    --nivelMax n                //hacerlo hasta el nivel max
+                    --README                    //crear README
+                    --toArchivo "path_archivo"  //guardar en archivo
+                    --ayuda                     //Imprime este txt
+                """.trimIndent()
+                )
+                exitProcess(1)
+            }
+        }
+
+
+    }
 }
 
 fun verificarEntrada(args : Array<String>) : Int {
@@ -25,11 +111,14 @@ fun verificarEntrada(args : Array<String>) : Int {
     if(args.size == 1) //1 argumento, devuelve el arbol sencillo de readme, no el baseline del ultra sencillo
         return 1
 
-    if(args[1] == "prueba")
+    if(args[1] == "--prueba")
         return -1
 
     if(args.size == 2 && args.contains("--ocultos"))
         return 2
+
+    if(args.size == 2 && args.contains("--eliminar"))
+        return 4
 
     if(args.size == 3) //3 argumentos, devuelve la ubicación de un archivo, según la comparacion elegida
         return 3
@@ -43,7 +132,7 @@ fun generarPath(args : Array<String>) : File {
     if(!path.exists())
         throw IllegalArgumentException("[Main] El path no existe cabrón")
 
-    if(path.isFile)
+    if(path.isFile && !args.contains("--prueba"))
         throw IllegalArgumentException("[Main] El path es un archivo, no un directorio")
 
     println("[Main] Se está imprimiendo la arquitectura de ${path.path}")
@@ -67,7 +156,7 @@ fun manejarArbol(raiz: File, opcion: Int, args : Array<String>) : String {
         2 -> {
             val profundidad = arbol.calcularProfundidad()
             val arquitectura = arbol.generarArquitectura(profundidad, true)
-            val descripciones = arbol.organizarDescripciones()
+            val descripciones = arbol.organizarDescripciones(true)
             arbol.generarREADME(arquitectura, descripciones)
         }
 
@@ -76,8 +165,13 @@ fun manejarArbol(raiz: File, opcion: Int, args : Array<String>) : String {
             val condicionBusqueda = args[2]
             "Ubicación(es) de aparición: " + arbol.buscarArchivosPorNombre(busqueda, condicionBusqueda)
         }
+
+        4 -> {
+            //arbol.eliminarPalabra()
+            ""
+        }
         -1 ->{
-            arbol.generarArquitecturaSencilla() + "\nDirectorio aplanado:" + arbol.organizarDescripciones()
+            //arbol.eliminarPalabra()
         }
         else -> "[Main]No existe esta opción aún"
     }
