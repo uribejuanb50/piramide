@@ -16,13 +16,13 @@ fun main(args : Array<String>) {
 
 
 //pone los flags según lo que digan
-fun validarFlags(args : Array<String>) : Pair<Map<String, Any>, Array<String>> {
+fun validarFlags(args : Array<String>) : Pair<Map<String, Any?>, ArrayList<String>> {
 
     val opcionesValidas = listOf(
         "--escondidos", "--reversar", "--recortar", "--prueba", "--nivelMax", "--README", "--toArchivo", "--ayuda"
         )
     val nuevosArgs : ArrayList<String> = arrayListOf()
-    val diccionarioComandos = mutableMapOf<String, Any?>(
+    val diccionarioFlags = mutableMapOf<String, Any?>(
         "escondidos" to false,
         "reversar" to false,
         "recortar" to false,
@@ -40,27 +40,21 @@ fun validarFlags(args : Array<String>) : Pair<Map<String, Any>, Array<String>> {
         }
 
         when(argumento){
-            "--escondidos" -> diccionarioComandos["escondidos"] = true
+            "--escondidos" -> diccionarioFlags["escondidos"] = true
 
-            "--reversar" -> reversar = true
-            "--recortar" -> recortar = true
-            "--prueba" -> prueba = true
-            "--README" -> README = true
+            "--reversar" -> diccionarioFlags["reversar"] = true
+            "--recortar" -> diccionarioFlags["recortar"] = true
+            "--prueba" -> diccionarioFlags["prueba"] = true
+            "--README" -> diccionarioFlags["README"] = true
             "--nivelMax" -> {
-                val siguiente = args.getOrNull(indice + 1)
+                val siguiente = args.getOrNull(indice + 1)?.toIntOrNull()
 
                 if(siguiente == null) {
                     println("[Main] después de --nivelMax no había número")
                     exitProcess(1)
                 }
 
-                try{
-                    nivelMax = siguiente.toInt()
-                }
-                catch (e : Exception){
-                    println("[Main] Conflicto al convertir número del --nivelMax en entero")
-                    exitProcess(1)
-                }
+                diccionarioFlags["nivelMax"] = siguiente
             }
             "--toArchivo" -> {
                 val siguiente = args.getOrNull(indice + 1)
@@ -75,6 +69,8 @@ fun validarFlags(args : Array<String>) : Pair<Map<String, Any>, Array<String>> {
                     println("[Main] el archivo a escribir no existe")
                     exitProcess(1)
                 }
+
+                diccionarioFlags["toArchivo"] = path
             }
             "--ayuda" -> {
                 println(
@@ -96,6 +92,8 @@ fun validarFlags(args : Array<String>) : Pair<Map<String, Any>, Array<String>> {
 
 
     }
+
+    return Pair(diccionarioFlags, nuevosArgs)
 }
 
 fun verificarEntrada(args : Array<String>) : Int {
