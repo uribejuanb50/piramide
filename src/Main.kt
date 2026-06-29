@@ -30,7 +30,7 @@ fun validarFlags(args : Array<String>) : Pair<Map<String, Any?>, ArrayList<Strin
         "ocultos" to false,
         "reversar" to false,
         "recortar" to null,
-        "prueba" to true,
+        "prueba" to false,
         "nivelMax" to null,
         "README" to false,
         "toArchivo" to null,
@@ -55,6 +55,7 @@ fun validarFlags(args : Array<String>) : Pair<Map<String, Any?>, ArrayList<Strin
 
                 if(siguiente == "desc") {
                     diccionarioFlags["descripcion"] = true
+                    argsRestar.add(siguiente)
                 }
 
             }
@@ -117,7 +118,7 @@ fun validarFlags(args : Array<String>) : Pair<Map<String, Any?>, ArrayList<Strin
                     --prueba                    //lanzar prueba
                     --nivelMax n                //hacerlo hasta el nivel max
                     --README desc               //crear README (desc es opcional para activar la descripcion)
-                    --toArchivo "path_archivo"  //guardar en archivo
+                    --toArchivo "path_archivo"  //guardar en archivo (borra el contenido)
                     --ayuda                     //Imprime este txt
                 """.trimIndent()
                 )
@@ -157,7 +158,7 @@ fun verificarEntrada(args: ArrayList<String>) : Int{
         1 -> 1
         3 -> 3
         else -> {
-            System.err.println("[Main] Los argumentos recibidos no sirven")
+            System.err.println("[Main] Los argumentos recibidos no sirven, inserta --ayuda para una guía")
             exitProcess(1)
         }
     }
@@ -210,11 +211,15 @@ fun manejarArbol(raiz: File, opcion: Int, args : ArrayList<String>, flags : Map<
                 else
                     arbol.generarArquitectura(profundidad, ocultos)
 
-            val retorno = procesarFlags(arbol, ocultos, arquitectura, recortar, readMe, descripcion, toArchivo)
-            
+            val retorno = procesarFlags(arbol, ocultos, arquitectura, recortar, readMe, descripcion)
+
+            if(toArchivo != null)
+                escribirArchivo(retorno, toArchivo)
+            else
+                retorno
         }
         else -> {
-            System.err.println("[Main] ¿Cómo llegaste aquí? La cagué re duro en algo")
+            System.err.println("¿Cómo llegaste aquí? La cagué re duro en algo")
         }
     }
 }
@@ -226,7 +231,6 @@ fun procesarFlags(
     recortar : Int?,
     readMe : Boolean,
     descripcion : Boolean,
-    toArchivo : File?
 ) : String{
 
     val nuevaArq =
@@ -258,7 +262,16 @@ fun procesarFlags(
             ""
 
     if(readMe)
-        return arbol.generarREADME(arquitectura, nuevaDescripcion)
+        return arbol.generarREADME(nuevaArq, nuevaDescripcion)
 
     return nuevaArq
+}
+
+fun escribirArchivo(contenido : String, path : File) : String{
+    try{
+        path.writeText(contenido)
+    }catch (e : Exception){
+        return "No se pudo escribir en el archivo. \n$e"
+    }
+    return "Contenido escrito exitosamente."
 }
