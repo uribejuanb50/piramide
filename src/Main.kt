@@ -110,13 +110,14 @@ fun validarFlags(args : Array<String>) : Pair<Map<String, Any?>, ArrayList<Strin
             "--ayuda" -> {
                 println(
                     """
+                    \n
                     flags:
                     --simple                    //imprime el arbol sin caracteres especiales
                     --ocultos                   //mostrar carpetas y archivos ocultos
                     --reversar                  //reversar las listas internas y mostrar primero archivos que directorios
                     --recortar n                //recorta palabras hasta ese tamaño (falta añadir compatibilidad con simple)
                     --prueba                    //lanzar prueba
-                    --nivelMax n                //hacerlo hasta el nivel max
+                    --nivelMax n                //hacerlo hasta el nivel max (0 es nada, 1 es la raiz, 2 el segundo nivel ...)
                     --README desc               //crear README (desc es opcional para activar la descripcion)
                     --toArchivo "path_archivo"  //guardar en archivo (borra el contenido)
                     --ayuda                     //Imprime este txt
@@ -209,7 +210,7 @@ fun manejarArbol(raiz: File, opcion: Int, args : ArrayList<String>, flags : Map<
                 if(simple)
                     arbol.generarArquitecturaSencilla()
                 else
-                    arbol.generarArquitectura(profundidad, ocultos)
+                    arbol.generarArquitectura(profundidad, ocultos, nivelMax)
 
             val retorno = procesarFlags(arbol, ocultos, arquitectura, recortar, readMe, descripcion)
 

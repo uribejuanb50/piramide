@@ -105,8 +105,13 @@ class Nodo (val nombre : String, val path : File) {
         mdreadme : ArrayList<String>,
         nivel : Int = 0,
         flagUltimoPuesto : Boolean = false,
-        mostrarEscondidos : Boolean = false
+        mostrarEscondidos : Boolean = false,
+        profundidadMax : Int? = null
     ) : String {
+
+        if(profundidadMax == nivel){
+            return ""
+        }
 
         if(this.path.isFile){
             val conector = if(flagUltimoPuesto) "└── " else "├── "
@@ -141,7 +146,7 @@ class Nodo (val nombre : String, val path : File) {
             if(nivel > 0)
                 mdreadme[nivel] = mdreadme[nivel - 1] + (if(flagUltimoPuesto) "    " else "│   ")
 
-            arquitectura += subdirectorio.generarArquitectura(mdreadme, nivel + 1, ultimoPuesto, mostrarEscondidos)
+            arquitectura += subdirectorio.generarArquitectura(mdreadme, nivel + 1, ultimoPuesto, mostrarEscondidos, profundidadMax)
         }
         return arquitectura
     }

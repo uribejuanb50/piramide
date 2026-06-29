@@ -43,9 +43,9 @@ class Arbol (val path : File){
         return this.raiz.impresionUltraSencilla()
     }
     //el que genera con rayitas y bonito con eso
-    fun generarArquitectura(profundidad : Int, mostrarOcultos : Boolean = false) : String {
+    fun generarArquitectura(profundidad : Int, mostrarOcultos : Boolean = false, profundidadMax : Int? = null) : String {
         this.iniciarMDReadME(profundidad)
-        return this.raiz.generarArquitectura(this.mdreadme, mostrarEscondidos = mostrarOcultos)
+        return this.raiz.generarArquitectura(this.mdreadme, mostrarEscondidos = mostrarOcultos, profundidadMax = profundidadMax)
     }
 
     //nombre intuitivo no?
