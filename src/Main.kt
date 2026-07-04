@@ -125,6 +125,14 @@ fun validarFlags(args : Array<String>) : Pair<Map<String, Any?>, ArrayList<Strin
                     --README desc               //crear README (desc es opcional para activar la descripcion)
                     --toArchivo "path_archivo"  //guardar en archivo (borra el contenido)
                     --ayuda                     //Imprime este txt
+                    
+                    comandos:
+                    ...main.jar "path_original" //genera un arbol
+                    ...main.jar "path_original" "borrar" "palabra" 				            //elimina esa palabra de todo el arbol (falta implementar)
+                    ...main.jar "path_original" "buscar" "palabra" --condicion "condicion" 	//busca archivo que contenga esa palabra
+                    						        		                                //lo busca exacto o conteniendo, tiene que tener un flag, o por default
+                    									                                    // sale exacto
+                    ...main.jar "path_original" "reemplazar" "palabraVieja" "palabraNueva"  //reemplaza palabra dentro de cada archivo
                 """.trimIndent()
                 )
                 exitProcess(1)
