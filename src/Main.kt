@@ -21,9 +21,10 @@ fun validarFlags(args : Array<String>) : Pair<Map<String, Any?>, ArrayList<Strin
         //Caso base explorar/ver arbol
         "--simple","--ocultos", "--reversar", "--recortar",
         "--prueba", "--nivelMax", "--README", "--toArchivo",
-        "--ayuda", "--descripcion"
+        "--ayuda", "--descripcion",
 
-
+        //Caso búsquedas
+        "--condicion"
         )
 
     val nuevosArgs : ArrayList<String> = arrayListOf()
@@ -38,7 +39,8 @@ fun validarFlags(args : Array<String>) : Pair<Map<String, Any?>, ArrayList<Strin
         "nivelMax" to null,
         "README" to false,
         "toArchivo" to null,
-        "descripcion" to false
+        "descripcion" to false,
+        "condicion" to null
     )
 
     for((indice, argumento) in args.withIndex()){
@@ -53,6 +55,17 @@ fun validarFlags(args : Array<String>) : Pair<Map<String, Any?>, ArrayList<Strin
             "--ocultos" -> diccionarioFlags["ocultos"] = true
             "--reversar" -> diccionarioFlags["reversar"] = true
             "--prueba" -> diccionarioFlags["prueba"] = true
+            "--condicion" -> {
+                val siguiente = args.getOrNull(indice + 1)
+
+                if(siguiente == null){
+                    System.err.println("[Main] Después de --condicion no había palabra")
+                    exitProcess(1)
+                }
+
+                diccionarioFlags["condicion"] = siguiente
+                argsRestar.add(siguiente)
+            }
             "--README" -> {
                 val siguiente = args.getOrNull(indice + 1)
                 diccionarioFlags["README"] = true
@@ -159,12 +172,12 @@ fun validarFlags(args : Array<String>) : Pair<Map<String, Any?>, ArrayList<Strin
     return Pair(diccionarioFlags, nuevosArgs)
 }
 
+//según la linea de comandos que entre, revisar qué caso es y asignar un número de función
 fun verificarEntrada(args: ArrayList<String>) : Int{
     if(args.isEmpty()){
         System.err.println("[Main] los argumentos están vacíos.")
         exitProcess(1)
     }
-
 
     return when{
         //un argumento, simplemente el arbol
@@ -178,9 +191,9 @@ fun verificarEntrada(args: ArrayList<String>) : Int{
             exitProcess(1)
         }
     }
-
 }
 
+//generar el path del primer argumento
 fun generarPath(args : ArrayList<String>) : File {
     val path = File(args.first())
 
@@ -195,6 +208,7 @@ fun generarPath(args : ArrayList<String>) : File {
     return path
 }
 
+//usar las funciones específicas integrando los flags
 fun manejarArbol(raiz: File, opcion: Int, args : ArrayList<String>, flags : Map<String, Any?>) : String {
     val arbol = Arbol(raiz)
     arbol.crearSubDirectorios()
@@ -251,6 +265,8 @@ fun procesarFlags(
 
     val nuevaArq =
         if(recortar != null){
+            //cambiar esto ya que solo funciona para el arbol detallado, en el simple se rompe
+            //toca asignar uno por uno
             val regex = Regex("""(?<= )(?=[^ /.\n]+[/.])|(?<=[^ /.\n])(?=[/.])""")
 
             arquitectura
