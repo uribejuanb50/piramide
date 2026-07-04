@@ -263,6 +263,10 @@ fun manejarArbol(raiz: File, opcion: Int, args : ArrayList<String>, flags : Map<
             val palabraBuscar = args[2] //lomismo del caso anterior
             arbol.buscarArchivosPorNombre(palabraBuscar, condicion)
         }
+        5 -> {
+            val palabraAntigua = args[2]
+            val palabraNueva = args[3]
+        }
         else -> {
             System.err.println("¿Cómo llegaste aquí? La cagué re duro en algo")
         }
