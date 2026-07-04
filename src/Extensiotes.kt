@@ -41,6 +41,29 @@ fun ArrayList<String>?.toCustomString() : String {
     return "$retorno]"
 }
 
+@JvmName("toCustomStringArrayListAny")
+fun Map<String, Any?>.toCustomString() : Pair<String, Int> {
+    var retorno = "["
+    var elementos = 0
+
+    val lastindex = this.size - 1
+
+    for((indice, item) in this.entries.withIndex()){
+
+        if(item.value == null || item.value == false)
+            continue
+
+        elementos++
+
+        if(indice != lastindex)
+            retorno += "${item.key}, "
+        else
+            retorno += "${item.key}]"
+    }
+
+    return Pair(retorno, elementos)
+}
+
 @JvmName("toCustomStringArrayListFile")
 fun ArrayList<File>.toCustomString() : String {
 

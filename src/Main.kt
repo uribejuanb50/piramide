@@ -24,7 +24,7 @@ fun validarFlags(args : Array<String>) : Pair<Map<String, Any?>, ArrayList<Strin
         "--ayuda", "--descripcion",
 
         //Caso búsquedas
-        "--condicion"
+        "--condicion", "--force"
         )
 
     val nuevosArgs : ArrayList<String> = arrayListOf()
@@ -40,7 +40,8 @@ fun validarFlags(args : Array<String>) : Pair<Map<String, Any?>, ArrayList<Strin
         "README" to false,
         "toArchivo" to null,
         "descripcion" to false,
-        "condicion" to null
+        "condicion" to null,
+        "force" to false
     )
 
     for((indice, argumento) in args.withIndex()){
@@ -55,6 +56,7 @@ fun validarFlags(args : Array<String>) : Pair<Map<String, Any?>, ArrayList<Strin
             "--ocultos" -> diccionarioFlags["ocultos"] = true
             "--reversar" -> diccionarioFlags["reversar"] = true
             "--prueba" -> diccionarioFlags["prueba"] = true
+            "--force" -> diccionarioFlags["force"] = true
             "--condicion" -> {
                 val siguiente = args.getOrNull(indice + 1)
 
@@ -146,6 +148,9 @@ fun validarFlags(args : Array<String>) : Pair<Map<String, Any?>, ArrayList<Strin
                     						        		                                //lo busca exacto o conteniendo, tiene que tener un flag, o por default
                     									                                    // sale exacto
                     ...main.jar "path_original" "reemplazar" "palabraVieja" "palabraNueva"  //reemplaza palabra dentro de cada archivo
+                    
+                    compilar:
+                    kotlinc *.kt -include-runtime -d main.jar
                 """.trimIndent()
                 )
                 exitProcess(1)
@@ -233,12 +238,33 @@ fun manejarArbol(raiz: File, opcion: Int, args : ArrayList<String>, flags : Map<
     val toArchivo = flags["toArchivo"] as? File
 
     val condicion = flags["condicion"] as? String
+    val force = flags["force"] as? Boolean ?: false
+    val ocultosBusqueda = force && ocultos
 
+    val mapaExploracion : Map<String, Any?> = mapOf(
+        "--README" to readMe,
+        "--recortar" to recortar,
+        "--toArchivo" to toArchivo?.name
+    )
+    val mapaBusqueda : Map<String, Any?> = mapOf(
+        "--condicion" to condicion,
+        "--force" to force
+    )
+
+    //el custom devuelve primero el string de operaciones que son contrarias a "negativas" (nulls o falses)
+    //y el second es la cantidad de negativas que aparecen, si hay uno o más tira el warning
+    val warningExploracion =
+        if(mapaExploracion.toCustomString().second > 0) {
+            "[Main] ALERTA!! este(os) flag(s) ${mapaExploracion.toCustomString().first} no son válidos para esta operación"
+        } else ""
+    val warningBusqueda =
+        if(mapaBusqueda.toCustomString().second > 0) {
+            "[Main] ALERTA!! este(os) flag(s) ${mapaBusqueda.toCustomString().first} no son válidos para esta operación"
+        } else ""
 
     return "[Main] " + when(opcion) {
         1 -> {
-            if(condicion != null) //cambiar si aparecen más flags exclusivas para otras funcionalidades
-                println("[Main] ALERTA! --condicion no es un flag que funcione para este trabajo")
+            println(warningBusqueda)
 
             val arquitectura =
                 if(simple)
@@ -255,15 +281,24 @@ fun manejarArbol(raiz: File, opcion: Int, args : ArrayList<String>, flags : Map<
         }
 
         3 -> {
+            println(warningExploracion)
+
+            if(!ocultosBusqueda && ocultos)
+                println("[Main] ALERTA! --ocultos no es un candidato para esta operación por temas de seguridad")
+                println("[Main] usa la etiqueta --force")
             val palabraEliminar = args[2] //desde el tres porque el args[1] es el que valida la función
             arbol.eliminarPalabra(palabraEliminar, nivelMax)
         }
 
         4 -> {
+            println(warningExploracion)
+
             val palabraBuscar = args[2] //lomismo del caso anterior
             arbol.buscarArchivosPorNombre(palabraBuscar, condicion)
         }
         5 -> {
+            println(warningExploracion)
+
             val palabraAntigua = args[2]
             val palabraNueva = args[3]
         }
