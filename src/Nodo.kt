@@ -90,7 +90,7 @@ class Nodo (val nombre : String, val path : File) {
             return espacio.repeat(nivel) + this.nombre + "\n"
         }
         if(this.listaSubArchivos.isEmpty()){
-            return espacio.repeat(nivel) + this.nombre + "\n"
+            return espacio.repeat(nivel) + this.nombre + "/\n"
         }
         var devolver : String = espacio.repeat(nivel) + this.nombre + "/\n"
 

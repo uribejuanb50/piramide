@@ -52,11 +52,11 @@ fun validarFlags(args : Array<String>) : Pair<Map<String, Any?>, ArrayList<Strin
         }
 
         when(argumento){
-            "--simple" -> diccionarioFlags["simple"] = true
             "--ocultos" -> diccionarioFlags["ocultos"] = true
             "--reversar" -> diccionarioFlags["reversar"] = true
             "--prueba" -> diccionarioFlags["prueba"] = true
             "--force" -> diccionarioFlags["force"] = true
+            "--simple" -> diccionarioFlags["simple"] = true
             "--condicion" -> {
                 val siguiente = args.getOrNull(indice + 1)
 
@@ -129,7 +129,7 @@ fun validarFlags(args : Array<String>) : Pair<Map<String, Any?>, ArrayList<Strin
             "--ayuda" -> {
                 println(
                     """
-                    \n
+                    
                     flags:
                     --simple                    //imprime el arbol sin caracteres especiales
                     --ocultos                   //mostrar carpetas y archivos ocultos
@@ -137,7 +137,7 @@ fun validarFlags(args : Array<String>) : Pair<Map<String, Any?>, ArrayList<Strin
                     --recortar n                //recorta palabras hasta ese tamaño (falta añadir compatibilidad con --simple usar regex distintos)
                     --prueba                    //lanzar prueba
                     --nivelMax n                //hacerlo hasta el nivel max (0 es nada, 1 es la raiz, 2 el segundo nivel ...)
-                    --README desc               //crear README (desc es opcional para activar la descripcion)
+                    --README desc               //crear README (desc es opcional para activar la descripcion) (mejorar integracion con readmes ya existentes)
                     --toArchivo "path_archivo"  //guardar en archivo (borra el contenido)
                     --ayuda                     //Imprime este txt
                     
@@ -239,7 +239,8 @@ fun manejarArbol(raiz: File, opcion: Int, args : ArrayList<String>, flags : Map<
 
     val condicion = flags["condicion"] as? String
     val force = flags["force"] as? Boolean ?: false
-    val ocultosBusqueda = force && ocultos
+    val ocultosBusqueda = force && ocultos  //por defecto no se debería eliminar palabras de carpetas ocultas, ya que suelen ser bibliotecas
+                                            //y por el estilo
 
     val mapaExploracion : Map<String, Any?> = mapOf(
         "--README" to readMe,
@@ -272,7 +273,7 @@ fun manejarArbol(raiz: File, opcion: Int, args : ArrayList<String>, flags : Map<
                 else
                     arbol.generarArquitectura(profundidad, ocultos, nivelMax)
 
-            val retorno = procesarFlags(arbol, ocultos, arquitectura, recortar, readMe, descripcion)
+            val retorno = procesarFlags(arbol, simple, ocultos, arquitectura, recortar, readMe, descripcion)
 
             if(toArchivo != null)
                 escribirArchivo(retorno, toArchivo)
@@ -310,6 +311,7 @@ fun manejarArbol(raiz: File, opcion: Int, args : ArrayList<String>, flags : Map<
 
 fun procesarFlags(
     arbol : Arbol,
+    simple : Boolean,
     ocultos : Boolean,
     arquitectura : String,
     recortar : Int?,
@@ -322,13 +324,14 @@ fun procesarFlags(
             //cambiar esto ya que solo funciona para el arbol detallado, en el simple se rompe
             //toca asignar uno por uno
             val regex = Regex("""(?<= )(?=[^ /.\n]+[/.])|(?<=[^ /.\n])(?=[/.])""")
+            val excepcion = Regex("[─└├│]|\\s{3}")
 
             arquitectura
                 .split(regex)
                 //.filterNot { it.contains(Regex("[─└├│]")) }
                 //.filter { it.isNotEmpty() }
                 .map{ palabra ->
-                    if(palabra.length > recortar && !palabra.contains(Regex("[─└├│]")))
+                    if(palabra.length > recortar && !palabra.contains(excepcion))
                         palabra.take(recortar) + "..."
                     else
                         palabra
