@@ -248,6 +248,11 @@ fun manejarArbol(raiz: File, opcion: Int, args : ArrayList<String>, flags : Map<
             else
                 retorno
         }
+
+        3 -> {
+            val palabraBuscar = args[2] //desde el tres porque el args[1] es el que valida la función
+            arbol.eliminarPalabra(palabraBuscar, nivelMax)
+        }
         else -> {
             System.err.println("¿Cómo llegaste aquí? La cagué re duro en algo")
         }
