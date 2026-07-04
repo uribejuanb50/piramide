@@ -232,9 +232,14 @@ fun manejarArbol(raiz: File, opcion: Int, args : ArrayList<String>, flags : Map<
     val nivelMax = flags["nivelMax"] as? Int
     val toArchivo = flags["toArchivo"] as? File
 
+    val condicion = flags["condicion"] as? String
+
 
     return "[Main] " + when(opcion) {
         1 -> {
+            if(condicion != null) //cambiar si aparecen más flags exclusivas para otras funcionalidades
+                println("[Main] ALERTA! --condicion no es un flag que funcione para este trabajo")
+
             val arquitectura =
                 if(simple)
                     arbol.generarArquitecturaSencilla()
@@ -250,8 +255,13 @@ fun manejarArbol(raiz: File, opcion: Int, args : ArrayList<String>, flags : Map<
         }
 
         3 -> {
-            val palabraBuscar = args[2] //desde el tres porque el args[1] es el que valida la función
-            arbol.eliminarPalabra(palabraBuscar, nivelMax)
+            val palabraEliminar = args[2] //desde el tres porque el args[1] es el que valida la función
+            arbol.eliminarPalabra(palabraEliminar, nivelMax)
+        }
+
+        4 -> {
+            val palabraBuscar = args[2] //lomismo del caso anterior
+            arbol.buscarArchivosPorNombre(palabraBuscar, condicion)
         }
         else -> {
             System.err.println("¿Cómo llegaste aquí? La cagué re duro en algo")

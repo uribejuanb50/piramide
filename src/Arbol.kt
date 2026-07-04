@@ -49,7 +49,9 @@ class Arbol (val path : File){
     }
 
     //nombre intuitivo no?
-    fun buscarArchivosPorNombre(busqueda : String, condicion : String) : String{
+    fun buscarArchivosPorNombre(busqueda : String, condicion : String?) : String{
+        val condicion = condicion ?: "exacto"
+
         return try {
             val metodoBusqueda = this.mapaCondiciones.getValue(condicion)
             this.raiz.buscarArchivosPorNombreYCondicion(busqueda, metodoBusqueda).toCustomString()
