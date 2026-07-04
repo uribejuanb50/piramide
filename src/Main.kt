@@ -14,12 +14,16 @@ fun main(args : Array<String>) {
 }
 
 
-
 //pone los flags según lo que digan
 fun validarFlags(args : Array<String>) : Pair<Map<String, Any?>, ArrayList<String>> {
 
     val opcionesValidas = listOf(
-        "--simple","--ocultos", "--reversar", "--recortar", "--prueba", "--nivelMax", "--README", "--toArchivo", "--ayuda", "--descripcion"
+        //Caso base explorar/ver arbol
+        "--simple","--ocultos", "--reversar", "--recortar",
+        "--prueba", "--nivelMax", "--README", "--toArchivo",
+        "--ayuda", "--descripcion"
+
+
         )
 
     val nuevosArgs : ArrayList<String> = arrayListOf()
@@ -115,7 +119,7 @@ fun validarFlags(args : Array<String>) : Pair<Map<String, Any?>, ArrayList<Strin
                     --simple                    //imprime el arbol sin caracteres especiales
                     --ocultos                   //mostrar carpetas y archivos ocultos
                     --reversar                  //reversar las listas internas y mostrar primero archivos que directorios
-                    --recortar n                //recorta palabras hasta ese tamaño (falta añadir compatibilidad con simple)
+                    --recortar n                //recorta palabras hasta ese tamaño (falta añadir compatibilidad con --simple usar regex distintos)
                     --prueba                    //lanzar prueba
                     --nivelMax n                //hacerlo hasta el nivel max (0 es nada, 1 es la raiz, 2 el segundo nivel ...)
                     --README desc               //crear README (desc es opcional para activar la descripcion)
@@ -154,10 +158,13 @@ fun verificarEntrada(args: ArrayList<String>) : Int{
     }
 
 
-    return when(args.size){
+    return when{
         //un argumento, simplemente el arbol
-        1 -> 1
-        3 -> 3
+        args.size == 1 -> 1
+        args.size == 2 -> 2
+        (args.size == 3) && (args[1] == "borrar") -> 3
+        (args.size == 3) && (args[1] == "buscar") -> 4
+        (args.size == 4) && (args[1] == "reemplazar") -> 5
         else -> {
             System.err.println("[Main] Los argumentos recibidos no sirven, inserta --ayuda para una guía")
             exitProcess(1)
