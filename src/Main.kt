@@ -296,9 +296,10 @@ fun manejarArbol(raiz: File, opcion: Int, args : ArrayList<String>, flags : Map<
 
             val retorno = procesarFlags(arbol, caracterEspacio, nRepeticiones, ocultos, arquitectura, recortar, readMe, descripcion)
 
-            if(toArchivo != null)
+            if(toArchivo != null && profundidad > 0)
                 escribirArchivo(retorno, toArchivo)
             else
+                println("[Main] La profundidad es 0, no se imprimirá nada, revisa si la carpeta raíz está escondida")
                 retorno
         }
 
