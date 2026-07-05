@@ -301,7 +301,7 @@ fun manejarArbol(raiz: File, opcion: Int, args : ArrayList<String>, flags : Map<
                 escribirArchivo(retorno, toArchivo)
             else
                 println("[Main] La profundidad es 0, no se imprimirá nada, revisa si la carpeta raíz está escondida")
-                retorno
+                "\n" + retorno
         }
 
         3 -> {
