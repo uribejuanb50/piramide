@@ -32,6 +32,8 @@ fun validarFlags(args : Array<String>) : Pair<Map<String, Any?>, ArrayList<Strin
 
     val diccionarioFlags = mutableMapOf<String, Any?>(
         "simple" to false,
+        "caracterEspacio" to " ",
+        "nRepeticiones" to 3,
         "ocultos" to false,
         "reversar" to false,
         "recortar" to null,
@@ -56,7 +58,23 @@ fun validarFlags(args : Array<String>) : Pair<Map<String, Any?>, ArrayList<Strin
             "--reversar" -> diccionarioFlags["reversar"] = true
             "--prueba" -> diccionarioFlags["prueba"] = true
             "--force" -> diccionarioFlags["force"] = true
-            "--simple" -> diccionarioFlags["simple"] = true
+            "--simple" -> {
+                val siguiente = args.getOrNull(indice + 1)
+
+                if(siguiente != null && siguiente.length == 1){
+                    argsRestar.add(siguiente)
+                    diccionarioFlags["caracterEspacio"] = siguiente
+
+                    val siguientesiguiente = args.getOrNull(indice + 2)?.toIntOrNull()
+
+                    if(siguientesiguiente != null){
+                        argsRestar.add(siguientesiguiente.toString())
+                        diccionarioFlags["nRepeticiones"] = siguientesiguiente
+                    }
+                }
+
+                diccionarioFlags["simple"] = true
+            }
             "--condicion" -> {
                 val siguiente = args.getOrNull(indice + 1)
 
@@ -230,6 +248,8 @@ fun manejarArbol(raiz: File, opcion: Int, args : ArrayList<String>, flags : Map<
         arbol.reversarListas()
 
     val simple = flags["simple"] as? Boolean ?: false
+    val caracterEspacio = flags["caracterEspacio"] as String
+    val nRepeticiones = flags["nRepeticiones"] as Int
     val ocultos = flags["ocultos"] as? Boolean ?: false
     val descripcion = flags["descripcion"] as? Boolean ?: false
     val readMe = flags["README"] as? Boolean ?: false
@@ -269,11 +289,11 @@ fun manejarArbol(raiz: File, opcion: Int, args : ArrayList<String>, flags : Map<
 
             val arquitectura =
                 if(simple)
-                    arbol.generarArquitecturaSencilla()
+                    arbol.generarArquitecturaSencilla(caracterEspacio, nRepeticiones)
                 else
                     arbol.generarArquitectura(profundidad, ocultos, nivelMax)
 
-            val retorno = procesarFlags(arbol, simple, ocultos, arquitectura, recortar, readMe, descripcion)
+            val retorno = procesarFlags(arbol, caracterEspacio, nRepeticiones, ocultos, arquitectura, recortar, readMe, descripcion)
 
             if(toArchivo != null)
                 escribirArchivo(retorno, toArchivo)
@@ -311,7 +331,8 @@ fun manejarArbol(raiz: File, opcion: Int, args : ArrayList<String>, flags : Map<
 
 fun procesarFlags(
     arbol : Arbol,
-    simple : Boolean,
+    caracterEspacio : String,
+    nRepeticiones : Int,
     ocultos : Boolean,
     arquitectura : String,
     recortar : Int?,
@@ -320,27 +341,25 @@ fun procesarFlags(
 ) : String{
 
     val nuevaArq =
-        if(recortar != null){
-            //cambiar esto ya que solo funciona para el arbol detallado, en el simple se rompe
-            //toca asignar uno por uno
-            val regex = Regex("""(?<= )(?=[^ /.\n]+[/.])|(?<=[^ /.\n])(?=[/.])""")
-            val excepcion = Regex("[─└├│]|\\s{3}")
+        if (recortar != null) {
+            arquitectura.lines().joinToString("\n") { linea ->
+                // 1. Separar indentación del nombre
+                val indentLen = linea.length - linea.trimStart(caracterEspacio[0]).length
+                val indent    = linea.substring(0, indentLen)
+                val filename  = linea.substring(indentLen)
 
-            arquitectura
-                .split(regex)
-                //.filterNot { it.contains(Regex("[─└├│]")) }
-                //.filter { it.isNotEmpty() }
-                .map{ palabra ->
-                    if(palabra.length > recortar && !palabra.contains(excepcion))
-                        palabra.take(recortar) + "..."
-                    else
-                        palabra
+                // 2. Encontrar el separador (. o /) — divide nombre de extensión/tipo
+                val sepIdx = filename.indexOfLast { it == '.' || it == '/' }
+
+                if (sepIdx == -1 || filename.substring(0, sepIdx).length <= recortar) {
+                    linea  // no necesita recorte
+                } else {
+                    val name = filename.substring(0, sepIdx)
+                    val ext  = filename.substring(sepIdx)
+                    indent + name.take(recortar) + "..." + ext
                 }
-                .toCollection(ArrayList())
-                .unirString()
-                //.toCustomString()
-        }
-        else{
+            }
+        } else {
             arquitectura
         }
 
