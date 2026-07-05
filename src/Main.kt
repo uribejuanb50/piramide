@@ -237,8 +237,6 @@ fun manejarArbol(raiz: File, opcion: Int, args : ArrayList<String>, flags : Map<
     arbol.crearSubDirectorios()
     arbol.nPalabraMasLarga()
 
-    val profundidad = arbol.calcularProfundidad()
-
     val prueba = flags["prueba"] as? Boolean ?: false
     if(prueba)
         println("prueba")//lanzar prueba (hacer)
@@ -283,15 +281,18 @@ fun manejarArbol(raiz: File, opcion: Int, args : ArrayList<String>, flags : Map<
             "[Main] ALERTA!! este(os) flag(s) ${mapaBusqueda.toCustomString().first} no son válidos para esta operación"
         } else ""
 
+    val profundidad = arbol.calcularProfundidad()
+    println(profundidad)
+
     return "[Main] " + when(opcion) {
         1 -> {
             println(warningBusqueda)
 
             val arquitectura =
                 if(simple)
-                    arbol.generarArquitecturaSencilla(caracterEspacio, nRepeticiones)
+                    arbol.generarArquitecturaSencilla(caracterEspacio, nRepeticiones, ocultos)
                 else
-                    arbol.generarArquitectura(profundidad, ocultos, nivelMax).length
+                    arbol.generarArquitectura(profundidad, ocultos, nivelMax)
 
             val retorno = procesarFlags(arbol, caracterEspacio, nRepeticiones, ocultos, arquitectura, recortar, readMe, descripcion)
 

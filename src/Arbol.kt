@@ -33,14 +33,14 @@ class Arbol (val path : File){
     }
 
     //la profundidad total del arbol
-    fun calcularProfundidad() : Int{
+    fun calcularProfundidad(mostrarOcultos: Boolean = false) : Int{
         val profundidad = this.raiz.calcularProfundidad()
         this.profundidad = profundidad
         return profundidad
     }
     //el baseline
-    fun generarArquitecturaSencilla(carcter: String, repeticion : Int) : String {
-        return this.raiz.impresionUltraSencilla(espacio = carcter.repeat(repeticion))
+    fun generarArquitecturaSencilla(carcter: String, repeticion : Int, mostrarOcultos: Boolean = false) : String {
+        return this.raiz.impresionUltraSencilla(mostrarOcultos, espacio = carcter.repeat(repeticion))
     }
     //el que genera con rayitas y bonito con eso
     fun generarArquitectura(profundidad : Int, mostrarOcultos : Boolean = false, profundidadMax : Int? = null) : String {

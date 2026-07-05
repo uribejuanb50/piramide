@@ -47,19 +47,22 @@ class Nodo (val nombre : String, val path : File) {
         return palabraMasGrande
     }
 
-    fun calcularProfundidad() : Int{
-        if(this.path.isFile){
-            return 1
-        }
-        if(this.listaSubArchivos.isEmpty()){
+    fun calcularProfundidad(mostrarOcultos: Boolean = false) : Int{
+        if(!mostrarOcultos && this.path.isHidden)
             return 0
-        }
+
+        if(this.path.isFile)
+            return 1
+
+        if(this.listaSubArchivos.isEmpty())
+            return 0
+
 
         var nivelMasAlto : Int = 0
 
         for(nodo in this.listaSubArchivos){
 
-            val sumatoria = nodo.calcularProfundidad() + 1
+            val sumatoria = nodo.calcularProfundidad(mostrarOcultos) + 1
             nivelMasAlto = maxOf(sumatoria, nivelMasAlto)
         }
 
@@ -84,18 +87,25 @@ class Nodo (val nombre : String, val path : File) {
 
         return
     }
-    fun impresionUltraSencilla(espacio : String = "   ", nivel : Int = 0) : String {
+    fun impresionUltraSencilla(
+        mostrarOcultos : Boolean = false,
+        espacio : String = "   ",
+        nivel : Int = 0) : String
+    {
 
-        if(this.path.isFile){
+        if(!mostrarOcultos && this.path.isHidden)
+            return ""
+
+        if(this.path.isFile)
             return espacio.repeat(nivel) + this.nombre + "\n"
-        }
-        if(this.listaSubArchivos.isEmpty()){
+
+        if(this.listaSubArchivos.isEmpty())
             return espacio.repeat(nivel) + this.nombre + "/\n"
-        }
+
         var devolver : String = espacio.repeat(nivel) + this.nombre + "/\n"
 
         for(subdirectorio in this.listaSubArchivos){
-            devolver += subdirectorio.impresionUltraSencilla(espacio,nivel + 1)
+            devolver += subdirectorio.impresionUltraSencilla(mostrarOcultos, espacio,nivel + 1)
         }
 
         return devolver
