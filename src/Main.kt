@@ -148,16 +148,16 @@ fun validarFlags(args : Array<String>) : Pair<Map<String, Any?>, ArrayList<Strin
                 println(
                     """
                     
-                    flags:
-                    --simple                    //imprime el arbol sin caracteres especiales
-                    --ocultos                   //mostrar carpetas y archivos ocultos
-                    --reversar                  //reversar las listas internas y mostrar primero archivos que directorios
-                    --recortar n                //recorta palabras hasta ese tamaño (falta añadir compatibilidad con --simple usar regex distintos)
-                    --prueba                    //lanzar prueba
-                    --nivelMax n                //hacerlo hasta el nivel max (0 es nada, 1 es la raiz, 2 el segundo nivel ...)
-                    --README desc               //crear README (desc es opcional para activar la descripcion) (mejorar integracion con readmes ya existentes)
-                    --toArchivo "path_archivo"  //guardar en archivo (borra el contenido)
-                    --ayuda                     //Imprime este txt
+                    flags: (entre [] caracteres opcionales) 
+                    --simple [caracter] [n]    //imprime el arbol sin caracteres especiales, puedes colocar el char que quieras y que tanto se repiten
+                    --ocultos                  //mostrar carpetas y archivos ocultos
+                    --reversar                 //reversar las listas internas y mostrar primero archivos que directorios
+                    --recortar n               //recorta palabras hasta ese tamaño (falta añadir compatibilidad con --simple usar regex distintos)
+                    --prueba                   //lanzar prueba
+                    --nivelMax n               //hacerlo hasta el nivel max (0 es nada, 1 es la raiz, 2 el segundo nivel ...)
+                    --README [desc]            //crear README (desc es opcional para activar la descripcion) (mejorar integracion con readmes ya existentes)
+                    --toArchivo "path_archivo" //guardar en archivo (borra el contenido)
+                    --ayuda                    //Imprime este txt
                     
                     comandos:
                     ...main.jar "path_original" //genera un arbol
@@ -291,7 +291,7 @@ fun manejarArbol(raiz: File, opcion: Int, args : ArrayList<String>, flags : Map<
                 if(simple)
                     arbol.generarArquitecturaSencilla(caracterEspacio, nRepeticiones)
                 else
-                    arbol.generarArquitectura(profundidad, ocultos, nivelMax)
+                    arbol.generarArquitectura(profundidad, ocultos, nivelMax).length
 
             val retorno = procesarFlags(arbol, caracterEspacio, nRepeticiones, ocultos, arquitectura, recortar, readMe, descripcion)
 

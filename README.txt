@@ -1,5 +1,5 @@
-# [Nombre del proyecto]
-> [Una línea que explica qué hace el proyecto. Clara, directa, sin tecnicismos innecesarios.]
+# Creador-arquitectura
+> Navega a través del directorio que le indiques y permite visualizarlo y alterarlo
 
 ![[aqui va texto entre corchetes que es la desc de la imagen (obligatoria por SEO)]]([link imagen]
 
@@ -18,7 +18,7 @@ flags:
  --README desc               	//crear README (desc es opcional para activar la descripcion)
  --toArchivo "path_archivo"  	//guardar en archivo (borra el contenido)
  --ayuda                     	//Imprime este txt
-                    
+
 comandos:
  ...main.jar "path_original" //genera un arbol
  ...main.jar "path_original" "borrar" "palabra" 				//elimina esa palabra de todo el arbol (falta implementar)
@@ -26,7 +26,7 @@ comandos:
                     						        	//lo busca exacto o conteniendo, tiene que tener un flag, o por default
                     								// sale exacto
  ...main.jar "path_original" "reemplazar" "palabraVieja" "palabraNueva"  	//reemplaza palabra dentro de cada archivo
-                    
+
 compilar:
  kotlinc *.kt -include-runtime -d main.jar
 ---
@@ -34,15 +34,6 @@ compilar:
 creador-arquitectura/
 ├── .gitignore
 ├── creador-arquitectura.iml
-├── out/
-│   └── production/
-│       └── creador-arquitectura/
-│           ├── META-INF/
-│           │   └── creador-arquitectura.kotlin_module
-│           └── src/
-│               ├── Arbol.class
-│               ├── MainKt.class
-│               └── Nodo.class
 ├── README.txt
 └── src/
     ├── Arbol.kt
@@ -54,29 +45,8 @@ creador-arquitectura/
 ## creador-arquitectura/
 ### .gitignore
 ### creador-arquitectura.iml
-### out/
 ### README.txt
 ### src/
-
-## out/
-### production/
-
-## production/
-
-## creador-arquitectura/
-
-## creador-arquitectura/
-### META-INF/
-
-## src/
-
-## META-INF/
-### creador-arquitectura.kotlin_module
-
-## src/
-### Arbol.class
-### MainKt.class
-### Nodo.class
 
 ## src/
 ### Arbol.kt
