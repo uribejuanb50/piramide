@@ -1,4 +1,4 @@
 package src.policias
 
-interface Policia {
+abstract class Policia {
 }
