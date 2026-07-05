@@ -1,5 +1,7 @@
 package src
 
+import src.arbol.Arbol
+import src.utils.toCustomString
 import java.io.File
 import kotlin.system.exitProcess
 
@@ -226,7 +228,7 @@ fun generarPath(args : ArrayList<String>) : File {
     if(path.isFile && !args.contains("--prueba"))
         throw IllegalArgumentException("[Main] El path es un archivo, no un directorio")
 
-    println("[Main] Se está imprimiendo la arquitectura de ${path.path}")
+    println("[Main] Ubicación de la arquitectura: ${path.path}")
 
     return path
 }
@@ -257,7 +259,7 @@ fun manejarArbol(raiz: File, opcion: Int, args : ArrayList<String>, flags : Map<
 
     val condicion = flags["condicion"] as? String
     val force = flags["force"] as? Boolean ?: false
-    val ocultosBusqueda = force && ocultos  //por defecto no se debería eliminar palabras de carpetas ocultas, ya que suelen ser bibliotecas
+    //val ocultosBusqueda = force && ocultos  //por defecto no se debería eliminar palabras de carpetas ocultas, ya que suelen ser bibliotecas
                                             //y por el estilo
 
     val mapaExploracion : Map<String, Any?> = mapOf(
@@ -282,7 +284,6 @@ fun manejarArbol(raiz: File, opcion: Int, args : ArrayList<String>, flags : Map<
         } else ""
 
     val profundidad = arbol.calcularProfundidad()
-    println(profundidad)
 
     return "[Main] " + when(opcion) {
         1 -> {
@@ -306,11 +307,12 @@ fun manejarArbol(raiz: File, opcion: Int, args : ArrayList<String>, flags : Map<
         3 -> {
             println(warningExploracion)
 
-            if(!ocultosBusqueda && ocultos)
+            if(!force && ocultos) {
                 println("[Main] ALERTA! --ocultos no es un candidato para esta operación por temas de seguridad")
-                println("[Main] usa la etiqueta --force")
+                println("       Usa la etiqueta --force")
+            }
             val palabraEliminar = args[2] //desde el tres porque el args[1] es el que valida la función
-            arbol.eliminarPalabra(palabraEliminar, nivelMax)
+            arbol.eliminarPalabra(palabraEliminar, nivelMax, (force && ocultos))
         }
 
         4 -> {

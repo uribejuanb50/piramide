@@ -1,7 +1,7 @@
-package src
+package src.arbol
 
+import src.utils.toCustomString
 import java.io.File
-
 
 class Arbol (val path : File){
 
@@ -116,8 +116,12 @@ class Arbol (val path : File){
     }
 
     //elimina esa palabra hasta cierta cantidad de niveles
-    fun eliminarPalabra(palabra : String, nivelMax : Int? = null){
-        this.raiz.eliminarPalabra(palabra, nivelMax)
+    fun eliminarPalabra(palabra : String,  nivelMax : Int? = null, mostrarOcultos: Boolean) : String{
+        val resultado = this.raiz.eliminarPalabra(palabra, nivelMax, mostrarOcultos)
+
+        return if(resultado)
+            "Eliminación de la palabra $palabra, exitosa"
+        else
+            "Eliminación de la palabra $palabra, fallida"
     }
 }
-

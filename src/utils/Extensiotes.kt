@@ -1,5 +1,6 @@
-package src
+package src.utils
 
+import src.arbol.Nodo
 import java.io.File
 
 //ARRAYLIST
