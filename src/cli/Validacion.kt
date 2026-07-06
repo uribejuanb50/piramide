@@ -143,7 +143,7 @@ class Validacion() {
                     --simple [caracter] [n]    //imprime el arbol sin caracteres especiales, puedes colocar el char que quieras y que tanto se repiten
                     --ocultos                  //mostrar carpetas y archivos ocultos
                     --reversar                 //reversar las listas internas y mostrar primero archivos que directorios
-                    --recortar n               //recorta palabras hasta ese tamaño (falta añadir compatibilidad con --simple usar regex distintos)
+                    --recortar n               //recorta palabras hasta ese tamaño (falta añadir compatibilidad con --simple usar regex distintos) !!!Error, no cuenta bien, solo en --simple
                     --prueba                   //lanzar prueba
                     --nivelMax n               //hacerlo hasta el nivel max (0 es nada, 1 es la raiz, 2 el segundo nivel ...)
                     --README [desc]            //crear README (desc es opcional para activar la descripcion) (mejorar integracion con readmes ya existentes)
@@ -159,7 +159,10 @@ class Validacion() {
                     ...main.jar "path_original" "reemplazar" "palabraVieja" "palabraNueva"  //reemplaza palabra dentro de cada archivo
                     
                     compilar:
-                    kotlinc *.kt -include-runtime -d main.jar
+                    (en raíz) kotlinc src -include-runtime -d main.jar
+                    (crear alias) @doskey piramid=java -jar main.jar $*
+                    (ejecutar) piramid [comando]
+                    
                 """.trimIndent()
                     )
                     exitProcess(1)

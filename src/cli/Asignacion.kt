@@ -85,7 +85,7 @@ class Asignacion(
                     else
                         arbol.generarArquitectura(profundidad, ocultos, nivelMax)
 
-                val retorno = procesamiento.procesarFlags(arbol, caracterEspacio, nRepeticiones, ocultos, arquitectura, recortar, readMe, descripcion)
+                val retorno = procesamiento.procesarFlags(arbol, caracterEspacio, nRepeticiones, ocultos, arquitectura, recortar, readMe, descripcion, simple)
 
                 if(toArchivo != null && profundidad > 0)
                     escribirArchivo(retorno, toArchivo)
