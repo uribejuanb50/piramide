@@ -19,9 +19,13 @@ flags:
  --toArchivo "path_archivo"  	//guardar en archivo (borra el contenido)
  --ayuda                     	//Imprime este txt
 
+ //Hacer un generador de reglas con la posibilidad de hacer tus propios ejemplos y probar tu regla pero antes arreglar lo que falta
+ //no paila está re dificil, dejar de últimas
+
+//antes de desarrollar policias, limpiar el main con validadores de los datos provenientes de terminal
 comandos:
  ...main.jar "path_original" //genera un arbol
- ...main.jar "path_original" "borrar" "palabra" 				//elimina esa palabra de todo el arbol (falta implementar)
+ ...main.jar "path_original" "borrar" "palabra" 				//elimina esa palabra de todo el arbol (falta implementar) //meterle un regex y un respaldo
  ...main.jar "path_original" "buscar" "palabra" --condicion "condicion" 	//busca archivo que contenga esa palabra
                     						        	//lo busca exacto o conteniendo, tiene que tener un flag, o por default
                     								// sale exacto

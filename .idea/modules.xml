@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/creador-arquitectura.iml" filepath="$PROJECT_DIR$/creador-arquitectura.iml" />
+      <module fileurl="file://$PROJECT_DIR$/piramide.iml" filepath="$PROJECT_DIR$/piramide.iml" />
     </modules>
   </component>
 </project>
