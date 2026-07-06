@@ -1,4 +1,4 @@
-package src.Terminal
+package src.cli
 
 import java.io.File
 import kotlin.system.exitProcess
