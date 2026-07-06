@@ -1,5 +1,5 @@
-# Creador-arquitectura
-> Navega a través del directorio que le indiques y permite visualizarlo y alterarlo
+# Piramide
+> Navega a través del directorio que le indiques y permite visualizarlo y alterarlo, como se ven los archivos parecen piramides
 
 ![[aqui va texto entre corchetes que es la desc de la imagen (obligatoria por SEO)]]([link imagen]
 
