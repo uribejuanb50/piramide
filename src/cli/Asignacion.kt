@@ -1,7 +1,7 @@
 package src.cli
 
 import src.arbol.Arbol
-import src.escribirArchivo
+import src.utils.escribirArchivo
 import src.utils.toCustomString
 import java.io.File
 
