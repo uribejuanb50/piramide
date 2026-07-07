@@ -74,7 +74,7 @@ abstract class Policia (val path : Path){
             exitProcess(1)
         }
         for(registro in listaRegistro){
-            
+
         }
     }
 }

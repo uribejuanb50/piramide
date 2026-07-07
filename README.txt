@@ -23,6 +23,7 @@ flags:
  //no paila está re dificil, dejar de últimas
 
 //Hacer funciones de arbol y policias, haciendo 2 funciones en asignacion
+//mirar un flag --todos para devolver todo
 comandos:
  ...main.jar "path_original" //genera un arbol
  ...main.jar "path_original" "borrar" "palabra" 				//elimina esa palabra de todo el arbol (falta implementar) //meterle un regex y un respaldo
