@@ -54,15 +54,20 @@ abstract class Policia (val path : Path){
     abstract fun devolverFormatoRegistro(registro: Registro) : String
 
 
-    fun buscarPor(listaPareja : ArrayList<Pair<Any, String>>)  { //el primero es el tipo dato de la busqueda
+    fun buscarPor(listaPareja : ArrayList<Pair<Any, String>>) : ArrayList<String> { //el primero es el tipo dato de la busqueda
                                                                         //el segundo el string del metodoBusqueda
         //lo que quiero hacer: cada iteracion es la busqueda y su metodo de busqeuda,
         val log = "[Policia$tipo]" //Esto acá es para usar las funciones de repeat y lenght
         val charEspacio = " "      //dentro del $ ya que no se puede usar "" dentro de este sin romper la cadena
 
+        val retorno : ArrayList<String> = arrayListOf()
+        val setResultados : MutableSet<String> = mutableSetOf()
+
         for(pareja in listaPareja) {
+
             val busqueda = pareja.first //busqueda ej-> id : Long, fecha : LocalDate, hora : LocalTime
             val metodoBusqueda = pareja.second
+            val resultadosFuncion : ArrayList<String> = arrayListOf()
 
             val busquedaConTipo =
 
@@ -71,8 +76,11 @@ abstract class Policia (val path : Path){
                             || ((metodoBusqueda == "fecha") && (busqueda is LocalDate))
                             || ((metodoBusqueda == "hora") && (busqueda is LocalTime))
                             || ((metodoBusqueda == "id") && (busqueda is Long)) -> {
-                                val funcionBusqueda = mapaMetodoBusqueda[metodoBusqueda]
 
+                                val funcionBusqueda = mapaMetodoBusqueda[metodoBusqueda]?:throw IllegalArgumentException(
+                                    "[Policia$tipo] Tipo de búsqueda no estaba en mapaMetodosBusqueda"
+                                )
+                                resultadosFuncion.addAll(ejecutarBusqueda(busqueda, funcionBusqueda))
                             }
 
                     else -> throw IllegalArgumentException(
@@ -81,7 +89,17 @@ abstract class Policia (val path : Path){
                     )
                 }
 
+            for(resultado in resultadosFuncion){
+                if(setResultados.contains(resultado))
+                    continue
+
+                setResultados.add(resultado)
+                retorno.add(resultado)
+            }
+
         }
+
+        return retorno
     }
 
     //mirar un flag --todos, así devuelve todo, colocar en el mapa
