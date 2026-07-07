@@ -15,26 +15,43 @@ abstract class Policia (val path : Path){
     abstract val id : String
 
     val listaRegistro : ArrayList<Registro> = arrayListOf()
-    val mapaMetodoBusqueda : Map<Any, (Any, Registro) -> String> = mapOf(
-        "file" to { pathBuscar , registro  ->
+    val mapaMetodoBusqueda : Map<Any, (Any, Registro) -> String?> = mapOf(
+        "file" to { pathBuscar , registro  -> //busca por path original y retorna
             val pathBuscar = pathBuscar as Path
-            ""
+
+            if(pathBuscar == registro.pathOriginal)
+                devolverFormatoRegistro(registro)
+            else
+                null
         },
         "fecha" to { fechaBuscar, registro ->
             val fechaBuscar = fechaBuscar as LocalDate
-            ""
+
+            if(fechaBuscar == registro.fecha)
+                devolverFormatoRegistro(registro)
+            else
+                null
         },
         "hora" to { horaBuscar, registro ->
             val horaBuscar = horaBuscar as LocalTime
-            ""
+
+            if(horaBuscar == registro.hora)
+                devolverFormatoRegistro(registro)
+            else
+                null
         },
         "id" to { idBuscar, registro ->
             val idBuscar = idBuscar as Long
-            ""
+
+            if(idBuscar == registro.id)
+                devolverFormatoRegistro(registro)
+            else
+                null
         }
     )
 
     abstract fun nuevoSeguimiento()
+    abstract fun devolverFormatoRegistro(registro: Registro) : String
 
 
     fun buscarPor(listaPareja : ArrayList<Pair<Any, String>>)  { //el primero es el tipo dato de la busqueda

@@ -8,7 +8,7 @@
 ---
 ## Configuracion[Solo si aplica. Variables de entorno, archivos de config, flags, etc.]
 
-flags:
+flags: //2 tipos funcionalidad, interna de cada clase que entra por param y externa que maneja el formato de respuesta en el cli
  --simple                    	//imprime el arbol sin caracteres especiales
  --ocultos                   	//mostrar carpetas y archivos ocultos
  --reversar                  	//reversar las listas internas y mostrar primero archivos que directorios
@@ -23,6 +23,7 @@ flags:
  //no paila está re dificil, dejar de últimas
 
 //Hacer funciones de arbol y policias, haciendo 2 funciones en asignacion
+//toca validar los flags necesarios para la funcionalidad por dentro
 //mirar un flag --todos para devolver todo
 comandos:
  ...main.jar "path_original" //genera un arbol

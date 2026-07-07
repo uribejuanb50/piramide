@@ -11,7 +11,7 @@ data class Registro(
     val id : Long,
     val fecha : LocalDate = LocalDate.now(), //str por ahora
     val hora : LocalTime = LocalTime.now(),
-    val pathOriginal : Path?,
+    val pathOriginal : Path?, //path original es el base, actual es para borrar reemplazar y aplanar
     val pathActual: Path = Path.of(""),
     val tipo : String = "",
     val desc : String = "", //activado por flag desde terminal para la impresión,
