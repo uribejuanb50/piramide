@@ -190,20 +190,35 @@ class Validacion() {
     }
 
     //según la linea de comandos que entre, revisar qué caso es y asignar un número de función
-    fun verificarEntrada(args: ArrayList<String>) : Int{
+    fun verificarEntrada(args: ArrayList<String>) : Pair<String, Int>{
         if(args.isEmpty()){
             System.err.println("[Main] los argumentos están vacíos.")
             exitProcess(1)
         }
 
-        return when{
-            //un argumento, simplemente el arbol
-            args.size == 1 -> 1
-            args.size == 2 -> 2
-            (args.size == 3) && (args[1] == "borrar") -> 3
-            (args.size == 3) && (args[1] == "buscar") -> 4
-            (args.size == 4) && (args[1] == "reemplazar") -> 5
-            else -> {
+        return args.first() to when(args.first()) { //esto devuelve Pair<"arbol" o "policia" : String, Int (de la opción)
+            "arbol" ->
+                when {
+                //un argumento, simplemente el arbol
+                args.size == 2 -> 2
+                (args.size == 3) && (args[1] == "borrar") -> 3
+                (args.size == 3) && (args[1] == "buscar") -> 4
+                (args.size == 4) && (args[1] == "reemplazar") -> 5
+                else -> {
+                    System.err.println("[Main] Los argumentos recibidos no sirven, inserta --ayuda para una guía")
+                    exitProcess(1)
+                }
+            }
+            "policia" ->
+                when {
+                    args.size == 2 -> 3
+                    else -> {
+                        System.err.println("[Main] Los argumentos recibidos no sirven, inserta --ayuda para una guía")
+                        exitProcess(1)
+                    }
+                }
+
+            else ->{
                 System.err.println("[Main] Los argumentos recibidos no sirven, inserta --ayuda para una guía")
                 exitProcess(1)
             }

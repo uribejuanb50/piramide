@@ -8,6 +8,7 @@ import java.io.File
 class Asignacion(
     val procesamiento : Procesamiento
 ) {
+
     //generar el path del primer argumento
     fun generarPath(args : ArrayList<String>) : File {
         val path = File(args.first())
@@ -122,5 +123,7 @@ class Asignacion(
             }
         }
     }
+
+    fun manejarPolicia(){}
 
 }

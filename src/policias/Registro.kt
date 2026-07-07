@@ -33,3 +33,7 @@ data class Registro(
 
     }
 }
+
+fun Registro.toCustomString(){
+
+}

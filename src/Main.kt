@@ -17,7 +17,7 @@ fun main(args : Array<String>) {
     val asignacion = Asignacion(procesamiento)
 
     val (flags, args) = validacion.validarFlags(args)
-    val opcion = validacion.verificarEntrada(args)
+    val (categoria, opcion) = validacion.verificarEntrada(args) //categoria o es arbol o policía
     val raiz = asignacion.generarPath(args)
     val resultado = asignacion.manejarArbol(raiz, opcion, args, flags)
     println(resultado)

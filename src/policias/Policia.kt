@@ -15,12 +15,12 @@ abstract class Policia (val path : Path){
     abstract val id : String
 
     val listaRegistro : ArrayList<Registro> = arrayListOf()
-    val mapaMetodoBusqueda : Map<Any, (Any, Registro) -> String?> = mapOf(
+    val mapaMetodoBusqueda : Map<Any, (Any, Registro) -> Registro?> = mapOf(
         "file" to { pathBuscar , registro  -> //busca por path original y retorna
             val pathBuscar = pathBuscar as Path
 
             if(pathBuscar == registro.pathOriginal)
-                devolverFormatoRegistro(registro)
+                registro
             else
                 null
         },
@@ -28,7 +28,7 @@ abstract class Policia (val path : Path){
             val fechaBuscar = fechaBuscar as LocalDate
 
             if(fechaBuscar == registro.fecha)
-                devolverFormatoRegistro(registro)
+                registro
             else
                 null
         },
@@ -36,7 +36,7 @@ abstract class Policia (val path : Path){
             val horaBuscar = horaBuscar as LocalTime
 
             if(horaBuscar == registro.hora)
-                devolverFormatoRegistro(registro)
+                registro
             else
                 null
         },
@@ -44,14 +44,24 @@ abstract class Policia (val path : Path){
             val idBuscar = idBuscar as Long
 
             if(idBuscar == registro.id)
-                devolverFormatoRegistro(registro)
+                registro
             else
                 null
+        },
+        "noencontrados" to { pathbuscar, registro ->
+            when{
+                registro.pathOriginal == null -> null
+                !registro.pathOriginal.exists() -> registro
+                else -> null
+            }
+        },
+        "todos" to { pathBuscar, registro ->
+            registro
         }
     )
 
     abstract fun nuevoSeguimiento()
-    abstract fun devolverFormatoRegistro(registro: Registro) : String
+    abstract fun devolverFormatoListaRegistro(listaRegistro: ArrayList<Registro>) : ArrayList<String>
 
     //para implementar en el cli
     fun buscarPor(listaPareja : ArrayList<Pair<Any, String>>) : ArrayList<String> { //el primero es el tipo dato de la busqueda
@@ -69,18 +79,22 @@ abstract class Policia (val path : Path){
             val metodoBusqueda = pareja.second
             val resultadosFuncion : ArrayList<String> = arrayListOf()
 
-            val busquedaConTipo =
 
-                when {
-                    ((metodoBusqueda == "file") && (busqueda is Path))
-                            || ((metodoBusqueda == "fecha") && (busqueda is LocalDate))
-                            || ((metodoBusqueda == "hora") && (busqueda is LocalTime))
-                            || ((metodoBusqueda == "id") && (busqueda is Long)) -> {
 
+            when {
+                ((metodoBusqueda == "file") && (busqueda is Path))
+                        || ((metodoBusqueda == "fecha") && (busqueda is LocalDate))
+                        || ((metodoBusqueda == "hora") && (busqueda is LocalTime))
+                        || ((metodoBusqueda == "id") && (busqueda is Long)) ->
+                            {
                                 val funcionBusqueda = mapaMetodoBusqueda[metodoBusqueda]?:throw IllegalArgumentException(
                                     "[Policia$tipo] Tipo de búsqueda no estaba en mapaMetodosBusqueda"
                                 )
-                                resultadosFuncion.addAll(ejecutarBusqueda(busqueda, funcionBusqueda))
+                                val registrosResultado = ejecutarBusqueda(busqueda, funcionBusqueda) //devuelve lista registro
+
+                                resultadosFuncion.addAll(
+                                    devolverFormatoListaRegistro(registrosResultado) //transforma los registros dependiendo de la clase de policia
+                                ) //los devuelve los resultados de la búsqueda
                             }
 
                     else -> throw IllegalArgumentException(
@@ -103,14 +117,14 @@ abstract class Policia (val path : Path){
     }
 
     //mirar un flag --todos, así devuelve todo, colocar en el mapa
-    fun ejecutarBusqueda(busqueda : Any, funcionBusqueda : (Any, Registro) -> String?) : ArrayList<String>{
+    fun ejecutarBusqueda(busqueda : Any, funcionBusqueda : (Any, Registro) -> Registro?) : ArrayList<Registro>{
 
         if(listaRegistro.isEmpty()){
             println("[Policia$tipo] La lista de registros está vacía")
             exitProcess(1)
         }
 
-        val retorno : ArrayList<String> = arrayListOf()
+        val retorno : ArrayList<Registro> = arrayListOf()
 
         for(registro in listaRegistro){
             val resultado = funcionBusqueda(busqueda, registro)

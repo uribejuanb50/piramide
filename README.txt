@@ -23,8 +23,10 @@ flags: //2 tipos funcionalidad, interna de cada clase que entra por param y exte
  //no paila está re dificil, dejar de últimas
 
 //Hacer funciones de arbol y policias, haciendo 2 funciones en asignacion
-//!!!Toca hacer otro validar flags para funciones de arbol y otro para policias, así mismo hacer
-//   la diferenciación entre validarEntrada para asignar a arbol y policias
+//!!!Toca hacer otro validar flags para funciones de arbol y otro para policias, así mismo hacer //ya no, porque los
+                                                                                               //valdiarFlags contemplan limpieza con los otros flags en general
+                                                                                               //se puede es dividirlos con comentarios y organizarlos
+//   la diferenciación entre validarEntrada para asignar a arbol y policias - !!!Hecho
 //   y en asignación hacer un distribuidor que según el tipo que devuelva validar entrada mande a ejecutar
 //   manejar arbol y manejar policias, ej: "el retorno de src.cli.Validacion.validarEntrada(args): Pair<String, Int>
 //   el string siendo o "arbol" o "policia" y el int el caso
