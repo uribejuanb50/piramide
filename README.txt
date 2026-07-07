@@ -23,7 +23,16 @@ flags: //2 tipos funcionalidad, interna de cada clase que entra por param y exte
  //no paila está re dificil, dejar de últimas
 
 //Hacer funciones de arbol y policias, haciendo 2 funciones en asignacion
-//toca validar los flags necesarios para la funcionalidad por dentro
+//!!!Toca hacer otro validar flags para funciones de arbol y otro para policias, así mismo hacer
+//   la diferenciación entre validarEntrada para asignar a arbol y policias
+//   y en asignación hacer un distribuidor que según el tipo que devuelva validar entrada mande a ejecutar
+//   manejar arbol y manejar policias, ej: "el retorno de src.cli.Validacion.validarEntrada(args): Pair<String, Int>
+//   el string siendo o "arbol" o "policia" y el int el caso
+
+//!!!En los comandos de arbol toca en vez de "path_original" que se pueda colocar "arbol" literal en vez
+//   el primer comando sería asignar arbol con -arbol "path_nuevo_arbol" y de ahí el resto de comandos se manejen por ese arbol
+//   (a menos de que se use el flag --noReasignar que solo introduce el arbol pero no lo utiliza de una, sino que tocaría elegirlo)
+//   con esto también permitir en algún comando de policia (más específico PoliciaArbol) reasignar el arbol raíz según los que haya dispo
 //mirar un flag --todos para devolver todo
 comandos:
  ...main.jar "path_original" //genera un arbol

@@ -53,7 +53,7 @@ abstract class Policia (val path : Path){
     abstract fun nuevoSeguimiento()
     abstract fun devolverFormatoRegistro(registro: Registro) : String
 
-
+    //para implementar en el cli
     fun buscarPor(listaPareja : ArrayList<Pair<Any, String>>) : ArrayList<String> { //el primero es el tipo dato de la busqueda
                                                                         //el segundo el string del metodoBusqueda
         //lo que quiero hacer: cada iteracion es la busqueda y su metodo de busqeuda,
