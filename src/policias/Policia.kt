@@ -14,15 +14,18 @@ abstract class Policia (val path : Path){
     abstract val id : String
 
     val listaRegistro : ArrayList<Registro> = arrayListOf()
-    val mapaMetodoBusqueda  = mapOf(
-        "file" to { pathBuscar : Path, registro : Registro ->
+    val mapaMetodoBusqueda : Map<Any, (Any, Registro) -> String> = mapOf(
+        "file" to { pathBuscar , registro  ->
+            val pathBuscar = pathBuscar as Path
             ""
         },
-        "fecha" to { fechaBuscar : LocalDate, registro : Registro ->
+        "fecha" to { fechaBuscar, registro ->
+            val fechaBuscar = fechaBuscar as LocalDate
             ""
-        }
-        "hora" to { horaBuscar :
-
+        },
+        "hora" to { horaBuscar, registro ->
+            val horaBuscar = horaBuscar as LocalTime
+            ""
         }
     )
 
@@ -41,12 +44,13 @@ abstract class Policia (val path : Path){
 
             val busquedaConTipo =
 
-                when { //mirar para los tipos lo de sealed class aunque no creo, mejor así nno?
+                when {
                     ((metodoBusqueda == "file") && (busqueda is Path))
                             || ((metodoBusqueda == "fecha") && (busqueda is LocalDate))
                             || ((metodoBusqueda == "hora") && (busqueda is LocalTime))
                             || ((metodoBusqueda == "id") && (busqueda is Long)) -> {
-
+                                val funcionBusqueda
+                                for()
                             }
 
                     else -> throw IllegalArgumentException(
@@ -56,12 +60,7 @@ abstract class Policia (val path : Path){
                 }
 
         }
-
-        return
     }
 
-    fun validarMetodoBusqueda(metodoBusqueda: String) : () -> String{
-
-    }
-
+    fun ejecutarBusqueda()
 }
