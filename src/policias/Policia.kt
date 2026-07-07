@@ -7,6 +7,7 @@ import kotlin.io.path.exists
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeParseException
+import kotlin.system.exitProcess
 
 abstract class Policia (val path : Path){
 
@@ -26,13 +27,17 @@ abstract class Policia (val path : Path){
         "hora" to { horaBuscar, registro ->
             val horaBuscar = horaBuscar as LocalTime
             ""
+        },
+        "id" to { idBuscar, registro ->
+            val idBuscar = idBuscar as Long
+            ""
         }
     )
 
     abstract fun nuevoSeguimiento()
 
 
-    fun buscarPor(listaPareja : ArrayList<Pair<Any, String>>) : Path { //el primero es el tipo dato de la busqueda
+    fun buscarPor(listaPareja : ArrayList<Pair<Any, String>>)  { //el primero es el tipo dato de la busqueda
                                                                         //el segundo el string del metodoBusqueda
         //lo que quiero hacer: cada iteracion es la busqueda y su metodo de busqeuda,
         val log = "[Policia$tipo]" //Esto acá es para usar las funciones de repeat y lenght
@@ -49,8 +54,8 @@ abstract class Policia (val path : Path){
                             || ((metodoBusqueda == "fecha") && (busqueda is LocalDate))
                             || ((metodoBusqueda == "hora") && (busqueda is LocalTime))
                             || ((metodoBusqueda == "id") && (busqueda is Long)) -> {
-                                val funcionBusqueda
-                                for()
+                                val funcionBusqueda = mapaMetodoBusqueda[metodoBusqueda]
+
                             }
 
                     else -> throw IllegalArgumentException(
@@ -62,5 +67,14 @@ abstract class Policia (val path : Path){
         }
     }
 
-    fun ejecutarBusqueda()
+    //mirar un flag --todos, así devuelve todo, colocar en el mapa
+    fun ejecutarBusqueda(busqueda : Any, funcionBusqueda : (Any, Registro) -> String){
+        if(listaRegistro.isEmpty()){
+            println("[Policia$tipo] La lista de registros está vacía")
+            exitProcess(1)
+        }
+        for(registro in listaRegistro){
+            
+        }
+    }
 }
