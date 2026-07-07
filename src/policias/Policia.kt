@@ -28,48 +28,36 @@ abstract class Policia (val path : Path){
 
     abstract fun nuevoSeguimiento()
 
-    //no recuerdo para qué estaba esto
-    fun buscarPorFile(busqueda: String, listaMetodoBusqueda : ArrayList<String?>) : Path {
 
+    fun buscarPor(listaPareja : ArrayList<Pair<Any, String>>) : Path { //el primero es el tipo dato de la busqueda
+                                                                        //el segundo el string del metodoBusqueda
+        //lo que quiero hacer: cada iteracion es la busqueda y su metodo de busqeuda,
         val log = "[Policia$tipo]" //Esto acá es para usar las funciones de repeat y lenght
         val charEspacio = " "      //dentro del $ ya que no se puede usar "" dentro de este sin romper la cadena
-        val metodoBusqueda = listaMetodoBusqueda.first()    //por ahora, se supone que la lista que llega trae todas los tipos de busqeuda que se hacen
-                                                            //si llega más de un metodo de búsqueda el algoritmo filtra y hace intersección entre las listas
-        val busqueda = //esto solo asigna busqueda al tipo de busqueda para luego meterlo en los lambdas
-            try {
-                when(metodoBusqueda){ //mirar para los tipos lo de sealed class aunque no creo, mejor así nno?
-                    "file" -> {
-                        val pathBusqueda = Path(busqueda)
 
-                        if(!pathBusqueda.exists())
-                            throw IllegalArgumentException(
-                                "$log La búsqueda $busqueda no existe" +
-                                        "${charEspacio.repeat(log.length)} Deberías intentar con el comando 'path_original' 'buscar' 'palara' --condicion 'condicion' "
-                            )
+        for(pareja in listaPareja) {
+            val busqueda = pareja.first //busqueda ej-> id : Long, fecha : LocalDate, hora : LocalTime
+            val metodoBusqueda = pareja.second
 
-                        else
-                            pathBusqueda
-                    }
-                    "fecha" -> {
-                        val busqueda =
+            val busquedaConTipo =
 
-                    }
-                    "hora" -> {
+                when { //mirar para los tipos lo de sealed class aunque no creo, mejor así nno?
+                    ((metodoBusqueda == "file") && (busqueda is Path))
+                            || ((metodoBusqueda == "fecha") && (busqueda is LocalDate))
+                            || ((metodoBusqueda == "hora") && (busqueda is LocalTime))
+                            || ((metodoBusqueda == "id") && (busqueda is Long)) -> {
 
-                    }
-                    "id" -> {
+                            }
 
-                    }
-                    else -> throw IllegalArgumentException("$log El método de búsqueda es inválido")
+                    else -> throw IllegalArgumentException(
+                        "$log La búsqueda es tipo ${busqueda::class.qualifiedName}\n" +
+                        "${charEspacio.repeat(log.length)} Y el método de búsqueda es $metodoBusqueda"
+                    )
                 }
-            } catch (e : DateTimeParseException){
-                throw IllegalArgumentException("$log La búsqueda por fecha $busqueda no es una fecha")
-            }
 
-        for(registro in listaRegistro){
-            TODO()
         }
-        return pathBusqueda
+
+        return
     }
 
     fun validarMetodoBusqueda(metodoBusqueda: String) : () -> String{

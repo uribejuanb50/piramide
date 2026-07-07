@@ -22,7 +22,7 @@ flags:
  //Hacer un generador de reglas con la posibilidad de hacer tus propios ejemplos y probar tu regla pero antes arreglar lo que falta
  //no paila está re dificil, dejar de últimas
 
-//antes de desarrollar policias, limpiar el main con validadores de los datos provenientes de terminal
+//Hacer funciones de arbol y policias, haciendo 2 funciones en asignacion
 comandos:
  ...main.jar "path_original" //genera un arbol
  ...main.jar "path_original" "borrar" "palabra" 				//elimina esa palabra de todo el arbol (falta implementar) //meterle un regex y un respaldo
