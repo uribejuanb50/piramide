@@ -85,13 +85,21 @@ abstract class Policia (val path : Path){
     }
 
     //mirar un flag --todos, así devuelve todo, colocar en el mapa
-    fun ejecutarBusqueda(busqueda : Any, funcionBusqueda : (Any, Registro) -> String){
+    fun ejecutarBusqueda(busqueda : Any, funcionBusqueda : (Any, Registro) -> String?) : ArrayList<String>{
+
         if(listaRegistro.isEmpty()){
             println("[Policia$tipo] La lista de registros está vacía")
             exitProcess(1)
         }
-        for(registro in listaRegistro){
 
+        val retorno : ArrayList<String> = arrayListOf()
+
+        for(registro in listaRegistro){
+            val resultado = funcionBusqueda(busqueda, registro)
+            if(resultado != null)
+                retorno.add(resultado)
         }
+
+        return retorno
     }
 }
