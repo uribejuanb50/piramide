@@ -48,12 +48,13 @@ abstract class Policia (val path : Path){
             else
                 null
         },
-        "noencontrados" to { pathbuscar, registro ->
-            when{
-                registro.pathOriginal == null -> null
-                !registro.pathOriginal.exists() -> registro
-                else -> null
-            }
+        "eliminar" to { pathbuscar, registro ->
+            val pathBuscar = pathbuscar as Path
+
+            if(pathBuscar == registro.pathOriginal)
+                registro
+            else
+                null
         },
         "todos" to { pathBuscar, registro ->
             registro
@@ -62,6 +63,7 @@ abstract class Policia (val path : Path){
 
     abstract fun nuevoSeguimiento()
     abstract fun devolverFormatoListaRegistro(listaRegistro: ArrayList<Registro>) : ArrayList<String>
+    abstract fun transdormarListaToSetPorAtributo(lista : ArrayList<Registro>)
 
     //para implementar en el cli
     fun buscarPor(listaPareja : ArrayList<Pair<Any, String>>) : ArrayList<String> { //el primero es el tipo dato de la busqueda
@@ -117,6 +119,8 @@ abstract class Policia (val path : Path){
     }
 
     //mirar un flag --todos, así devuelve todo, colocar en el mapa
+    //mira desde pathOriginal si viene de buscarPor y retorna todos los registros de ese pathOriginal
+    //  por ejemplo si busco E:/pdf puede salir E:/pdf-1, E:/pdf-2 que son los guardados de o palabras borradas o reemplazadas, incliso de aplanadas
     fun ejecutarBusqueda(busqueda : Any, funcionBusqueda : (Any, Registro) -> Registro?) : ArrayList<Registro>{
 
         if(listaRegistro.isEmpty()){
@@ -133,5 +137,34 @@ abstract class Policia (val path : Path){
         }
 
         return retorno
+    }
+
+    fun eliminarRegistros( //básicamente elimina los registros que no existan o hayan sido movidos o que se quieran eliminar, borra es
+        listaRegistroEliminar : ArrayList<Path>?, //eliminar uno solo, o varios, conectarlos desde el cli
+        listaExclusiones : ArrayList<Path> //viene o vacio o con exclusiones
+    ) : ArrayList<String> {
+        //se usan los paths actuales
+        val listaRegistrosEliminar =
+            listaRegistroEliminar ?: this.listaRegistro
+
+        val eliminacion : ArrayList<Registro> = arrayListOf()
+        val funcEliminacion = mapaMetodoBusqueda["eliminar"]?: throw IllegalArgumentException(
+            "[Policia$tipo] Tipo de búsqueda no estaba en mapaMetodosBusqueda"
+        )
+
+        for(registro in listaRegistrosEliminar){
+            val listaRegistroResultado = ejecutarBusqueda(registro, funcEliminacion)
+            eliminacion.addAll(listaRegistroResultado)
+        }
+
+
+
+        val setEliminar = transdormarListaToSetPorAtributo(eliminacion) //implementar en cada
+
+        this.listaRegistro
+            .filterNot { it.pathOriginal in setEliminar }
+            .toCollection(ArrayList())
+
+        return "[Policia$tipo] " //am validar eliminados supongo
     }
 }
