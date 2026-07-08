@@ -1,4 +1,3 @@
 package src.policias
 
-object PoliciaAplanados {
-}
+object PoliciaAplanados

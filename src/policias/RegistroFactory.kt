@@ -7,18 +7,14 @@ object RegistroFactory {
     fun generarRegistroArbol(
         ultimoID : Long,
         tipo : String,
-        descripcion : String,
-        pathArbol : Path,
-        nodos : Int,
-        nodosOcultos : Int
+        descripcion : String?,
+        pathRaiz : Path
     ) : Registro  {
         return Registro(
             id = ultimoID + 1,
             tipo = tipo,
-            desc = descripcion,
-            pathOriginal = pathArbol,
-            nodos = nodos,
-            nodosOcultos = nodosOcultos
+            desc = descripcion ?:"N/A descripción",
+            pathOriginal = pathRaiz
         )
     }
 
@@ -33,7 +29,7 @@ object RegistroFactory {
         return Registro(
             id = ultimoID + 1,
             tipo = tipo,
-            desc = descripcion,
+            desc = descripcion ?:"N/A descripción",
             pathOriginal = pathOriginal,
             pathActual = pathActual,
             palabraBorrada = palabraBorrada
@@ -52,7 +48,7 @@ object RegistroFactory {
         return Registro(
             id = ultimoID + 1,
             tipo = tipo,
-            desc = descripcion,
+            desc = descripcion ?:"N/A descripción",
             pathOriginal = pathOriginal,
             pathActual = pathActual,
             palabraBorrada = palabraBorrada,
@@ -70,7 +66,7 @@ object RegistroFactory {
         return Registro(
             id = ultimoID + 1,
             tipo = tipo,
-            desc = descripcion,
+            desc = descripcion ?:"N/A descripción",
             pathOriginal = pathOriginal,
             pathActual = pathActual
         )

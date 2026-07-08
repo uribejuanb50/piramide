@@ -18,8 +18,6 @@ data class Registro(
 
     //Para el arbol
     val profundidad : Int? = null,
-    val nodos : Int? = null, //No estou seguro si usarlo
-    val nodosOcultos : Int? = null, //lo mismo
     val raiz : Path? = null,
 
     //Para borrados
