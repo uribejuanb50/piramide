@@ -11,23 +11,23 @@ data class Registro(
     val id : Long,
     val fecha : LocalDate = LocalDate.now(), //str por ahora
     val hora : LocalTime = LocalTime.now(),
-    val pathOriginal : Path?, //path original es el base, actual es para borrar reemplazar y aplanar
-    val pathActual: Path = Path.of(""),
-    val tipo : String = "",
-    val desc : String = "", //activado por flag desde terminal para la impresión,
+    val pathOriginal : Path, //path original es el base, actual es para borrar reemplazar y aplanar
+    val pathActual: Path? = null,
+    val tipo : String? = null,
+    val desc : String? = null, //activado por flag desde terminal para la impresión,
 
     //Para el arbol
-    val profundidad : Int = 0,
-    val nodos : Int = -1, //No estou seguro si usarlo
-    val nodosOcultos : Int, //lo mismo
-    val raiz : Path,
+    val profundidad : Int? = null,
+    val nodos : Int? = null, //No estou seguro si usarlo
+    val nodosOcultos : Int? = null, //lo mismo
+    val raiz : Path? = null,
 
     //Para borrados
-    val palabraBorrada : String,
+    val palabraBorrada : String? = null,
 
     //Para reemplazar - reemplazar necesita también
     //pathoriginal y palabraborrada, pero ya están declaradas
-    val palabraNueva : String
+    val palabraNueva : String? = null
 ){
     init{
 

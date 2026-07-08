@@ -9,10 +9,10 @@ import java.time.LocalTime
 import java.time.format.DateTimeParseException
 import kotlin.system.exitProcess
 
-abstract class Policia (val path : Path){
-
-    abstract val tipo : String
-    abstract val id : String
+abstract class Policia (
+    val pathCarpetaGuardando : Path, val id : Long,
+    val tipo : String
+){
 
     val listaRegistro : ArrayList<Registro> = arrayListOf()
     val mapaMetodoBusqueda : Map<Any, (Any, Registro) -> Registro?> = mapOf(
@@ -63,7 +63,7 @@ abstract class Policia (val path : Path){
 
     abstract fun nuevoSeguimiento()
     abstract fun devolverFormatoListaRegistro(listaRegistro: ArrayList<Registro>) : ArrayList<String>
-    abstract fun transdormarListaToSetPorAtributo(lista : ArrayList<Registro>)
+    abstract fun transdormarListaToSetPorAtributo(lista : ArrayList<Registro>) : Set<Path> //tranformar por registro.pathActual opathOriginal
 
     //para implementar en el cli
     fun buscarPor(listaPareja : ArrayList<Pair<Any, String>>) : ArrayList<String> { //el primero es el tipo dato de la busqueda
@@ -165,6 +165,10 @@ abstract class Policia (val path : Path){
             .filterNot { it.pathOriginal in setEliminar }
             .toCollection(ArrayList())
 
-        return "[Policia$tipo] " //am validar eliminados supongo
+        return arrayListOf("[Policia$tipo] ") //am validar eliminados supongo
+    }
+
+    init{
+
     }
 }

@@ -1,4 +1,7 @@
 package src.policias
 
-object PoliciaFactory {
+class PoliciaFactory(
+    val registroFactory : RegistroFactory = RegistroFactory
+) {
+
 }

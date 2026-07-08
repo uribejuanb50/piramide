@@ -20,7 +20,7 @@ flags: //2 tipos funcionalidad, interna de cada clase que entra por param y exte
  --ayuda                     	//Imprime este txt
 
  //Hacer un generador de reglas con la posibilidad de hacer tus propios ejemplos y probar tu regla pero antes arreglar lo que falta
- //no paila está re dificil, dejar de últimas
+ //no paila está re dificil, dejar de últimas !!! En vez de esto hacerlo según un regex
 
 //Hacer funciones de arbol y policias, haciendo 2 funciones en asignacion
 //!!!Toca hacer otro validar flags para funciones de arbol y otro para policias, así mismo hacer //ya no, porque los
