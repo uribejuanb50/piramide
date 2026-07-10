@@ -1,8 +1,8 @@
-package src
+package main.kotlin
 
-import src.policias.factories.PoliciaFactory
-import src.policias.negocio.GestorPolicias
-import src.policias.repo.PoliciaRepository
+import main.kotlin.policias.factories.PoliciaFactory
+import main.kotlin.policias.negocio.GestorPolicias
+import main.kotlin.policias.repo.PoliciaRepository
 import java.nio.file.Path
 import kotlin.system.exitProcess
 
@@ -15,7 +15,7 @@ fun main(args : Array<String>) {
         val gestorPolicias = GestorPolicias(policiaFactory, policiaRepository)
 
         val path = Path.of(args.first())
-        gestorPolicias.policiaArbol.registrarArbol(args.first(), "Arbol de prueba")
+        gestorPolicias.policiaArbol.registrarArbol(path, "Arbol de prueba")
 
 
         /*

@@ -1,7 +1,7 @@
-package src.cli
+package main.kotlin.cli
 
-import src.arbol.Arbol
-import src.utils.unirString
+import main.kotlin.arbol.Arbol
+import main.kotlin.utils.unirString
 
 class Procesamiento() {
     fun procesarFlags(

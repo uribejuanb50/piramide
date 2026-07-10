@@ -1,6 +1,6 @@
-package src.utils
+package main.kotlin.utils
 
-import src.arbol.Nodo
+import main.kotlin.arbol.Nodo
 import java.io.File
 
 //ARRAYLIST

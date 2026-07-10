@@ -1,4 +1,4 @@
-package src.arbol
+package main.kotlin.arbol
 
 import java.io.File
 

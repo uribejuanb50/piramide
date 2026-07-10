@@ -1,10 +1,9 @@
-package src.policias.negocio
+package main.kotlin.policias.negocio
 
-import src.policias.dominio.Policia
-import src.policias.dominio.PoliciaArbol
-import src.policias.dominio.PoliciaReemplazados
-import src.policias.factories.PoliciaFactory
-import src.policias.repo.PoliciaRepository
+import main.kotlin.policias.dominio.Policia
+import main.kotlin.policias.dominio.PoliciaArbol
+import main.kotlin.policias.factories.PoliciaFactory
+import main.kotlin.policias.repo.PoliciaRepository
 
 class GestorPolicias(
     val policiaFactory: PoliciaFactory,

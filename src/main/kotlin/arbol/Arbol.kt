@@ -1,6 +1,6 @@
-package src.arbol
+package main.kotlin.arbol
 
-import src.utils.toCustomString
+import main.kotlin.utils.toCustomString
 import java.io.File
 
 class Arbol (val path : File){

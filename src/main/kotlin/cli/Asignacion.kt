@@ -1,8 +1,8 @@
-package src.cli
+package main.kotlin.cli
 
-import src.arbol.Arbol
-import src.utils.escribirArchivo
-import src.utils.toCustomString
+import main.kotlin.arbol.Arbol
+import main.kotlin.utils.escribirArchivo
+import main.kotlin.utils.toCustomString
 import java.io.File
 
 class Asignacion(

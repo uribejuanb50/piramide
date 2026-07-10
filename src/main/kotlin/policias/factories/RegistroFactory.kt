@@ -1,6 +1,6 @@
-package src.policias.factories
+package main.kotlin.policias.factories
 
-import src.policias.dominio.Registro
+import main.kotlin.policias.dominio.Registro
 import java.nio.file.Path
 
 object RegistroFactory {

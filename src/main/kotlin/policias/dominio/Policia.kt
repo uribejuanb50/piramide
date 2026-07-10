@@ -1,4 +1,4 @@
-package src.policias.dominio
+package main.kotlin.policias.dominio
 
 import java.nio.file.Path
 import java.time.LocalDate

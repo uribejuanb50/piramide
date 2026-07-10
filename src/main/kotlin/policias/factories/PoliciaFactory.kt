@@ -1,7 +1,6 @@
-package src.policias.factories
+package main.kotlin.policias.factories
 
-import src.policias.dominio.Policia
-import src.policias.dominio.PoliciaArbol
+import main.kotlin.policias.dominio.PoliciaArbol
 import java.nio.file.Path
 
 class PoliciaFactory(

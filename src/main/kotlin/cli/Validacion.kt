@@ -1,4 +1,4 @@
-package src.cli
+package main.kotlin.cli
 
 import java.io.File
 import kotlin.system.exitProcess
