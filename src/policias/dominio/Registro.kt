@@ -1,4 +1,4 @@
-package src.policias
+package src.policias.dominio
 
 import java.nio.file.Path
 

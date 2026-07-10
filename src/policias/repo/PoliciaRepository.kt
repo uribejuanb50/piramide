@@ -1,6 +1,8 @@
-package src.policias
+package src.policias.repo
 
 import com.google.gson.Gson
+import src.policias.dominio.Policia
+import src.policias.dominio.PoliciaArbol
 import src.utils.Rutas
 import java.nio.file.Files
 import java.nio.file.Path
@@ -11,7 +13,7 @@ class PoliciaRepository(
 
     private val gson = Gson()
 
-    fun cargarPoliciaArbol() : Policia?{
+    fun cargarPoliciaArbol() : PoliciaArbol?{
         if(!Files.exists(rutaGuardadoArbol)) return null
         val json = Files.readString(rutaGuardadoArbol)
         return gson.fromJson(json, PoliciaArbol::class.java)

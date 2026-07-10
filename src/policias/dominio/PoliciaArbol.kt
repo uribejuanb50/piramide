@@ -1,7 +1,6 @@
 package src.policias.dominio
 
 import src.arbol.Arbol
-import src.policias.Registro
 import src.policias.factories.RegistroFactory
 import java.nio.file.Path
 

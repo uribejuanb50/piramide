@@ -1,6 +1,5 @@
 package src.policias.dominio
 
-import src.policias.Registro
 import java.nio.file.Path
 import java.time.LocalDate
 import java.time.LocalTime
