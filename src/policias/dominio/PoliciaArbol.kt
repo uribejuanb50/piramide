@@ -1,6 +1,8 @@
-package src.policias
+package src.policias.dominio
 
 import src.arbol.Arbol
+import src.policias.Registro
+import src.policias.factories.RegistroFactory
 import java.nio.file.Path
 
 class PoliciaArbol (
@@ -10,7 +12,16 @@ class PoliciaArbol (
     val registroFactory : RegistroFactory,
 ) : Policia(pathCarpetaGuardando, id, tipo){
 
-    var pathRaizArbolUsando : Path? = this.listaRegistro.last().pathOriginal
+    override val devolverFormatoRegistro: (registro: Registro) -> String = { registro ->
+        var retornar = "---------------------------------------------\n"
+        retornar += "ID: ${registro.id}\n"
+        retornar += "Tipo: ${registro.tipo}\n"
+        retornar += "Descrpcion: ${registro.desc}\n"
+        retornar += "Path raíz: ${registro.pathOriginal}\n"
+        retornar
+    }
+
+    var pathRaizArbolUsando : Path? = null
 
     fun registrarArbol(pathRaiz : Path, descripcion : String?, usar : Boolean = true){
 
@@ -35,6 +46,10 @@ class PoliciaArbol (
         return arbol
     }
 
+    override fun listarRegistros(): ArrayList<String> {
+        return this.listaRegistro.map(this.devolverFormatoRegistro).toCollection(ArrayList())
+    }
+
     override fun nuevoSeguimiento() {
         TODO("Not yet implemented")
     }
@@ -43,7 +58,10 @@ class PoliciaArbol (
         TODO("Not yet implemented")
     }
 
+
     override fun transdormarListaToSetPorAtributo(lista: ArrayList<Registro>): Set<Path> {
         TODO("Not yet implemented")
     }
+
+
 }

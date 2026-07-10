@@ -1,18 +1,17 @@
-package src.policias
+package src.policias.dominio
 
+import src.policias.Registro
 import java.nio.file.Path
-import kotlin.io.path.Path
-import kotlin.io.path.exists
-
 import java.time.LocalDate
 import java.time.LocalTime
-import java.time.format.DateTimeParseException
 import kotlin.system.exitProcess
 
 abstract class Policia (
     val pathCarpetaGuardando : Path, val id : Long,
     val tipo : String
 ){
+    abstract val devolverFormatoRegistro : (registro : Registro) -> String
+
 
     val listaRegistro : ArrayList<Registro> = arrayListOf()
     val mapaMetodoBusqueda : Map<Any, (Any, Registro) -> Registro?> = mapOf(
@@ -167,6 +166,8 @@ abstract class Policia (
 
         return arrayListOf("[Policia$tipo] ") //am validar eliminados supongo
     }
+
+    abstract fun listarRegistros() : ArrayList<String>
 
     init{
 
