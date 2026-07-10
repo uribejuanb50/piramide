@@ -1,8 +1,9 @@
-package main.kotlin
+package piramide
 
-import main.kotlin.policias.factories.PoliciaFactory
-import main.kotlin.policias.negocio.GestorPolicias
-import main.kotlin.policias.repo.PoliciaRepository
+import piramide.policias.factories.PoliciaFactory
+import piramide.policias.negocio.GestorPolicias
+import piramide.policias.repo.PoliciaRepository
+import piramide.utils.toCustomString
 import java.nio.file.Path
 import kotlin.system.exitProcess
 
@@ -10,12 +11,16 @@ import kotlin.system.exitProcess
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 fun main(args : Array<String>) {
     try {
+
+        println("Corrió")
+        println(args.toCustomString())
         val policiaFactory = PoliciaFactory()
         val policiaRepository = PoliciaRepository()
         val gestorPolicias = GestorPolicias(policiaFactory, policiaRepository)
 
         val path = Path.of(args.first())
         gestorPolicias.policiaArbol.registrarArbol(path, "Arbol de prueba")
+        gestorPolicias.policiaArbol.listarRegistros()
 
 
         /*

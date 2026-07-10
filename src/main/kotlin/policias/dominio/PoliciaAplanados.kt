@@ -1,3 +1,3 @@
-package main.kotlin.policias.dominio
+package piramide.policias.dominio
 
 class PoliciaAplanados

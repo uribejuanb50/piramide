@@ -1,7 +1,21 @@
-package main.kotlin.utils
+package piramide.utils
 
-import main.kotlin.arbol.Nodo
+import piramide.arbol.Nodo
 import java.io.File
+
+//ARRAY
+fun Array<String>.toCustomString() : String {
+    var retorno = "["
+
+    for((indice, str) in this.withIndex()){
+        if(indice != this.lastIndex)
+            retorno += ", "
+        else
+            retorno += str
+    }
+
+    return "$retorno]"
+}
 
 //ARRAYLIST
 fun ArrayList<String?>?.toCustomString() : String {

@@ -1,6 +1,6 @@
-package main.kotlin.arbol
+package piramide.arbol
 
-import main.kotlin.utils.toCustomString
+import piramide.utils.toCustomString
 import java.io.File
 
 class Arbol (val path : File){

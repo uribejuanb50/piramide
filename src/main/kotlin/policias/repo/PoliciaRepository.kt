@@ -1,8 +1,8 @@
-package main.kotlin.policias.repo
+package piramide.policias.repo
 
 import com.google.gson.Gson
-import main.kotlin.policias.dominio.PoliciaArbol
-import main.kotlin.utils.Rutas
+import piramide.policias.dominio.PoliciaArbol
+import piramide.utils.Rutas
 import java.nio.file.Files
 import java.nio.file.Path
 

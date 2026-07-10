@@ -1,7 +1,7 @@
-package main.kotlin.cli
+package piramide.cli
 
-import main.kotlin.arbol.Arbol
-import main.kotlin.utils.unirString
+import piramide.arbol.Arbol
+import piramide.utils.unirString
 
 class Procesamiento() {
     fun procesarFlags(

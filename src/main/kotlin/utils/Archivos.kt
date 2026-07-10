@@ -1,4 +1,4 @@
-package main.kotlin.utils
+package piramide.utils
 
 import java.io.File
 import java.nio.file.Files
@@ -32,7 +32,7 @@ object Rutas{
 
     val carpetaPolicias : Path by lazy {
         raizProyecto.resolve("data").resolve("").also{
-            Files.createDirectory(it)
+            Files.createDirectories(it)
         }
     }
 }

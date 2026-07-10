@@ -1,4 +1,4 @@
-package main.kotlin.policias.dominio
+package piramide.policias.dominio
 
 import java.nio.file.Path
 

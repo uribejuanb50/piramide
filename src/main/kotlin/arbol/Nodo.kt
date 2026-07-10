@@ -1,4 +1,4 @@
-package main.kotlin.arbol
+package piramide.arbol
 
 import java.io.File
 

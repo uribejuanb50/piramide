@@ -1,8 +1,8 @@
-package main.kotlin.cli
+package piramide.cli
 
-import main.kotlin.arbol.Arbol
-import main.kotlin.utils.escribirArchivo
-import main.kotlin.utils.toCustomString
+import piramide.arbol.Arbol
+import piramide.utils.escribirArchivo
+import piramide.utils.toCustomString
 import java.io.File
 
 class Asignacion(

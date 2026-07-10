@@ -1,4 +1,4 @@
-package main.kotlin.cli
+package piramide.cli
 
 import java.io.File
 import kotlin.system.exitProcess

@@ -1,7 +1,7 @@
-package main.kotlin.policias.dominio
+package piramide.policias.dominio
 
-import main.kotlin.arbol.Arbol
-import main.kotlin.policias.factories.RegistroFactory
+import piramide.arbol.Arbol
+import piramide.policias.factories.RegistroFactory
 import java.nio.file.Path
 
 class PoliciaArbol (
@@ -24,7 +24,10 @@ class PoliciaArbol (
 
     fun registrarArbol(pathRaiz : Path, descripcion : String?, usar : Boolean = true){
 
-        val ultimoID : Long = this.listaRegistro.last().id
+        val ultimoID : Long =
+            if(!this.listaRegistro.isEmpty())this.listaRegistro.last().id else 0
+
+        val nuevoRegistro = registroFactory.generarRegistroArbol(ultimoID, "arbol", descripcion, pathRaiz)
 
         this.listaRegistro.add(
             //Quitar lo de los nodos, literal son puras ganas de joder jaja
@@ -46,6 +49,7 @@ class PoliciaArbol (
     }
 
     override fun listarRegistros(): ArrayList<String> {
+        println("[PoliciaArbol] ====================== REGISTROS ====================")
         return this.listaRegistro.map(this.devolverFormatoRegistro).toCollection(ArrayList())
     }
 
