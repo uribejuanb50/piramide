@@ -1,18 +1,29 @@
 package piramide.cli
 
 import java.io.File
+import java.nio.file.Path
+import kotlin.io.path.exists
 import kotlin.system.exitProcess
 
 class Validacion() {
 
+    fun validarFlags(args: Array<String>) : Triple<Map<String, Any?>, Map<String, Any?>, ArrayList<String>> {
+
+        val (mapaCategoriaArbol, nuevosArgs) = validarFlagsExploracion(args) //devuelve el primer mapa de exploracion y el arraylist procesado
+        val (mapaCategoriaPolicias, nuevosArgs) = validarFlagsExploracion(args)
+
+        return Triple(mapaCategoriaArbol, mapaCategoriaPolicias, nuevosArgs)
+    }
     //pone los flags según lo que digan
-    fun validarFlags(args : Array<String>) : Pair<Map<String, Any?>, ArrayList<String>> {
+    fun validarFlagsExploracion(args : Array<String>) : Pair<Map<String, Any?>, ArrayList<String>> {
 
         val opcionesValidas = listOf(
             //Caso base explorar/ver arbol
             "--simple","--ocultos", "--reversar", "--recortar",
             "--prueba", "--nivelMax", "--README", "--toArchivo",
-            "--ayuda", "--descripcion",
+            "--ayuda",
+            //Asignacion
+            "--descripcion", "--noReasignar",
 
             //Caso búsquedas
             "--condicion", "--force"
@@ -22,6 +33,7 @@ class Validacion() {
         val argsRestar : ArrayList<String> = arrayListOf()
 
         val diccionarioFlags = mutableMapOf<String, Any?>(
+            //Caso base explorar/ver arbol
             "simple" to false,
             "caracterEspacio" to " ",
             "nRepeticiones" to 3,
@@ -32,9 +44,13 @@ class Validacion() {
             "nivelMax" to null,
             "README" to false,
             "toArchivo" to null,
-            "descripcion" to false, //ESTE DESC ES PARA los padres hijos del readme que pone para explicar modulo por modulo, a esto toca cambiarle el nombre
-                                    //para usar el flag descripcion pero para describir el arbol y guardarlo en policia arbol
-                                    //para lo de la explicacion por niveles usar el flag --subarquitectura o --modulos
+            "modulos" to false,
+
+            //Asignacion
+            "descripcion" to null,
+            "noReasignar" to false,
+
+            //Caso búsquedas
             "condicion" to null,
             "force" to false
         )
@@ -51,10 +67,17 @@ class Validacion() {
                 "--reversar" -> diccionarioFlags["reversar"] = true
                 "--prueba" -> diccionarioFlags["prueba"] = true
                 "--force" -> diccionarioFlags["force"] = true
+                "--modulos" -> diccionarioFlags["modulos"] = true
+                "--noReasignar" -> diccionarioFlags["noReasignar"] = true
                 "--descripcion" -> {
                     val siguiente = args.getOrNull(indice + 1)
 
-                    //if(siguiente)
+                    if(siguiente == null || siguiente.contains("--")){
+                        System.err.println("[Main] El siguiente argumento después de --descripción es inválido")
+                        exitProcess(1)
+                    }
+                    argsRestar.add(siguiente)
+                    diccionarioFlags["descripcion"] = siguiente
                 }
                 "--simple" -> {
                     val siguiente = args.getOrNull(indice + 1)
@@ -89,7 +112,7 @@ class Validacion() {
                     diccionarioFlags["README"] = true
 
                     if(siguiente == "desc") {
-                        diccionarioFlags["descripcion"] = true
+                        diccionarioFlags["modulos"] = true
                         argsRestar.add(siguiente)
                     }
 
@@ -176,7 +199,6 @@ class Validacion() {
                 }
             }
 
-
         }
 
         val iniciarRestar = 0
@@ -196,6 +218,80 @@ class Validacion() {
         return Pair(diccionarioFlags, nuevosArgs)
     }
 
+    fun validarFlagsPolicias(args: ArrayList<String>) : Pair<Map<String, Any?>, ArrayList<String>> {
+
+        val opcionesValidas = listOf(
+            "--excluir" //Excluir paths de dirs o archivos, captura varios ej: --excluir path1 path2 .. pathn
+        )
+
+        val nuevosArgs : ArrayList<String> = arrayListOf()
+        val argsRestar : ArrayList<String> = arrayListOf()
+
+        val diccionarioFlags = mutableMapOf<String, Any?>(
+            "excluir" to null, //Set<Path>
+
+        )
+
+        for ((indice, argumento) in args.withIndex()){
+            if(argumento !in opcionesValidas){
+                nuevosArgs.add(argumento)
+                continue
+            }
+
+            when(argumento){
+                "excluir" -> {
+
+                    var salir : Boolean = true
+                    var indiceSumarSiguiente = 1
+
+                    val pathsExcluir : ArrayList<Path> = arrayListOf()
+
+                    while(salir){
+
+                        val siguiente = args.getOrNull(indice + indiceSumarSiguiente)
+
+                        if(siguiente == null || siguiente.contains("--")) {
+                            salir = false
+                        }
+                        else{
+                            val path = Path.of(siguiente)
+
+                            if(!path.exists()){
+                                throw IllegalArgumentException("[Validacion] El path dado ($siguiente) no es un path existente")
+                            }
+
+                            pathsExcluir.add(path)
+                            argsRestar.add(siguiente)
+                        }
+                    }
+
+                    if(pathsExcluir.isEmpty())
+                        throw IllegalArgumentException("[Validacion] No había paths después de excluir")
+                }
+                "ayuda" -> {
+
+                }
+            }
+
+
+        }
+        val iniciarRestar = 0
+        var iterador = 0
+        while (iterador <= nuevosArgs.size){
+            if(argsRestar.isEmpty())
+                break
+
+            if(nuevosArgs[iterador] == argsRestar[iniciarRestar]){
+                nuevosArgs.removeAt(iterador)
+                argsRestar.removeAt(iniciarRestar)
+            }
+            else
+                iterador++
+        }
+
+        return Pair()
+    }
+
     //según la linea de comandos que entre, revisar qué caso es y asignar un número de función
     fun verificarEntrada(args: ArrayList<String>) : Pair<String, Int>{
         if(args.isEmpty()){
@@ -207,11 +303,11 @@ class Validacion() {
             "arbol" ->
                 when {
                 //un argumento, simplemente el arbol
-                args.size == 1 -> 1 //arbol, imprime el arbol
-                args.size == 2 -> 2 //arbol "path" asigna el arbol
-                (args.size == 3) && (args[1] == "borrar") -> 3
-                (args.size == 3) && (args[1] == "buscar") -> 4
-                (args.size == 4) && (args[1] == "reemplazar") -> 5
+                args.size == 1 -> 10 //arbol, imprime el arbol
+                args.size == 2 -> 20 //arbol "path" asigna el arbol
+                (args.size == 3) && (args[1] == "borrar") -> 30
+                (args.size == 3) && (args[1] == "buscar") -> 31
+                (args.size == 4) && (args[1] == "reemplazar") -> 40
                 else -> {
                     System.err.println("[Main] Los argumentos recibidos no sirven, inserta --ayuda para una guía")
                     exitProcess(1)
@@ -232,4 +328,5 @@ class Validacion() {
             }
         }
     }
+
 }
