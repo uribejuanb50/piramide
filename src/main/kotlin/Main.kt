@@ -18,7 +18,8 @@ fun main(args : Array<String>) {
     System.setErr(java.io.PrintStream(System.err, true, "UTF-8"))
 
     println("Corrió")
-    println(args.toCustomString())
+    println("args originales: ${args.toCustomString()}")
+
     val policiaFactory = PoliciaFactory()
     val policiaRepository = PoliciaRepository()
     val gestorPolicias = GestorPolicias(policiaFactory, policiaRepository)
@@ -31,6 +32,9 @@ fun main(args : Array<String>) {
 
         val (flagsExploracion, flagsPolicias, args) = validacion.validarFlags(args)
         val tarea = validacion.verificarEntrada(args) //categoria o es arbol o policía
+
+        println("nuevos args: ${args.toCustomString()}")
+
         val raiz = asignacion.generarPathArbol()
         val resultado = asignacion.asignarCategoria(tarea, raiz, args, flagsExploracion, flagsPolicias)
         println("falla: $resultado")

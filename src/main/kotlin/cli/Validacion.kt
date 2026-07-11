@@ -203,18 +203,22 @@ class Validacion() {
 
         }
 
-        val iniciarRestar = 0
-        var iterador = 0
-        while (iterador <= nuevosArgs.size){
-            if(argsRestar.isEmpty())
-                break
-
-            if(nuevosArgs[iterador] == argsRestar[iniciarRestar]){
-                nuevosArgs.removeAt(iterador)
-                argsRestar.removeAt(iniciarRestar)
+//        while (iterador <= nuevosArgs.size){
+//            if(argsRestar.isEmpty())
+//                break
+//
+//            if(nuevosArgs[iterador] == argsRestar[iniciarRestar]){
+//                nuevosArgs.removeAt(iterador)
+//                argsRestar.removeAt(iniciarRestar)
+//            }
+//            else
+//                iterador++
+//        }
+        for (valor in argsRestar) {
+            val indice = nuevosArgs.indexOf(valor)
+            if (indice != -1) {
+                nuevosArgs.removeAt(indice)
             }
-            else
-                iterador++
         }
 
         return Pair(diccionarioFlags, nuevosArgs)
@@ -224,7 +228,8 @@ class Validacion() {
 
         val opcionesValidas = listOf(
             "--excluir", //Excluir paths de dirs o archivos, captura varios ej: --excluir path1 path2 .. pathn
-            "--solo"
+            "--solo",
+            "--filtrar"
         )
 
         val nuevosArgs : ArrayList<String> = arrayListOf()
@@ -333,18 +338,23 @@ class Validacion() {
                                     when (siguiente) {
                                         "id" -> {
                                             val id = siguientesiguiente.toLong()
+                                            argsRestar.add(siguientesiguiente)
+
                                             id to siguiente
                                         }
                                         "hora" -> {TODO("Hacer después")} //toca comparar con visajes así: 19:26:48.344666400, lo arreglo después
                                         "fecha" -> {
                                             val formato = LocalDate.parse(siguientesiguiente)
+                                            argsRestar.add(siguientesiguiente)
                                             formato to siguiente
                                         }
-                                        "path" -> {
+                                        "file" -> {
                                             val path = Path.of(siguientesiguiente)
 
                                             if(!path.exists())
                                                 throw IllegalArgumentException("[Validacion] No existe el path $siguientesiguiente")
+
+                                            argsRestar.add(siguientesiguiente)
 
                                             path to siguiente
                                         }
@@ -370,7 +380,7 @@ class Validacion() {
                     if(listaParejaFiltrar.isEmpty())
                         throw IllegalArgumentException("[Validacion] El flag --filtrar no tenia contenido despúes")
 
-
+                    diccionarioFlags["filtrar"] = listaParejaFiltrar
                 }
                 "ayuda" -> {
 
@@ -379,18 +389,12 @@ class Validacion() {
 
 
         }
-        val iniciarRestar = 0
-        var iterador = 0
-        while (iterador <= nuevosArgs.size){
-            if(argsRestar.isEmpty())
-                break
 
-            if(nuevosArgs[iterador] == argsRestar[iniciarRestar]){
-                nuevosArgs.removeAt(iterador)
-                argsRestar.removeAt(iniciarRestar)
+        for (valor in argsRestar) {
+            val indice = nuevosArgs.indexOf(valor)
+            if (indice != -1) {
+                nuevosArgs.removeAt(indice)
             }
-            else
-                iterador++
         }
 
         return Pair(diccionarioFlags, nuevosArgs)

@@ -169,6 +169,7 @@ class Asignacion(
             }
         }?.let { ArrayList(it) }
 
+        println("listaFiltar ${listaFiltrar.toCustomString()}")
         return "[Asignacion] " + when (opcion) {
             20 ->{
 

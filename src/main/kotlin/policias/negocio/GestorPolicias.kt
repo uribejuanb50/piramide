@@ -32,10 +32,10 @@ class GestorPolicias(
 
         for(objeto in objetosListar){
             when(objeto){
-                "arbol" ->
+                "arbol" ->{}
             }
         }
-
+        return "Incompleto"
     }
 
     fun listarRegistrosArbol() : String{

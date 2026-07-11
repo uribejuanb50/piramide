@@ -2,6 +2,8 @@ package piramide.utils
 
 import piramide.arbol.Nodo
 import java.io.File
+import java.nio.file.Path
+import java.time.LocalDate
 
 //ARRAY
 fun Array<String>.toCustomString() : String {
@@ -56,6 +58,85 @@ fun ArrayList<String>?.toCustomString() : String {
     return "$retorno]"
 }
 
+@JvmName("toCustomStringArrayListFile")
+fun ArrayList<File>.toCustomString() : String {
+
+    val transformacion = { path : File ->
+        if(path.isDirectory)
+            "${path.name}/"
+        else
+            "${path.name}"
+    }
+
+    return this.map(transformacion).toCollection(ArrayList()).toCustomString()
+}
+
+fun ArrayList<String>?.unirString() : String {
+
+    if(this == null){
+        return "Vacio"
+    }
+
+    var retorno = ""
+
+    for(str in this){
+        retorno += str
+    }
+
+    return retorno
+}
+
+@JvmName("toCustomStringArrayListPairAnyString")
+fun ArrayList<Pair<Any, String>>?.toCustomString() : String {
+
+    if(this == null)
+        return "[Vacio]"
+
+    var retorno = "["
+
+    for((indice, pareja) in this.withIndex()){
+        if(indice != lastIndex){
+            retorno += "[" +
+                when(pareja.first){
+                    is Path -> {
+                        val path = pareja.first as Path
+                        path.toAbsolutePath()
+                    }
+                    is Long -> {
+                        val long = pareja.first as Long
+                        long.toString()
+                    }
+                    is LocalDate -> {
+                        val fecha = pareja.first as LocalDate
+                        fecha.toString()
+                    }
+                    else -> "F.Desc"
+                }
+            retorno += ", ${pareja.second}], "
+        }
+        else{
+            retorno += "[" +
+                    when(pareja.first){
+                        is Path -> {
+                            val path = pareja.first as Path
+                            path.toAbsolutePath()
+                        }
+                        is Long -> {
+                            val long = pareja.first as Long
+                            long.toString()
+                        }
+                        is LocalDate -> {
+                            val fecha = pareja.first as LocalDate
+                            fecha.toString()
+                        }
+                        else -> "F.Desc"
+                    }
+            retorno += ", ${pareja.second}]"
+        }
+    }
+    return "$retorno]"
+}
+//MAP -----------------------------------------------------------------
 @JvmName("toCustomStringArrayListAny")
 fun Map<String, Any?>.toCustomString() : Pair<String, Int> {
     var retorno = "["
@@ -79,18 +160,7 @@ fun Map<String, Any?>.toCustomString() : Pair<String, Int> {
     return Pair(retorno, elementos)
 }
 
-@JvmName("toCustomStringArrayListFile")
-fun ArrayList<File>.toCustomString() : String {
 
-    val transformacion = { path : File ->
-        if(path.isDirectory)
-            "${path.name}/"
-        else
-            "${path.name}"
-    }
-
-    return this.map(transformacion).toCollection(ArrayList()).toCustomString()
-}
 
 //Mutable list
 @JvmName("toCustomStringMutableListNodo")
@@ -102,17 +172,3 @@ fun MutableList<Nodo>.toCustomString() : String{
     return "$retorno]"
 }
 
-fun ArrayList<String>?.unirString() : String {
-
-    if(this == null){
-        return "Vacio"
-    }
-
-    var retorno = ""
-
-    for(str in this){
-        retorno += str
-    }
-
-    return retorno
-}
