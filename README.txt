@@ -8,6 +8,15 @@
 ---
 ## Configuracion[Solo si aplica. Variables de entorno, archivos de config, flags, etc.]
 
+Cambiar los dos tipos,
+arbol ->
+Ima (Imaa): Una hermosa y antigua variante jeroglífica para referirse a un "árbol verde, frondoso o lleno de gracia". Se usaba en la literatura egipcia para describir árboles que daban sombra reconfortante y frescura en medio del desierto.
+policia -> Mena (Menat): Significa "El vigilante" o "El que se mantiene despierto". Se usaba para los centinelas nocturnos que patrullaban las murallas de los palacios y las calles de las ciudades egipcias durante la noche
+borrados -> Ajem (Akhem): Significa literalmente "Los que se extinguieron" o "Lo que fue borrado". Proviene de la palabra utilizada para describir el acto de apagar una llama o hacer desaparecer una inscripción de forma permanente. Suena corto, tajante y misterioso.
+reemplazados -> Sejper (Sekhper): Significa "Los Transformados" o "Los que fueron mutados en otra cosa". En el contexto del reemplazo, se refiere a un objeto, título o monumento que perdió su identidad original para convertirse en la propiedad de un nuevo dueño.
+aplanados -> Medyet (Med-yet): Significa "Los Comprimidos" o "Los Compactados". Evoca el proceso de apisonar la tierra y la arena para crear las gigantescas rampas de construcción que permitían subir las piedras milenarias.
+
+
 flags: //2 tipos funcionalidad, interna de cada clase que entra por param y externa que maneja el formato de respuesta en el cli
  --simple                    	//imprime el arbol sin caracteres especiales
  --ocultos                   	//mostrar carpetas y archivos ocultos

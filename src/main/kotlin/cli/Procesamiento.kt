@@ -12,7 +12,7 @@ class Procesamiento() {
         arquitectura : String,
         recortar : Int?,
         readMe : Boolean,
-        descripcion : Boolean,
+        modulos : Boolean,
         simple: Boolean
     ) : String{
 
@@ -58,7 +58,7 @@ class Procesamiento() {
             }
 
         val nuevaDescripcion =
-            if(descripcion)
+            if(modulos)
                 arbol.organizarDescripciones(ocultos)
             else
                 ""

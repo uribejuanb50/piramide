@@ -9,7 +9,7 @@ fun Array<String>.toCustomString() : String {
 
     for((indice, str) in this.withIndex()){
         if(indice != this.lastIndex)
-            retorno += ", "
+            retorno += "$str, "
         else
             retorno += str
     }

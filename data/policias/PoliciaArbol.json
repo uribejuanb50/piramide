@@ -1,6 +1,6 @@
 {
   "registroFactory": {},
-  "pathRaizArbolUsando": "E:\\Ingenieria de sistemas\\Proyectos Propios\\piramide",
+  "pathRaizArbolUsando": "E:\\Ingenieria de sistemas\\Proyectos Propios\\pruebas\\pr-arq",
   "pathCarpetaGuardando": "E:\\Ingenieria de sistemas\\Proyectos Propios\\piramide\\data\\policias\\PoliciaArbol.json",
   "id": 1,
   "tipo": "arbol",
@@ -23,11 +23,43 @@
     },
     {
       "id": 3,
-      "fecha": "2026-07-10",
-      "hora": "20:14:11.290893600",
-      "pathOriginal": "E:\\Ingenieria de sistemas\\Proyectos Propios\\piramide",
+      "fecha": "2026-07-11",
+      "hora": "07:57:14.167487100",
+      "pathOriginal": "E:\\Ingenieria de sistemas\\Proyectos Propios\\recogedor-de-actas\\data",
       "tipo": "arbol",
-      "desc": "Arbol de prueba"
+      "desc": "Arbol desde linea de comandos"
+    },
+    {
+      "id": 4,
+      "fecha": "2026-07-11",
+      "hora": "08:13:15.693216300",
+      "pathOriginal": "E:\\Ingenieria de sistemas\\Proyectos Propios\\recogedor-de-actas",
+      "tipo": "arbol",
+      "desc": "Arbol desde linea de comandos"
+    },
+    {
+      "id": 5,
+      "fecha": "2026-07-11",
+      "hora": "11:45:50.833715300",
+      "pathOriginal": "E:\\Ingenieria de sistemas\\Proyectos Propios\\pruebas\\pr-arq",
+      "tipo": "arbol",
+      "desc": "N/A descripción"
+    },
+    {
+      "id": 6,
+      "fecha": "2026-07-11",
+      "hora": "11:49:16.317791400",
+      "pathOriginal": "E:\\Ingenieria de sistemas\\Proyectos Propios\\recogedor-de-actas\\data",
+      "tipo": "arbol",
+      "desc": "N/A descripción"
+    },
+    {
+      "id": 7,
+      "fecha": "2026-07-11",
+      "hora": "11:49:43.732583700",
+      "pathOriginal": "E:\\Ingenieria de sistemas\\Proyectos Propios\\pruebas\\pr-arq",
+      "tipo": "arbol",
+      "desc": "N/A descripción"
     }
   ]
 }

@@ -9,10 +9,10 @@ class Validacion() {
 
     fun validarFlags(args: Array<String>) : Triple<Map<String, Any?>, Map<String, Any?>, ArrayList<String>> {
 
-        val (mapaCategoriaArbol, nuevosArgs) = validarFlagsExploracion(args) //devuelve el primer mapa de exploracion y el arraylist procesado
-        val (mapaCategoriaPolicias, nuevosArgs) = validarFlagsExploracion(args)
+        val (mapaCategoriaArbol, nuevosArgsPostExploracion) = validarFlagsExploracion(args) //devuelve el primer mapa de exploracion y el arraylist procesado
+        val (mapaCategoriaPolicias, nuevosArgsPostPolicias) = validarFlagsPolicias(nuevosArgsPostExploracion)
 
-        return Triple(mapaCategoriaArbol, mapaCategoriaPolicias, nuevosArgs)
+        return Triple(mapaCategoriaArbol, mapaCategoriaPolicias, nuevosArgsPostPolicias)
     }
     //pone los flags según lo que digan
     fun validarFlagsExploracion(args : Array<String>) : Pair<Map<String, Any?>, ArrayList<String>> {
@@ -239,7 +239,7 @@ class Validacion() {
             }
 
             when(argumento){
-                "excluir" -> {
+                "--excluir" -> {
 
                     var salir : Boolean = true
                     var indiceSumarSiguiente = 1
@@ -267,6 +267,8 @@ class Validacion() {
 
                     if(pathsExcluir.isEmpty())
                         throw IllegalArgumentException("[Validacion] No había paths después de excluir")
+
+                    diccionarioFlags["excluir"] = pathsExcluir
                 }
                 "ayuda" -> {
 
@@ -289,7 +291,7 @@ class Validacion() {
                 iterador++
         }
 
-        return Pair()
+        return Pair(diccionarioFlags, nuevosArgs)
     }
 
     //según la linea de comandos que entre, revisar qué caso es y asignar un número de función
@@ -303,11 +305,11 @@ class Validacion() {
             "arbol" ->
                 when {
                 //un argumento, simplemente el arbol
-                args.size == 1 -> 10 //arbol, imprime el arbol
-                args.size == 2 -> 20 //arbol "path" asigna el arbol
-                (args.size == 3) && (args[1] == "borrar") -> 30
-                (args.size == 3) && (args[1] == "buscar") -> 31
-                (args.size == 4) && (args[1] == "reemplazar") -> 40
+                    args.size == 1 -> 10 //arbol, imprime el arbol
+                    args.size == 2 -> 20 //arbol "path" asigna el arbol
+                    (args.size == 3) && (args[1] == "borrar") -> 30
+                    (args.size == 3) && (args[1] == "buscar") -> 31
+                    (args.size == 4) && (args[1] == "reemplazar") -> 40
                 else -> {
                     System.err.println("[Main] Los argumentos recibidos no sirven, inserta --ayuda para una guía")
                     exitProcess(1)
@@ -315,7 +317,7 @@ class Validacion() {
             }
             "policia" ->
                 when {
-                    args.size == 2 -> 3
+                    args.size == 2 -> 20 //policia listar (añadir flags según el tipo
                     else -> {
                         System.err.println("[Main] Los argumentos recibidos no sirven, inserta --ayuda para una guía")
                         exitProcess(1)

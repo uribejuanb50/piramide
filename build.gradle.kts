@@ -24,3 +24,11 @@ application {
 tasks.test {
     useJUnitPlatform()
 }
+
+tasks.named<JavaExec>("run") {
+    jvmArgs = listOf(
+        "-Dstdout.encoding=UTF-8",
+        "-Dstderr.encoding=UTF-8",
+        "-Dfile.encoding=UTF-8"
+    )
+}
