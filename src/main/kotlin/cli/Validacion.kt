@@ -221,7 +221,8 @@ class Validacion() {
     fun validarFlagsPolicias(args: ArrayList<String>) : Pair<Map<String, Any?>, ArrayList<String>> {
 
         val opcionesValidas = listOf(
-            "--excluir" //Excluir paths de dirs o archivos, captura varios ej: --excluir path1 path2 .. pathn
+            "--excluir", //Excluir paths de dirs o archivos, captura varios ej: --excluir path1 path2 .. pathn
+            "--solo"
         )
 
         val nuevosArgs : ArrayList<String> = arrayListOf()
@@ -229,6 +230,7 @@ class Validacion() {
 
         val diccionarioFlags = mutableMapOf<String, Any?>(
             "excluir" to null, //Set<Path>
+            "solo" to null, //ArrayList<String>
 
         )
 
@@ -244,7 +246,7 @@ class Validacion() {
                     var salir : Boolean = true
                     var indiceSumarSiguiente = 1
 
-                    val pathsExcluir : ArrayList<Path> = arrayListOf()
+                    val pathsExcluir : MutableSet<Path> = mutableSetOf()
 
                     while(salir){
 
@@ -263,12 +265,41 @@ class Validacion() {
                             pathsExcluir.add(path)
                             argsRestar.add(siguiente)
                         }
+                        indiceSumarSiguiente++
                     }
 
                     if(pathsExcluir.isEmpty())
                         throw IllegalArgumentException("[Validacion] No había paths después de excluir")
 
                     diccionarioFlags["excluir"] = pathsExcluir
+                }
+                "--solo" ->{
+                    val setOpciones : Set<String> = setOf(
+                        "arbol", "borrados", "reemplazados", "aplanados"
+                    )
+
+                    var salir = true
+                    var indiceSumarSiguiente = 1
+
+                    val listaSolo : ArrayList<String> = arrayListOf()
+
+                    while (salir){
+
+                        val siguiente = args.getOrNull(indice + indiceSumarSiguiente)
+
+                        if(siguiente == null || siguiente !in setOpciones)
+                            salir = false
+
+                        else{
+                            listaSolo.add(siguiente)
+                            argsRestar.add(siguiente)
+                        }
+                    }
+
+                    if(listaSolo.isEmpty())
+                        throw IllegalArgumentException("[Validacion] después de --solo no había valores válidos")
+
+                    diccionarioFlags["solo"]
                 }
                 "ayuda" -> {
 
@@ -317,7 +348,9 @@ class Validacion() {
             }
             "policia" ->
                 when {
-                    args.size == 2 -> 20 //policia listar (añadir flags según el tipo
+                    args.size == 2 && args[1] == "listar" -> 20 //policia listar (añadir flags según el tipo
+                    args.size == 2 && args[1] == "origen" -> 21 //policia origen -> devuelve el path actual del arbol
+                    args.size == 4 && args[1] == "arbol" -> 40 //policia arbol asignar "id del registro"
                     else -> {
                         System.err.println("[Main] Los argumentos recibidos no sirven, inserta --ayuda para una guía")
                         exitProcess(1)

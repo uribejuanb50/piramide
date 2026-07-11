@@ -155,8 +155,11 @@ class Asignacion(
 
     fun manejarPolicia(opcion: Int, args: ArrayList<String>, flags : Map<String, Any?>) : String{
 
-        val excluir = (flags["excluir"] as? List<*>)?.let { lista ->
-            ArrayList(lista.map { it as Path })}
+        val excluir = (flags["excluir"] as? List<*>)?.map{ it as Path }?.toSet()
+
+        val solo = (flags["solo"] as? List<*>)?.let { lista ->
+            ArrayList(lista.map { it as String })
+        }
 
         return "[Asignacion] " + when (opcion) {
             20 ->{
