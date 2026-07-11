@@ -1,35 +1,75 @@
 package piramide.policias.repo
 
-import com.google.gson.Gson
+import com.google.gson.*
 import piramide.policias.dominio.PoliciaArbol
+import piramide.policias.factories.RegistroFactory
 import piramide.utils.Rutas
 import java.nio.file.Files
 import java.nio.file.Path
+import java.time.LocalDate
+import java.time.LocalTime
 
 class PoliciaRepository(
-    val rutaGuardadoArbol : Path = Rutas.carpetaPolicias.resolve("PoliciaArbol.json")
+    val rutaGuardadoArbol : Path = Rutas.carpetaPolicias.resolve("PoliciaArbol.json"),
+    val registroFactory: RegistroFactory = RegistroFactory
 ) {
 
-    private val gson = Gson()
+    private val gson = GsonBuilder()
+        .registerTypeHierarchyAdapter(LocalDate::class.java, JsonSerializer<LocalDate> { src, _, _ ->
+            JsonPrimitive(src.toString())
+        })
+        .registerTypeHierarchyAdapter(LocalDate::class.java, JsonDeserializer<LocalDate> { json, _, _ ->
+            LocalDate.parse(json.asString)
+        })
+        .registerTypeHierarchyAdapter(LocalTime::class.java, JsonSerializer<LocalTime> { src, _, _ ->
+            JsonPrimitive(src.toString())
+        })
+        .registerTypeHierarchyAdapter(LocalTime::class.java, JsonDeserializer<LocalTime> { json, _, _ ->
+            LocalTime.parse(json.asString)
+        })
+        .registerTypeHierarchyAdapter(Path::class.java, JsonSerializer<Path> { src, _, _ ->
+            JsonPrimitive(src.toAbsolutePath().toString())
+        })
+        .registerTypeHierarchyAdapter(Path::class.java, JsonDeserializer<Path> { json, _, _ ->
+            Path.of(json.asString)
+        })
+        .setPrettyPrinting() // Opcional: formatea el JSON con sangrías para que sea legible
+        .create()
 
     fun cargarPoliciaArbol() : PoliciaArbol?{
+
         if(!Files.exists(rutaGuardadoArbol)) return null
         val json = Files.readString(rutaGuardadoArbol)
-        return gson.fromJson(json, PoliciaArbol::class.java)
+        val policiaArbolDTO = gson.fromJson(json, PoliciaArbolDTO::class.java)
+
+        try{
+            val policiaArbol = PoliciaArbol(
+                policiaArbolDTO.pathCarpetaGuardando,
+                policiaArbolDTO.id,
+                policiaArbolDTO.tipo, registroFactory,
+                policiaArbolDTO.pathRaizArbolUsando
+            )
+            policiaArbol.listaRegistro.addAll(policiaArbolDTO.listaRegistro)
+            return policiaArbol
+        }catch(e : Exception){
+            println("[PoliciaRepository] Lectura del archivo tiró error, probablemente corrupto o manipulado.\n" +
+                    "                    Lanzando plantilla PoliciaArbol por defecto")
+            return null
+        }
     }
 
     fun guardarPoliciaArbol(policiaArbol: PoliciaArbol) {
-        Files.createDirectory(rutaGuardadoArbol.parent)
+        Files.createDirectories(rutaGuardadoArbol.parent)
         val json = gson.toJson(policiaArbol)
         Files.writeString(rutaGuardadoArbol, json)
     }
-    fun cargarListaPoliciaBorrar(){
+    fun cargarListaPoliciaBorrados(){
 
     }
-    fun cargarListaPoliciaReemplazar(){
+    fun cargarListaPoliciaReemplazados(){
 
     }
-    fun cargarListaPoliciaAplazar(){
+    fun cargarListaPoliciaAplanados(){
 
     }
 }

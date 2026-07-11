@@ -8,6 +8,16 @@ import java.io.File
 class Asignacion(
     val procesamiento : Procesamiento
 ) {
+    fun asignarCategoria(
+        tarea : Pair<String, Int>,
+        raiz: File, opcion: Int,
+        args : ArrayList<String>,
+        flags : Map<String, Any?>
+    ){
+        when(tarea.first){
+            "arbol"
+        }
+    }
 
     //generar el path del primer argumento
     fun generarPath(args : ArrayList<String>) : File {

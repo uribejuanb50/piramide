@@ -10,9 +10,9 @@ abstract class Policia (
     val tipo : String
 ){
     abstract val devolverFormatoRegistro : (registro : Registro) -> String
-
-
     val listaRegistro : ArrayList<Registro> = arrayListOf()
+
+    @Transient
     val mapaMetodoBusqueda : Map<Any, (Any, Registro) -> Registro?> = mapOf(
         "file" to { pathBuscar , registro  -> //busca por path original y retorna
             val pathBuscar = pathBuscar as Path
@@ -62,6 +62,7 @@ abstract class Policia (
     abstract fun nuevoSeguimiento()
     abstract fun devolverFormatoListaRegistro(listaRegistro: ArrayList<Registro>) : ArrayList<String>
     abstract fun transdormarListaToSetPorAtributo(lista : ArrayList<Registro>) : Set<Path> //tranformar por registro.pathActual opathOriginal
+    abstract fun listarRegistros() : ArrayList<String>
 
     //para implementar en el cli
     fun buscarPor(listaPareja : ArrayList<Pair<Any, String>>) : ArrayList<String> { //el primero es el tipo dato de la busqueda
@@ -165,8 +166,6 @@ abstract class Policia (
 
         return arrayListOf("[Policia$tipo] ") //am validar eliminados supongo
     }
-
-    abstract fun listarRegistros() : ArrayList<String>
 
     init{
 

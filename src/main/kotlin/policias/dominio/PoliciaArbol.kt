@@ -9,18 +9,19 @@ class PoliciaArbol (
     id : Long,
     tipo : String, //tipo se recibe desde factory tipo = "arbol"
     val registroFactory : RegistroFactory,
+    var pathRaizArbolUsando : Path? = null
 ) : Policia(pathCarpetaGuardando, id, tipo){
 
+    @Transient
     override val devolverFormatoRegistro: (registro: Registro) -> String = { registro ->
-        var retornar = "---------------------------------------------\n"
+        var retornar = ""
         retornar += "ID: ${registro.id}\n"
         retornar += "Tipo: ${registro.tipo}\n"
         retornar += "Descrpcion: ${registro.desc}\n"
         retornar += "Path raíz: ${registro.pathOriginal}\n"
-        retornar
+        "$retornar---------------------------------------------\n"
     }
 
-    var pathRaizArbolUsando : Path? = null
 
     fun registrarArbol(pathRaiz : Path, descripcion : String?, usar : Boolean = true){
 
@@ -49,7 +50,6 @@ class PoliciaArbol (
     }
 
     override fun listarRegistros(): ArrayList<String> {
-        println("[PoliciaArbol] ====================== REGISTROS ====================")
         return this.listaRegistro.map(this.devolverFormatoRegistro).toCollection(ArrayList())
     }
 

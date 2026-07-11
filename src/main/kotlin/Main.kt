@@ -10,17 +10,18 @@ import kotlin.system.exitProcess
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 fun main(args : Array<String>) {
-    try {
 
-        println("Corrió")
-        println(args.toCustomString())
-        val policiaFactory = PoliciaFactory()
-        val policiaRepository = PoliciaRepository()
-        val gestorPolicias = GestorPolicias(policiaFactory, policiaRepository)
+    println("Corrió")
+    println(args.toCustomString())
+    val policiaFactory = PoliciaFactory()
+    val policiaRepository = PoliciaRepository()
+    val gestorPolicias = GestorPolicias(policiaFactory, policiaRepository)
+
+    try {
 
         val path = Path.of(args.first())
         gestorPolicias.policiaArbol.registrarArbol(path, "Arbol de prueba")
-        gestorPolicias.policiaArbol.listarRegistros()
+        println(gestorPolicias.listarRegistrosArbol())
 
 
         /*
@@ -44,5 +45,7 @@ fun main(args : Array<String>) {
     }
     finally {
         //lógica para hacer el guardado en el gestor
+        println("[Main] cerrando")
+        gestorPolicias.cerrarGestor()
     }
 }

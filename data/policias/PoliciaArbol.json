@@ -1,0 +1,17 @@
+{
+  "registroFactory": {},
+  "pathRaizArbolUsando": "E:\\Ingenieria de sistemas\\Proyectos Propios\\piramide\\data",
+  "pathCarpetaGuardando": "E:\\Ingenieria de sistemas\\Proyectos Propios\\piramide\\data\\policias\\PoliciaArbol.json",
+  "id": 1,
+  "tipo": "arbol",
+  "listaRegistro": [
+    {
+      "id": 1,
+      "fecha": "2026-07-10",
+      "hora": "19:26:48.344666400",
+      "pathOriginal": "E:\\Ingenieria de sistemas\\Proyectos Propios\\piramide\\data",
+      "tipo": "arbol",
+      "desc": "Arbol de prueba"
+    }
+  ]
+}

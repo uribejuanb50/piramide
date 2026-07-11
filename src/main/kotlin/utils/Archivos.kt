@@ -31,7 +31,7 @@ object Rutas{
     }
 
     val carpetaPolicias : Path by lazy {
-        raizProyecto.resolve("data").resolve("").also{
+        raizProyecto.resolve("data").resolve("policias").resolve("").also{
             Files.createDirectories(it)
         }
     }

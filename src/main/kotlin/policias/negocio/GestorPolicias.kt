@@ -4,6 +4,7 @@ import piramide.policias.dominio.Policia
 import piramide.policias.dominio.PoliciaArbol
 import piramide.policias.factories.PoliciaFactory
 import piramide.policias.repo.PoliciaRepository
+import piramide.utils.toCustomString
 
 class GestorPolicias(
     val policiaFactory: PoliciaFactory,
@@ -15,8 +16,21 @@ class GestorPolicias(
             policiaRepository.rutaGuardadoArbol,
             1
         )
-    lateinit var listaPoliciaBorrados : ArrayList<Policia>
-    lateinit var listaPoliciaReemplazados: ArrayList<Policia>
-    lateinit var listaPoliciaAplanados : ArrayList<Policia>
+    var listaPoliciaBorrados : ArrayList<Policia>? = null
+    var listaPoliciaReemplazados: ArrayList<Policia>? = null
+    var listaPoliciaAplanados : ArrayList<Policia>? = null
 
+    fun listarRegistrosArbol() : String{
+        var retorno = "====================== REGISTROS ARBOL ${policiaArbol.id} =========================\n"
+        retorno += policiaArbol.listarRegistros().toCustomString()
+
+        return retorno
+    }
+
+    fun cerrarGestor(){
+        policiaRepository.guardarPoliciaArbol(policiaArbol)
+        //para guardar las listas solo se guardan los que no estén en null así mismo como se cargan según si se llaman
+        //en vez de cargar todo de una vez,
+        //el policia arbol si se carga porque es necesario para las operaciones tipo arbol
+    }
 }
