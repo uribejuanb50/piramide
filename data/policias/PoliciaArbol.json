@@ -1,6 +1,6 @@
 {
   "registroFactory": {},
-  "pathRaizArbolUsando": "E:\\Ingenieria de sistemas\\Proyectos Propios\\piramide\\data",
+  "pathRaizArbolUsando": "E:\\Ingenieria de sistemas\\Proyectos Propios\\piramide",
   "pathCarpetaGuardando": "E:\\Ingenieria de sistemas\\Proyectos Propios\\piramide\\data\\policias\\PoliciaArbol.json",
   "id": 1,
   "tipo": "arbol",
@@ -10,6 +10,22 @@
       "fecha": "2026-07-10",
       "hora": "19:26:48.344666400",
       "pathOriginal": "E:\\Ingenieria de sistemas\\Proyectos Propios\\piramide\\data",
+      "tipo": "arbol",
+      "desc": "Arbol de prueba"
+    },
+    {
+      "id": 2,
+      "fecha": "2026-07-10",
+      "hora": "20:13:57.581088500",
+      "pathOriginal": "E:\\Ingenieria de sistemas\\Proyectos Propios\\piramide\\data",
+      "tipo": "arbol",
+      "desc": "Arbol de prueba"
+    },
+    {
+      "id": 3,
+      "fecha": "2026-07-10",
+      "hora": "20:14:11.290893600",
+      "pathOriginal": "E:\\Ingenieria de sistemas\\Proyectos Propios\\piramide",
       "tipo": "arbol",
       "desc": "Arbol de prueba"
     }

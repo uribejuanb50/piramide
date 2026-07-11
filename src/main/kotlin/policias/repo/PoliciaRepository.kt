@@ -58,7 +58,7 @@ class PoliciaRepository(
         }
     }
 
-    fun guardarPoliciaArbol(policiaArbol: PoliciaArbol) {
+    fun guardarPoliciaArbol(policiaArbol: PoliciaArbol) { //Aquí deberiamos enviar es el dto, igual al cargar solo se lee lo que los campos en el que el dto se llama igual
         Files.createDirectories(rutaGuardadoArbol.parent)
         val json = gson.toJson(policiaArbol)
         Files.writeString(rutaGuardadoArbol, json)

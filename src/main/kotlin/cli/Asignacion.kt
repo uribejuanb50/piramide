@@ -1,12 +1,14 @@
 package piramide.cli
 
 import piramide.arbol.Arbol
+import piramide.policias.negocio.GestorPolicias
 import piramide.utils.escribirArchivo
 import piramide.utils.toCustomString
 import java.io.File
 
 class Asignacion(
-    val procesamiento : Procesamiento
+    val procesamiento : Procesamiento,
+    val gestorPolicias: GestorPolicias
 ) {
     fun asignarCategoria(
         tarea : Pair<String, Int>,
@@ -15,37 +17,32 @@ class Asignacion(
         flags : Map<String, Any?>
     ){
         when(tarea.first){
-            "arbol"
+            "arbol" -> manejarArbol(raiz, tarea.second, args, flags)
         }
     }
 
     //generar el path del primer argumento
-    fun generarPath(args : ArrayList<String>) : File {
-        val path = File(args.first())
-
-        if(!path.exists())
-            throw IllegalArgumentException("[Main] El path no existe cabrón")
-
-        if(path.isFile && !args.contains("--prueba"))
-            throw IllegalArgumentException("[Main] El path es un archivo, no un directorio")
-
-        println("[Main] Ubicación de la arquitectura: ${path.path}")
-
-        return path
+    fun generarPathArbol() : File {
+        val pathArbolActual =
+            gestorPolicias.policiaArbol.pathRaizArbolUsando ?:
+            throw IllegalStateException("[Asignacion] No hay arboles disponibles")
+        return pathArbolActual.toFile()
     }
 
     //usar las funciones específicas integrando los flags
     fun manejarArbol(raiz: File, opcion: Int, args : ArrayList<String>, flags : Map<String, Any?>) : String {
         val arbol = Arbol(raiz)
-        arbol.crearSubDirectorios()
-        arbol.nPalabraMasLarga()
+        if(args.size != 2){
+            arbol.crearSubDirectorios()
+            arbol.nPalabraMasLarga()
+        }
 
         val prueba = flags["prueba"] as? Boolean ?: false
         if(prueba)
             println("prueba")//lanzar prueba (hacer)
 
         val reversar = flags["reversar"] as? Boolean ?: false
-        if(reversar)
+        if(reversar && args.size != 2)
             arbol.reversarListas()
 
         val simple = flags["simple"] as? Boolean ?: false
@@ -87,7 +84,7 @@ class Asignacion(
         val profundidad = arbol.calcularProfundidad()
 
         return "[Main] " + when(opcion) {
-            1 -> {
+            1 -> { //toca cambiar según el arbol asignado para que solo sea $> arbol
                 println(warningBusqueda)
 
                 val arquitectura =
@@ -103,6 +100,12 @@ class Asignacion(
                 else
                     println("[Main] La profundidad es 0, no se imprimirá nada, revisa si la carpeta raíz está escondida")
                 "\n" + retorno
+            }
+
+            2 -> {
+
+                //hacer antes logica de validacion a ver si existe la direccion
+                //gestorPolicias.policiaArbol.registrarArbol()
             }
 
             3 -> {

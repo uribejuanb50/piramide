@@ -32,7 +32,9 @@ class Validacion() {
             "nivelMax" to null,
             "README" to false,
             "toArchivo" to null,
-            "descripcion" to false,
+            "descripcion" to false, //ESTE DESC ES PARA los padres hijos del readme que pone para explicar modulo por modulo, a esto toca cambiarle el nombre
+                                    //para usar el flag descripcion pero para describir el arbol y guardarlo en policia arbol
+                                    //para lo de la explicacion por niveles usar el flag --subarquitectura o --modulos
             "condicion" to null,
             "force" to false
         )
@@ -49,6 +51,11 @@ class Validacion() {
                 "--reversar" -> diccionarioFlags["reversar"] = true
                 "--prueba" -> diccionarioFlags["prueba"] = true
                 "--force" -> diccionarioFlags["force"] = true
+                "--descripcion" -> {
+                    val siguiente = args.getOrNull(indice + 1)
+
+                    //if(siguiente)
+                }
                 "--simple" -> {
                     val siguiente = args.getOrNull(indice + 1)
 
@@ -200,7 +207,8 @@ class Validacion() {
             "arbol" ->
                 when {
                 //un argumento, simplemente el arbol
-                args.size == 2 -> 2
+                args.size == 1 -> 1 //arbol, imprime el arbol
+                args.size == 2 -> 2 //arbol "path" asigna el arbol
                 (args.size == 3) && (args[1] == "borrar") -> 3
                 (args.size == 3) && (args[1] == "buscar") -> 4
                 (args.size == 4) && (args[1] == "reemplazar") -> 5
