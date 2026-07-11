@@ -2,6 +2,8 @@ package piramide.cli
 
 import java.io.File
 import java.nio.file.Path
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import kotlin.io.path.exists
 import kotlin.system.exitProcess
 
@@ -231,7 +233,7 @@ class Validacion() {
         val diccionarioFlags = mutableMapOf<String, Any?>(
             "excluir" to null, //Set<Path>
             "solo" to null, //ArrayList<String>
-
+            "filtrar" to null, //ArrayList<Pair<Any, String>>
         )
 
         for ((indice, argumento) in args.withIndex()){
@@ -283,23 +285,92 @@ class Validacion() {
 
                     val listaSolo : ArrayList<String> = arrayListOf()
 
-                    while (salir){
+                    while (salir) {
 
                         val siguiente = args.getOrNull(indice + indiceSumarSiguiente)
 
-                        if(siguiente == null || siguiente !in setOpciones)
+                        if (siguiente == null || siguiente !in setOpciones)
                             salir = false
-
-                        else{
+                        else {
                             listaSolo.add(siguiente)
                             argsRestar.add(siguiente)
                         }
+
+                        indiceSumarSiguiente++
                     }
 
                     if(listaSolo.isEmpty())
                         throw IllegalArgumentException("[Validacion] después de --solo no había valores válidos")
 
                     diccionarioFlags["solo"]
+                }
+                "--filtrar" -> {
+                    val setOpciones : Set<String> = setOf(
+                        "id", "hora", "fecha", "file"
+                    )
+
+                    var salir = true
+                    var indiceSumarSiguiente = 1
+
+                    val listaParejaFiltrar : ArrayList<Pair<Any, String>> = arrayListOf()
+
+                    while(salir){
+
+                        val siguiente = args.getOrNull(indice + indiceSumarSiguiente)
+
+                        if(siguiente == null || siguiente !in setOpciones)
+                            salir = false
+                        else{
+                            indiceSumarSiguiente++
+                            val siguientesiguiente = args.getOrNull(indice + indiceSumarSiguiente)
+
+                            if(siguientesiguiente == null || siguientesiguiente.contains("--"))
+                                throw IllegalArgumentException("[Validacion] Después de $siguiente no había argumento válido")
+
+                            try {
+
+                                val pareja : Pair<Any, String> =
+                                    when (siguiente) {
+                                        "id" -> {
+                                            val id = siguientesiguiente.toLong()
+                                            id to siguiente
+                                        }
+                                        "hora" -> {TODO("Hacer después")} //toca comparar con visajes así: 19:26:48.344666400, lo arreglo después
+                                        "fecha" -> {
+                                            val formato = LocalDate.parse(siguientesiguiente)
+                                            formato to siguiente
+                                        }
+                                        "path" -> {
+                                            val path = Path.of(siguientesiguiente)
+
+                                            if(!path.exists())
+                                                throw IllegalArgumentException("[Validacion] No existe el path $siguientesiguiente")
+
+                                            path to siguiente
+                                        }
+                                        else -> throw IllegalArgumentException("[Validacion] Error, ni idea como")
+                                    }
+
+                                argsRestar.add(siguiente)
+                                listaParejaFiltrar.add(pareja)
+                            }catch(e : Exception){
+                                throw IllegalStateException(
+                                    "[Validacion] Error de casteo, o probablemente otro JAJA\n" +
+                                            "             los formatos son:\n" +
+                                            "             ... id numeroEntero\n" +
+                                            "             ... fecha yyyy-mm-dd\n" +
+                                            "             ... file  pathQueExista\n" +
+                                            "aquí lo dejo en caso que no sea por casteo\n$e")
+                            }
+
+                        }
+                        indiceSumarSiguiente++
+                    }
+
+                    if(listaParejaFiltrar.isEmpty())
+                        throw IllegalArgumentException("[Validacion] El flag --filtrar no tenia contenido despúes")
+
+
                 }
                 "ayuda" -> {
 

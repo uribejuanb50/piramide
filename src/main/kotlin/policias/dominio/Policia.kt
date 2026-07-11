@@ -54,7 +54,7 @@ abstract class Policia (
             else
                 null
         },
-        "todos" to { pathBuscar, registro ->
+        "todos" to { strBuscar, registro ->
             registro
         }
     )
@@ -65,7 +65,7 @@ abstract class Policia (
     abstract fun listarRegistros() : ArrayList<String>
 
     //para implementar en el cli
-    fun buscarPor(listaPareja : ArrayList<Pair<Any, String>>) : ArrayList<String> { //el primero es el tipo dato de la busqueda
+    fun buscarPor(listaParejaFiltrar : ArrayList<Pair<Any, String>>) : ArrayList<String> { //el primero es el tipo dato de la busqueda
                                                                         //el segundo el string del metodoBusqueda
         //lo que quiero hacer: cada iteracion es la busqueda y su metodo de busqeuda,
         val log = "[Policia$tipo]" //Esto acá es para usar las funciones de repeat y lenght
@@ -74,7 +74,7 @@ abstract class Policia (
         val retorno : ArrayList<String> = arrayListOf()
         val setResultados : MutableSet<String> = mutableSetOf()
 
-        for(pareja in listaPareja) {
+        for(pareja in listaParejaFiltrar) {
 
             val busqueda = pareja.first //busqueda ej-> id : Long, fecha : LocalDate, hora : LocalTime
             val metodoBusqueda = pareja.second
@@ -97,12 +97,21 @@ abstract class Policia (
                                     devolverFormatoListaRegistro(registrosResultado) //transforma los registros dependiendo de la clase de policia
                                 ) //los devuelve los resultados de la búsqueda
                             }
+                (metodoBusqueda == "todos") && (busqueda is String) -> {
+                    val funcionBusqueda = mapaMetodoBusqueda[metodoBusqueda] ?: throw IllegalArgumentException(
+                        "[Policia$tipo] Tipo de búsqueda no estaba en mapaMetodosBusqueda"
+                    )
+                    val registrosResultado = ejecutarBusqueda(busqueda, funcionBusqueda)
 
-                    else -> throw IllegalArgumentException(
-                        "$log La búsqueda es tipo ${busqueda::class.qualifiedName}\n" +
-                        "${charEspacio.repeat(log.length)} Y el método de búsqueda es $metodoBusqueda"
+                    resultadosFuncion.addAll(
+                        devolverFormatoListaRegistro(registrosResultado)
                     )
                 }
+
+                else -> throw IllegalArgumentException(
+                    "$log La búsqueda es tipo ${busqueda::class.qualifiedName}\n" + "${charEspacio.repeat(log.length)} Y el método de búsqueda es $metodoBusqueda"
+                )
+            }
 
             for(resultado in resultadosFuncion){
                 if(setResultados.contains(resultado))
@@ -155,8 +164,6 @@ abstract class Policia (
             val listaRegistroResultado = ejecutarBusqueda(registro, funcEliminacion)
             eliminacion.addAll(listaRegistroResultado)
         }
-
-
 
         val setEliminar = transdormarListaToSetPorAtributo(eliminacion) //implementar en cada
 

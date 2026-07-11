@@ -161,9 +161,17 @@ class Asignacion(
             ArrayList(lista.map { it as String })
         }
 
+        val listaFiltrar = (flags["filtrar"] as? List<*>)?.mapNotNull { item ->
+            (item as? Pair<*, *>)?.let { par ->
+                val clave = par.first
+                val valor = par.second as? String
+                if (clave != null && valor != null) clave to valor else null
+            }
+        }?.let { ArrayList(it) }
+
         return "[Asignacion] " + when (opcion) {
             20 ->{
-                TODO()
+
             }
             else->{
                 System.err.println("¿Cómo llegaste aquí? La cagué re duro en algo")

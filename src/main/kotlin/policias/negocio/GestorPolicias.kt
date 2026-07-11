@@ -20,6 +20,24 @@ class GestorPolicias(
     var listaPoliciaReemplazados: ArrayList<Policia>? = null
     var listaPoliciaAplanados : ArrayList<Policia>? = null
 
+    fun listarRegistros(
+        solo : ArrayList<String>?, //tipos arbol, borrados, aplanados, reemplazados
+        listaParejaFiltrar : ArrayList<Pair<Any, String>>?
+    ) : String{
+
+        val objetosListar = solo ?: arrayListOf("arbol", "borrados", "aplanados", "reemplazados")
+        val listaParejaFiltrar = listaParejaFiltrar ?: arrayListOf(Pair("todos", "todos"))
+
+        var retorno = "["
+
+        for(objeto in objetosListar){
+            when(objeto){
+                "arbol" ->
+            }
+        }
+
+    }
+
     fun listarRegistrosArbol() : String{
         var retorno = "====================== REGISTROS ARBOL ${policiaArbol.id} =========================\n"
         retorno += policiaArbol.listarRegistros().toCustomString()
