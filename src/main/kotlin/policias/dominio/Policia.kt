@@ -104,7 +104,13 @@ abstract class Policia (
                     val registrosResultado = ejecutarBusqueda(busqueda, funcionBusqueda)
 
                     resultadosFuncion.addAll(
-                        devolverFormatoListaRegistro(registrosResultado)
+                        devolverFormatoListaRegistro(registrosResultado) //Deberia devolver la lista como registros, así da la opcion
+                        //de si solo devolver, después en gestorPolicia pasa por el formateador de policiaArbol para volverlo un arraylist de String
+                        //además al devolver la lista con filtraciones y eso, después se puede hacer con esa lista retornante lo que sea, como eliminarlos
+                        //en vez de hacer una búsqueda por separado, entonces, buscarPor deberia devolver ArrayList de Registros
+                        //Gestorpolicias si pide devolver la lista mapea esa arraylist de registros según el formato de cada policia
+                        //Ahora si gestorPolicias pide eliminar de la lista, usa la funcion buscar por así también se puede eliminar filtrando
+                        //es decir esa lista que devuelve buscarPor también sirve para eliminar estas de las listas
                     )
                 }
 
