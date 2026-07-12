@@ -100,7 +100,7 @@ class Asignacion(
                     else
                         arbol.generarArquitectura(profundidad, ocultos, nivelMax)
 
-                println("arquitectura\n$arquitectura")
+                //println("arquitectura\n$arquitectura")
 
                 val retorno = procesamiento.procesarFlags(arbol, caracterEspacio, nRepeticiones, ocultos, arquitectura, recortar, readMe, modulos, simple)
 
@@ -170,10 +170,22 @@ class Asignacion(
             }
         }?.let { ArrayList(it) } //Falta la opcion de filtrar por descripcion > --filtrar descripcion str
 
-        println("listaFiltar ${listaParejaFiltrar.toCustomString()}")
+        // println("listaFiltar ${listaParejaFiltrar.toCustomString()}")
         return "[Asignacion] " + when (opcion) {
             20 ->{
                 gestorPolicias.listarRegistros(solo, listaParejaFiltrar)
+            }
+            21 ->{
+                gestorPolicias.origenArbol()
+            }
+            41 -> {
+                val id : Long = args[3]
+                    .toLongOrNull() ?:
+                    throw IllegalArgumentException("[Asignacion] El argumento después de asignar no era un número entero")
+
+                gestorPolicias.actualizarOrigenArbol(Pair(id, "id"))
+
+                "Arbol asignado con el path ${gestorPolicias.origenArbol()}"
             }
             else->{
                 System.err.println("¿Cómo llegaste aquí? La cagué re duro en algo")

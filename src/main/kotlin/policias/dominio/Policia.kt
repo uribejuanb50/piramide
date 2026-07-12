@@ -79,8 +79,6 @@ abstract class Policia (
             val metodoBusqueda = pareja.second
             val resultadosFuncion : ArrayList<Registro> = arrayListOf()
 
-
-
             when {
                 ((metodoBusqueda == "file") && (busqueda is Path))
                         || ((metodoBusqueda == "fecha") && (busqueda is LocalDate))

@@ -37,7 +37,7 @@ fun main(args : Array<String>) {
 
         val raiz = asignacion.generarPathArbol()
         val resultado = asignacion.asignarCategoria(tarea, raiz, args, flagsExploracion, flagsPolicias)
-        println("falla: $resultado")
+        println(resultado)
 
     }
     catch(e : IllegalArgumentException){

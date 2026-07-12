@@ -425,7 +425,8 @@ class Validacion() {
                 when {
                     args.size == 2 && args[1] == "listar" -> 20 //policia listar (añadir flags según el tipo
                     args.size == 2 && args[1] == "origen" -> 21 //policia origen -> devuelve el path actual del arbol
-                    args.size == 4 && args[1] == "arbol" -> 40 //policia arbol asignar "id del registro"
+                    args.size == 4 && args[1] == "origen" -> 40
+                    args.size == 4 && args[1] == "arbol" && args[2] == "asignar" -> 41 //policia arbol asignar "id del registro"
                     else -> {
                         System.err.println("[Main] Los argumentos recibidos no sirven, inserta --ayuda para una guía")
                         exitProcess(1)

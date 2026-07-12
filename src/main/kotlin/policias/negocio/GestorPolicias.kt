@@ -5,6 +5,8 @@ import piramide.policias.dominio.PoliciaArbol
 import piramide.policias.factories.PoliciaFactory
 import piramide.policias.repo.PoliciaRepository
 import piramide.utils.toCustomString
+import java.nio.file.Path
+import kotlin.io.path.absolutePathString
 
 class GestorPolicias(
     val policiaFactory: PoliciaFactory,
@@ -48,6 +50,19 @@ class GestorPolicias(
             .map(policia.devolverFormatoRegistro)
             .toCollection(ArrayList())
             .toCustomString()
+    }
+
+    fun origenArbol() : String{
+        return this.policiaArbol.pathRaizArbolUsando?.absolutePathString() ?: "No existe path en el arbol"
+    }
+
+    fun actualizarOrigenArbol(busquedaPorID : Pair<Long, String>){
+        val registroBuscado = this.policiaArbol.buscarPor(arrayListOf<Pair<Any, String>>(busquedaPorID))
+
+        if(registroBuscado.isEmpty())
+            throw IllegalStateException("[GestorPolicias] No había registros con el id ${busquedaPorID.first}")
+
+        this.policiaArbol.pathRaizArbolUsando = registroBuscado.first().pathOriginal
     }
 
     fun cerrarGestor(){
