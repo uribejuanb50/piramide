@@ -18,10 +18,11 @@ class Asignacion(
         args : ArrayList<String>,
         flagsExploracion : Map<String, Any?>,
         flagsPolicias: Map<String, Any?>
-    ){
-        when(tarea.first){
+    ) : String {
+        return when(tarea.first){
             "arbol" -> manejarArbol(raiz, tarea.second, args, flagsExploracion)
             "policia" -> manejarPolicia(tarea.second, args, flagsPolicias)
+            else -> throw IllegalArgumentException("[Asignacion] Los únicos candidatos de llamado después de piramid son arbol o policia")
         }
     }
 
@@ -161,18 +162,18 @@ class Asignacion(
             ArrayList(lista.map { it as String })
         }
 
-        val listaFiltrar = (flags["filtrar"] as? List<*>)?.mapNotNull { item ->
+        val listaParejaFiltrar = (flags["filtrar"] as? List<*>)?.mapNotNull { item ->
             (item as? Pair<*, *>)?.let { par ->
                 val clave = par.first
                 val valor = par.second as? String
                 if (clave != null && valor != null) clave to valor else null
             }
-        }?.let { ArrayList(it) }
+        }?.let { ArrayList(it) } //Falta la opcion de filtrar por descripcion > --filtrar descripcion str
 
-        println("listaFiltar ${listaFiltrar.toCustomString()}")
+        println("listaFiltar ${listaParejaFiltrar.toCustomString()}")
         return "[Asignacion] " + when (opcion) {
             20 ->{
-
+                gestorPolicias.listarRegistros(solo, listaParejaFiltrar)
             }
             else->{
                 System.err.println("¿Cómo llegaste aquí? La cagué re duro en algo")

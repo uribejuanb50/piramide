@@ -14,11 +14,12 @@ class PoliciaArbol (
 
     @Transient
     override val devolverFormatoRegistro: (registro: Registro) -> String = { registro ->
-        var retornar = ""
+        var retornar = "\n"
         retornar += "ID: ${registro.id}\n"
         retornar += "Tipo: ${registro.tipo}\n"
         retornar += "Descrpcion: ${registro.desc}\n"
         retornar += "Path raíz: ${registro.pathOriginal}\n"
+        retornar += "Fecha: ${registro.fecha}"
         "$retornar---------------------------------------------\n"
     }
 
@@ -49,9 +50,6 @@ class PoliciaArbol (
         return arbol
     }
 
-    override fun listarRegistros(): ArrayList<String> {
-        return this.listaRegistro.map(this.devolverFormatoRegistro).toCollection(ArrayList())
-    }
 
     override fun nuevoSeguimiento() {
         TODO("Not yet implemented")

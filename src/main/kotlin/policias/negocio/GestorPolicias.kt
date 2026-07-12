@@ -26,23 +26,28 @@ class GestorPolicias(
     ) : String{
 
         val objetosListar = solo ?: arrayListOf("arbol", "borrados", "aplanados", "reemplazados")
-        val listaParejaFiltrar = listaParejaFiltrar ?: arrayListOf(Pair("todos", "todos"))
+        val listaParejaFiltrar = listaParejaFiltrar ?: arrayListOf<Pair<Any, String>>(Pair("todos", "todos"))
 
-        var retorno = "["
+        var retorno = ""
 
         for(objeto in objetosListar){
             when(objeto){
-                "arbol" ->{}
+                "arbol" ->{
+                    var retornoArbol = "====================== REGISTROS ARBOL ${policiaArbol.id} =========================\n"
+                    retornoArbol += listaRegistrosToPolimorficString(this.policiaArbol, listaParejaFiltrar) + "\n"
+                    retorno += "$retornoArbol\n"
+                }
             }
         }
-        return "Incompleto"
+        return retorno
     }
 
-    fun listarRegistrosArbol() : String{
-        var retorno = "====================== REGISTROS ARBOL ${policiaArbol.id} =========================\n"
-        retorno += policiaArbol.listarRegistros().toCustomString()
-
-        return retorno
+    fun listaRegistrosToPolimorficString(policia : Policia, listaParejaFiltrar: ArrayList<Pair<Any, String>>) : String{
+        val listaRegistrosFiltrada = policia.buscarPor(listaParejaFiltrar)
+        return listaRegistrosFiltrada
+            .map(policia.devolverFormatoRegistro)
+            .toCollection(ArrayList())
+            .toCustomString()
     }
 
     fun cerrarGestor(){

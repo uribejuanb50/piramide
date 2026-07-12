@@ -62,23 +62,22 @@ abstract class Policia (
     abstract fun nuevoSeguimiento()
     abstract fun devolverFormatoListaRegistro(listaRegistro: ArrayList<Registro>) : ArrayList<String>
     abstract fun transdormarListaToSetPorAtributo(lista : ArrayList<Registro>) : Set<Path> //tranformar por registro.pathActual opathOriginal
-    abstract fun listarRegistros() : ArrayList<String>
 
     //para implementar en el cli
-    fun buscarPor(listaParejaFiltrar : ArrayList<Pair<Any, String>>) : ArrayList<String> { //el primero es el tipo dato de la busqueda
+    fun buscarPor(listaParejaFiltrar : ArrayList<Pair<Any, String>>) : ArrayList<Registro> { //el primero es el tipo dato de la busqueda
                                                                         //el segundo el string del metodoBusqueda
         //lo que quiero hacer: cada iteracion es la busqueda y su metodo de busqeuda,
         val log = "[Policia$tipo]" //Esto acá es para usar las funciones de repeat y lenght
         val charEspacio = " "      //dentro del $ ya que no se puede usar "" dentro de este sin romper la cadena
 
-        val retorno : ArrayList<String> = arrayListOf()
-        val setResultados : MutableSet<String> = mutableSetOf()
+        val retorno : ArrayList<Registro> = arrayListOf()
+        val setResultados : MutableSet<Registro> = mutableSetOf()
 
         for(pareja in listaParejaFiltrar) {
 
             val busqueda = pareja.first //busqueda ej-> id : Long, fecha : LocalDate, hora : LocalTime
             val metodoBusqueda = pareja.second
-            val resultadosFuncion : ArrayList<String> = arrayListOf()
+            val resultadosFuncion : ArrayList<Registro> = arrayListOf()
 
 
 
@@ -93,9 +92,7 @@ abstract class Policia (
                                 )
                                 val registrosResultado = ejecutarBusqueda(busqueda, funcionBusqueda) //devuelve lista registro
 
-                                resultadosFuncion.addAll(
-                                    devolverFormatoListaRegistro(registrosResultado) //transforma los registros dependiendo de la clase de policia
-                                ) //los devuelve los resultados de la búsqueda
+                                resultadosFuncion.addAll(registrosResultado)
                             }
                 (metodoBusqueda == "todos") && (busqueda is String) -> {
                     val funcionBusqueda = mapaMetodoBusqueda[metodoBusqueda] ?: throw IllegalArgumentException(
@@ -103,15 +100,14 @@ abstract class Policia (
                     )
                     val registrosResultado = ejecutarBusqueda(busqueda, funcionBusqueda)
 
-                    resultadosFuncion.addAll(
-                        devolverFormatoListaRegistro(registrosResultado) //Deberia devolver la lista como registros, así da la opcion
+                    resultadosFuncion.addAll(registrosResultado)
+                        //devolverFormatoListaRegistro(registrosResultado) //Deberia devolver la lista como registros, así da la opcion
                         //de si solo devolver, después en gestorPolicia pasa por el formateador de policiaArbol para volverlo un arraylist de String
                         //además al devolver la lista con filtraciones y eso, después se puede hacer con esa lista retornante lo que sea, como eliminarlos
                         //en vez de hacer una búsqueda por separado, entonces, buscarPor deberia devolver ArrayList de Registros
                         //Gestorpolicias si pide devolver la lista mapea esa arraylist de registros según el formato de cada policia
                         //Ahora si gestorPolicias pide eliminar de la lista, usa la funcion buscar por así también se puede eliminar filtrando
                         //es decir esa lista que devuelve buscarPor también sirve para eliminar estas de las listas
-                    )
                 }
 
                 else -> throw IllegalArgumentException(

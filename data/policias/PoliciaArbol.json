@@ -1,6 +1,6 @@
 {
   "registroFactory": {},
-  "pathRaizArbolUsando": "E:\\Ingenieria de sistemas\\Proyectos Propios\\pruebas\\pr-arq",
+  "pathRaizArbolUsando": "E:\\Ingenieria de sistemas\\Cuarto Semestre\\Cálculo integral",
   "pathCarpetaGuardando": "E:\\Ingenieria de sistemas\\Proyectos Propios\\piramide\\data\\policias\\PoliciaArbol.json",
   "id": 1,
   "tipo": "arbol",
@@ -60,6 +60,14 @@
       "pathOriginal": "E:\\Ingenieria de sistemas\\Proyectos Propios\\pruebas\\pr-arq",
       "tipo": "arbol",
       "desc": "N/A descripción"
+    },
+    {
+      "id": 8,
+      "fecha": "2026-07-12",
+      "hora": "11:21:43.493070600",
+      "pathOriginal": "E:\\Ingenieria de sistemas\\Cuarto Semestre\\Cálculo integral",
+      "tipo": "arbol",
+      "desc": "ARbolDECAluckoIntegraj"
     }
   ]
 }
