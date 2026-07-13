@@ -35,4 +35,8 @@ object Rutas{
             Files.createDirectories(it)
         }
     }
+
+    val directorioInvocacion by lazy{
+        Path.of(System.getProperty("user.dir")).toAbsolutePath()
+    }
 }

@@ -1,6 +1,6 @@
 {
   "registroFactory": {},
-  "pathRaizArbolUsando": "E:\\Ingenieria de sistemas\\Cuarto Semestre\\Cálculo integral",
+  "pathRaizArbolUsando": "E:\\Ingenieria de sistemas\\Proyectos Propios\\piramide",
   "pathCarpetaGuardando": "E:\\Ingenieria de sistemas\\Proyectos Propios\\piramide\\data\\policias\\PoliciaArbol.json",
   "id": 1,
   "tipo": "arbol",
@@ -68,6 +68,14 @@
       "pathOriginal": "E:\\Ingenieria de sistemas\\Cuarto Semestre\\Cálculo integral",
       "tipo": "arbol",
       "desc": "ARbolDECAluckoIntegraj"
+    },
+    {
+      "id": 9,
+      "fecha": "2026-07-12",
+      "hora": "20:22:31.413344300",
+      "pathOriginal": "E:\\Ingenieria de sistemas\\Proyectos Propios\\piramide",
+      "tipo": "arbol",
+      "desc": "N/A descripción"
     }
   ]
 }

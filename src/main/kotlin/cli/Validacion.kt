@@ -412,6 +412,7 @@ class Validacion() {
                 when {
                 //un argumento, simplemente el arbol
                     args.size == 1 -> 10 //arbol, imprime el arbol
+                    (args.size == 2) && (args[1] == "this") -> 21 //arbol "this" asigna el arbol basado en ubicacion en la que se llama el jar
                     args.size == 2 -> 20 //arbol "path" asigna el arbol
                     (args.size == 3) && (args[1] == "borrar") -> 30
                     (args.size == 3) && (args[1] == "buscar") -> 31

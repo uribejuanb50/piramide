@@ -2,10 +2,12 @@ package piramide.cli
 
 import piramide.arbol.Arbol
 import piramide.policias.negocio.GestorPolicias
+import piramide.utils.Rutas
 import piramide.utils.escribirArchivo
 import piramide.utils.toCustomString
 import java.io.File
 import java.nio.file.Path
+import kotlin.io.path.absolutePathString
 
 class Asignacion(
     val procesamiento : Procesamiento,
@@ -123,6 +125,14 @@ class Asignacion(
                 gestorPolicias.policiaArbol.registrarArbol(pathNuevoArbol.toPath(), descripcion, !noReasignar)
 
                 "Árbol ${args[1]} incluido correctamente."
+            }
+
+            21 -> {
+                val pathnuevoArbol = Rutas.directorioInvocacion
+
+                gestorPolicias.policiaArbol.registrarArbol(pathnuevoArbol, descripcion, !noReasignar)
+
+                "Árbol ${pathnuevoArbol.absolutePathString()} incluido correctamente."
             }
 
             30 -> {
