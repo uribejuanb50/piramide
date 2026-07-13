@@ -14,28 +14,28 @@ fun escribirArchivo(contenido : String, path : File) : String{
     }
     return "Contenido escrito exitosamente."
 }
-
 object Rutas{
+
     val raizProyecto : Path by lazy{
         val location = Rutas::class.java.protectionDomain.codeSource.location.toURI()
         var actual = Paths.get(location).toAbsolutePath()
 
-        println("[Archivos] actual, primera instancia: ${actual.absolutePathString()}")
+        //println("[Archivos] actual, primera instancia: ${actual.absolutePathString()}")
 
         if(Files.isRegularFile(actual))
-            actual = actual.parent.also { println("[Archivos] Actual.parent: ${it.absolutePathString()}") }
+            actual = actual.parent//.also { println("[Archivos] Actual.parent: ${it.absolutePathString()}") }
 
 
         else{
             while(actual != null && !Files.exists(actual.resolve("data")))
-                actual = actual.parent.also { println("[Archivos] Actual.parent dentro del while: ${it.absolutePathString()}") }
+                actual = actual.parent//.also { println("[Archivos] Actual.parent dentro del while: ${it.absolutePathString()}") }
         }
 
         actual ?: throw IllegalStateException("[Rutas] No se pudo determinar la raíz del proyecto")
     }
 
     val carpetaPolicias : Path by lazy {
-        println("[Archivos] raizProyecto: ${raizProyecto.absolutePathString()}")
+        //println("[Archivos] raizProyecto: ${raizProyecto.absolutePathString()}")
         raizProyecto.resolve("data").resolve("policias").resolve("").also{
             Files.createDirectories(it)
         }

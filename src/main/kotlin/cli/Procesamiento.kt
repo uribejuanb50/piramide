@@ -68,4 +68,16 @@ class Procesamiento() {
 
         return nuevaArq
     }
+
+    fun construirPatronConLimite(palabra: String): Regex {
+        val escapada = Regex.escape(palabra)
+
+        val esPalabraInicio = palabra.first().isLetterOrDigit() || palabra.first() == '_'
+        val esPalabraFin = palabra.last().isLetterOrDigit() || palabra.last() == '_'
+
+        val ladoIzquierdo = if (esPalabraInicio) "(?<!\\w)" else "(?<!${Regex.escape(palabra.first().toString())})"
+        val ladoDerecho = if (esPalabraFin) "(?!\\w)" else "(?!${Regex.escape(palabra.last().toString())})"
+
+        return "$ladoIzquierdo$escapada$ladoDerecho".toRegex()
+    }
 }

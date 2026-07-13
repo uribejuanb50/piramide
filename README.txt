@@ -32,9 +32,7 @@ flags: //2 tipos funcionalidad, interna de cada clase que entra por param y exte
  //Hacer un generador de reglas con la posibilidad de hacer tus propios ejemplos y probar tu regla pero antes arreglar lo que falta
  //no paila está re dificil, dejar de últimas !!! En vez de esto hacerlo según un regex
 
-//al parecer me tiré el eliminar y reemplazar, verificar primero que se haga el cambio o eliminacion
-//añadir el comando > arbol "this" - en vez del path al pasarle this se trabajará desde el directorio actual
-  Hay un problema porque al invocarlo desde el jar ni funciona, en cambio con gradle si
+//Falta hacer los warnings de categoria
 
 comandos:
  ...main.jar "path_original" //genera un arbol

@@ -215,15 +215,23 @@ class Nodo (val nombre : String, val path : File) {
         return lista
     }
 
-    fun eliminarPalabra(palabra : String, nivelMax : Int? = null, mostrarOcultos : Boolean = false, carry : Int = 0) : Boolean {
+    fun eliminarPalabra(
+        palabraAntigua : Regex,
+        palabraReemplazo : String,
+        nivelMax : Int? = null,
+        mostrarOcultos : Boolean = false,
+        carry : Int = 0
+    ) : Boolean {
         if(!mostrarOcultos && this.path.isHidden)
             return false
 
-        if(nivelMax != null && nivelMax == carry)
+        if(nivelMax == carry)
             return false
 
-        if(this.path.isFile)
-            return limpiarArchivoJson(palabra, this.path)
+        if(this.path.isFile){
+            println("nombreDelArchivo: ${this.path.name}")
+            return limpiarArchivoJson(palabraAntigua, palabraReemplazo, this.path)
+        }
 
         if(this.listaSubArchivos.isEmpty())
             return false
@@ -231,23 +239,27 @@ class Nodo (val nombre : String, val path : File) {
         var retorno = false
 
         for(subdirectorio in this.listaSubArchivos) {
-            val retornoRecursivo = subdirectorio.eliminarPalabra(palabra, nivelMax, mostrarOcultos, carry)
+            val retornoRecursivo = subdirectorio.eliminarPalabra(palabraAntigua, palabraReemplazo, nivelMax, mostrarOcultos, carry + 1)
             retorno = (retorno || retornoRecursivo)
         }
 
         return retorno
     }
 
-    fun limpiarArchivoJson(palabra : String, archivo: File) : Boolean {
+    fun limpiarArchivoJson(patron : Regex, palabraReemplazo: String, archivo: File) : Boolean {
         return try
         {
+            println("Patron: $patron")
             // 1. Leer tod o el contenido del archivo como una cadena de texto
             val contenidoOriginal = archivo.readText()
 
+            println("ContenidoOriginal:\n$contenidoOriginal")
+
             // 2. Reemplazar el patrón " —" por una cadena vacía
             // Usamos un Regex para asegurar que capture exactamente el guion largo/corto y los paréntesis
-            val patron = "\\b${Regex.escape(palabra)}\\b".toRegex()
-            val contenidoLimpio = contenidoOriginal.replace(patron, "")
+
+            val contenidoLimpio = contenidoOriginal.replace(patron, palabraReemplazo)
+            println("contenidoLimpio:\n$contenidoLimpio")
 
             // 3. Sobrescribir el archivo con el nuevo contenido limpio
             archivo.writeText(contenidoLimpio)

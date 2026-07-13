@@ -69,6 +69,7 @@ class Asignacion(
         val force = flags["force"] as? Boolean ?: false
         //val ocultosBusqueda = force && ocultos  //por defecto no se debería eliminar palabras de carpetas ocultas, ya que suelen ser bibliotecas
         //y por el estilo
+        val regex = flags["regex"] as? Boolean ?: false
 
         val mapaExploracion : Map<String, Any?> = mapOf(
             "--README" to readMe,
@@ -77,7 +78,8 @@ class Asignacion(
         )
         val mapaBusqueda : Map<String, Any?> = mapOf(
             "--condicion" to condicion,
-            "--force" to force
+            "--force" to force,
+            "--regex" to regex
         )
 
         //el custom devuelve primero el string de operaciones que son contrarias a "negativas" (nulls o falses)
@@ -137,7 +139,7 @@ class Asignacion(
                 "Árbol ${pathnuevoArbol.absolutePathString()} incluido correctamente."
             }
 
-            30 -> {
+            /*30 -> { Funcio descontinuada, reemplazada por reemplazar, borrar literalmente es cambiar por ""
                 println(warningExploracion)
 
                 if(!force && ocultos) {
@@ -145,8 +147,8 @@ class Asignacion(
                     println("       Usa la etiqueta --force")
                 }
                 val palabraEliminar = args[2] //desde el tres porque el args[1] es el que valida la función
-                arbol.eliminarPalabra(palabraEliminar, nivelMax, (force && ocultos))
-            }
+                //arbol.eliminarPalabra(palabraEliminar, nivelMax, (force && ocultos))
+            }*/
 
             31 -> {
                 println(warningExploracion)
@@ -157,8 +159,30 @@ class Asignacion(
             40 -> {
                 println(warningExploracion)
 
-                val palabraAntigua = args[2]
-                val palabraNueva = args[3]
+                val palabraAntigua =
+                    if(regex)
+                        args[2].toRegex()
+                    else
+                        procesamiento.construirPatronConLimite(args[2])
+                val palabrareemplazo = args[3]
+
+                val continuar: Boolean =
+                    generateSequence {
+                        print("El arbol donde ocurrirá la operacion es ${raiz.absolutePath} (y/n): "); readlnOrNull()?.trim()?.lowercase()
+                    }
+                    .filter { it == "y" || it == "n" }
+                    .map { it == "y" }
+                    .first()
+
+                if(!continuar)
+                    return "Secuencia abortada"
+
+                if(!force && ocultos) {
+                    println("[Main] ALERTA! --ocultos no es un candidato para esta operación por temas de seguridad")
+                    println("       Usa la etiqueta --force")
+                }
+
+                arbol.eliminarPalabra(palabraAntigua, palabrareemplazo, nivelMax, (force && ocultos))
             }
             else -> {
                 System.err.println("¿Cómo llegaste aquí? La cagué re duro en algo")

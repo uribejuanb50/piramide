@@ -116,12 +116,12 @@ class Arbol (val path : File){
     }
 
     //elimina esa palabra hasta cierta cantidad de niveles
-    fun eliminarPalabra(palabra : String,  nivelMax : Int? = null, mostrarOcultos: Boolean) : String{
-        val resultado = this.raiz.eliminarPalabra(palabra, nivelMax, mostrarOcultos)
+    fun eliminarPalabra(palabraAntigua : Regex, palabraReemplazo : String,  nivelMax : Int? = null, mostrarOcultos: Boolean) : String{
+        val resultado = this.raiz.eliminarPalabra(palabraAntigua, palabraReemplazo, nivelMax, mostrarOcultos)
 
         return if(resultado)
-            "Eliminación de la palabra $palabra, exitosa"
+            "Intercambio de la palabra $palabraAntigua, exitosa"
         else
-            "Eliminación de la palabra $palabra, fallida"
+            "Eliminación de la palabra $palabraAntigua, fallida"
     }
 }

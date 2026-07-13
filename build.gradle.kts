@@ -31,4 +31,5 @@ tasks.named<JavaExec>("run") {
         "-Dstderr.encoding=UTF-8",
         "-Dfile.encoding=UTF-8"
     )
+    standardInput = System.`in`
 }
