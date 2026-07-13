@@ -2,6 +2,7 @@ package piramide.policias.dominio
 
 import piramide.arbol.Arbol
 import piramide.policias.factories.RegistroFactory
+import piramide.utils.toCustomString
 import java.nio.file.Path
 
 class PoliciaArbol (
@@ -23,7 +24,17 @@ class PoliciaArbol (
         "$retornar---------------------------------------------\n"
     }
 
+    override fun toString() : String{
+        var retorno = "["
 
+        retorno += "pathRaizUsando: ${pathRaizArbolUsando?.toAbsolutePath()?:"null"}\n"
+        retorno += "pathCarpetaGuardando : ${pathCarpetaGuardando.toAbsolutePath()}\n"
+        retorno += "id : $id\n"
+        retorno += "tipo : $tipo\n"
+        retorno += this.listaRegistro.map(devolverFormatoRegistro).toCollection(ArrayList()).toCustomString()
+
+        return retorno
+    }
     fun registrarArbol(pathRaiz : Path, descripcion : String?, usar : Boolean = true){
 
         val ultimoID : Long =

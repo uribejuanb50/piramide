@@ -19,24 +19,6 @@ object RegistroFactory {
         )
     }
 
-    fun generarRegistroBorrar(
-        ultimoID: Long,
-        tipo : String,
-        descripcion : String,
-        pathOriginal : Path,
-        pathActual : Path,
-        palabraBorrada : String
-    ) : Registro {
-        return Registro(
-            id = ultimoID + 1,
-            tipo = tipo,
-            desc = descripcion ?: "N/A descripción",
-            pathOriginal = pathOriginal,
-            pathActual = pathActual,
-            palabraBorrada = palabraBorrada
-        )
-    }
-
     fun generarRegistroReemplazar(
         ultimoID: Long,
         tipo : String,

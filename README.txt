@@ -34,6 +34,8 @@ flags: //2 tipos funcionalidad, interna de cada clase que entra por param y exte
 
 //al parecer me tiré el eliminar y reemplazar, verificar primero que se haga el cambio o eliminacion
 //añadir el comando > arbol "this" - en vez del path al pasarle this se trabajará desde el directorio actual
+  Hay un problema porque al invocarlo desde el jar ni funciona, en cambio con gradle si
+
 comandos:
  ...main.jar "path_original" //genera un arbol
  ...main.jar "path_original" "borrar" "palabra" 				//elimina esa palabra de todo el arbol (falta implementar) //meterle un regex y un respaldo

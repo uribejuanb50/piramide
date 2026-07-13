@@ -10,7 +10,10 @@ import java.time.LocalDate
 import java.time.LocalTime
 
 class PoliciaRepository(
-    val rutaGuardadoArbol : Path = Rutas.carpetaPolicias.resolve("PoliciaArbol.json"),
+    val rutaGuardadoArbol : Path =
+        Rutas.carpetaPolicias
+            .resolve("PoliciaArbol.json")
+            .also { if (Files.notExists(it)) Files.createFile(it) }, //crea el archivo si no existe
     val registroFactory: RegistroFactory = RegistroFactory
 ) {
 

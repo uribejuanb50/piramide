@@ -15,10 +15,10 @@ class GestorPolicias(
     val policiaArbol : PoliciaArbol =
         policiaRepository.cargarPoliciaArbol() ?:
         policiaFactory.crearPoliciaArbol(
-            policiaRepository.rutaGuardadoArbol,
+            policiaRepository.rutaGuardadoArbol.also { println("RutaGuardado desde repository: ${policiaRepository.rutaGuardadoArbol.absolutePathString()}") },
             1
         )
-    var listaPoliciaBorrados : ArrayList<Policia>? = null
+
     var listaPoliciaReemplazados: ArrayList<Policia>? = null
     var listaPoliciaAplanados : ArrayList<Policia>? = null
 

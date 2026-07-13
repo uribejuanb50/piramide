@@ -30,8 +30,9 @@ class Asignacion(
 
     fun generarPathArbol() : File {
         val pathArbolActual =
-            gestorPolicias.policiaArbol.pathRaizArbolUsando ?:
-            throw IllegalStateException("[Asignacion] No hay arboles disponibles")
+            gestorPolicias.policiaArbol.pathRaizArbolUsando
+                ?: Rutas.directorioInvocacion
+                    .also { println("[Asignacion] Sin arboles previos ruta default generada en la ubicación donde me ves") }
         return pathArbolActual.toFile()
     }
 
@@ -109,10 +110,11 @@ class Asignacion(
                 if(toArchivo != null && profundidad > 0)
                     escribirArchivo(retorno, toArchivo)
                 else
-                    println(
-                        "[Main] La profundidad es 0, no se imprimirá nada, revisa si la carpeta raíz está escondida\n" +
-                        "       El path es ${raiz.absolutePath}"
-                    )
+                    if(toArchivo != null)
+                        println(
+                            "[Main] La profundidad es 0, no se imprimirá nada, revisa si la carpeta raíz está escondida\n" +
+                            "       El path es ${raiz.absolutePath}"
+                        )
                 "\n" + retorno
             }
 
