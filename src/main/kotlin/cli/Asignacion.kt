@@ -70,6 +70,7 @@ class Asignacion(
         //val ocultosBusqueda = force && ocultos  //por defecto no se debería eliminar palabras de carpetas ocultas, ya que suelen ser bibliotecas
         //y por el estilo
         val regex = flags["regex"] as? Boolean ?: false
+        val y = flags["y"] as? Boolean ?: false
 
         val mapaExploracion : Map<String, Any?> = mapOf(
             "--README" to readMe,
@@ -166,16 +167,17 @@ class Asignacion(
                         procesamiento.construirPatronConLimite(args[2])
                 val palabrareemplazo = args[3]
 
-                val continuar: Boolean =
-                    generateSequence {
-                        print("El arbol donde ocurrirá la operacion es ${raiz.absolutePath} (y/n): "); readlnOrNull()?.trim()?.lowercase()
-                    }
-                    .filter { it == "y" || it == "n" }
-                    .map { it == "y" }
-                    .first()
-
-                if(!continuar)
-                    return "Secuencia abortada"
+                if(!y){
+                    val continuar: Boolean =
+                        generateSequence {
+                            print("El arbol donde ocurrirá la operacion es ${raiz.absolutePath} (y/n): "); readlnOrNull()?.trim()?.lowercase()
+                        }
+                        .filter { it == "y" || it == "n" }
+                        .map { it == "y" }
+                        .first()
+                    if(!continuar)
+                        return "Secuencia abortada"
+                }
 
                 if(!force && ocultos) {
                     println("[Main] ALERTA! --ocultos no es un candidato para esta operación por temas de seguridad")

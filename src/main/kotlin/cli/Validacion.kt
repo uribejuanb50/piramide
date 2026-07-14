@@ -28,7 +28,7 @@ class Validacion() {
             "--descripcion", "--noReasignar",
 
             //Caso búsquedas
-            "--condicion", "--force", "--regex"
+            "--condicion", "--force", "--regex", "-y"
         )
 
         val nuevosArgs : ArrayList<String> = arrayListOf()
@@ -56,6 +56,7 @@ class Validacion() {
             "condicion" to null,
             "force" to false,
             "regex" to false,
+            "y" to false
         )
 
         for((indice, argumento) in args.withIndex()){
@@ -73,6 +74,7 @@ class Validacion() {
                 "--modulos" -> diccionarioFlags["modulos"] = true
                 "--noReasignar" -> diccionarioFlags["noReasignar"] = true
                 "--regex" -> diccionarioFlags["regex"] = true
+                "-y" -> diccionarioFlags["y"] = true
                 "--descripcion" -> {
                     val siguiente = args.getOrNull(indice + 1)
 
