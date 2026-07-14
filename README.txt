@@ -7,7 +7,7 @@
 ## DEMO[link a demo o bloque de UI o respuesta de terminal (```shell //codigo// ```]
 ---
 ## Configuracion[Solo si aplica. Variables de entorno, archivos de config, flags, etc.]
-
+chcp 65001 // para imprimir las rayas en vez de chars basura
 Cambiar los dos tipos,
 arbol ->
 Ima (Imaa): Una hermosa y antigua variante jeroglífica para referirse a un "árbol verde, frondoso o lleno de gracia". Se usaba en la literatura egipcia para describir árboles que daban sombra reconfortante y frescura en medio del desierto.
@@ -33,7 +33,7 @@ flags: //2 tipos funcionalidad, interna de cada clase que entra por param y exte
  //no paila está re dificil, dejar de últimas !!! En vez de esto hacerlo según un regex
 
 //Falta hacer los warnings de categoria
-
+//Incluir el flag --incluir para reemplazar, así se incluiria los que empiezan con .
 comandos:
  ...main.jar "path_original" //genera un arbol
  ...main.jar "path_original" "borrar" "palabra" 				//elimina esa palabra de todo el arbol (falta implementar) //meterle un regex y un respaldo

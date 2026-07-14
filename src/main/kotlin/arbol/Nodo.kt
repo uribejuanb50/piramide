@@ -7,6 +7,8 @@ class Nodo (val nombre : String, val path : File) {
     val listaSubArchivos: MutableList<Nodo> = mutableListOf()
     var letrasPalabraMasLarga : Int = 0
 
+    val tiposArchivoExcluidos = setOf(".git", ".gradle", ".idea", "build", "out", "node_modules", ".jar", ".exe")
+
     fun crearSubDirectorios() : Nodo? {
 
         if(this.path.isFile){
@@ -230,6 +232,10 @@ class Nodo (val nombre : String, val path : File) {
 
         if(this.path.isFile){
             println("nombreDelArchivo: ${this.path.name}")
+            if(this.path.name.first() == '.'){ println("[Nodo] comienza por . el archivo ${this.path.absolutePath}");return false}
+            if(debeExcluir(this.path)){ println("[Nodo] se excluyó el archivo ${this.path.absolutePath}");return false}
+            if(esProbablementeBinario(this.path)) { println("[Nodo] es probablemente binario el archivo ${this.path.absolutePath}");return false}
+
             return limpiarArchivoJson(palabraAntigua, palabraReemplazo, this.path)
         }
 
@@ -246,22 +252,32 @@ class Nodo (val nombre : String, val path : File) {
         return retorno
     }
 
+    fun debeExcluir(archivo: File): Boolean {
+        val nombre = archivo.name // Ej: "build" o "foto.jar"
+        val extensionConPunto = "." + archivo.extension // Ej: ".jar"
+
+        // Devuelve true si el nombre completo está en el set
+        // O si la extensión (con el punto incluido) está en el set
+        return nombre in tiposArchivoExcluidos || extensionConPunto in tiposArchivoExcluidos
+    }
+
+    fun esProbablementeBinario(archivo: File, muestraBytes: Int = 8000): Boolean {
+        return try {
+            val bytes = archivo.inputStream().use { it.readNBytes(muestraBytes) }
+            bytes.any { it.toInt() == 0 } // un byte nulo casi siempre significa binario
+        } catch (e: Exception) {
+            true // si no se puede ni leer, mejor no tocarlo
+        }
+    }
+
     fun limpiarArchivoJson(patron : Regex, palabraReemplazo: String, archivo: File) : Boolean {
         return try
         {
-            println("Patron: $patron")
-            // 1. Leer tod o el contenido del archivo como una cadena de texto
             val contenidoOriginal = archivo.readText()
 
-            println("ContenidoOriginal:\n$contenidoOriginal")
-
-            // 2. Reemplazar el patrón " —" por una cadena vacía
             // Usamos un Regex para asegurar que capture exactamente el guion largo/corto y los paréntesis
-
             val contenidoLimpio = contenidoOriginal.replace(patron, palabraReemplazo)
-            println("contenidoLimpio:\n$contenidoLimpio")
 
-            // 3. Sobrescribir el archivo con el nuevo contenido limpio
             archivo.writeText(contenidoLimpio)
 
             true

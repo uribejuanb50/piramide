@@ -1,6 +1,6 @@
 {
   "registroFactory": {},
-  "pathRaizArbolUsando": "E:\\Ingenieria de sistemas\\Proyectos Propios\\pruebas\\pr-arq",
+  "pathRaizArbolUsando": "E:\\Ingenieria de sistemas\\Sexto semestre\\Desarrollo web\\backDefinitivo\\Proyecto_Web",
   "pathCarpetaGuardando": "E:\\Ingenieria de sistemas\\Proyectos Propios\\piramide\\data\\policias\\PoliciaArbol.json",
   "id": 1,
   "tipo": "arbol",
@@ -50,6 +50,22 @@
       "fecha": "2026-07-13",
       "hora": "15:24:31.088857400",
       "pathOriginal": "E:\\Ingenieria de sistemas\\Proyectos Propios\\pruebas\\pr-arq",
+      "tipo": "arbol",
+      "desc": "N/A descripción"
+    },
+    {
+      "id": 7,
+      "fecha": "2026-07-13",
+      "hora": "20:40:46.895957500",
+      "pathOriginal": "E:\\Ingenieria de sistemas\\Proyectos Propios\\piramide",
+      "tipo": "arbol",
+      "desc": "N/A descripción"
+    },
+    {
+      "id": 8,
+      "fecha": "2026-07-13",
+      "hora": "21:17:56.291338200",
+      "pathOriginal": "E:\\Ingenieria de sistemas\\Sexto semestre\\Desarrollo web\\backDefinitivo\\Proyecto_Web",
       "tipo": "arbol",
       "desc": "N/A descripción"
     }
