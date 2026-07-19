@@ -203,6 +203,7 @@ class Asignacion(
             ArrayList(lista.map { it as String })
         }
 
+
         val listaParejaFiltrar = (flags["filtrar"] as? List<*>)?.mapNotNull { item ->
             (item as? Pair<*, *>)?.let { par ->
                 val clave = par.first

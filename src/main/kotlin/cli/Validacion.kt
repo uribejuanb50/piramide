@@ -311,7 +311,7 @@ class Validacion() {
                     if(listaSolo.isEmpty())
                         throw IllegalArgumentException("[Validacion] después de --solo no había valores válidos")
 
-                    diccionarioFlags["solo"]
+                    diccionarioFlags["solo"] = listaSolo
                 }
                 "--filtrar" -> {
                     val setOpciones : Set<String> = setOf(

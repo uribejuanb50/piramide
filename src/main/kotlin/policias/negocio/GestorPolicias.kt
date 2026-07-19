@@ -42,6 +42,20 @@ class GestorPolicias(
                     retornoArbol += listaRegistrosToPolimorficString(this.policiaArbol, listaParejaFiltrar) + "\n"
                     retorno += "$retornoArbol\n"
                 }
+                "reemplazados" -> {
+                    var retornoReemplazados = "================================ REEMPLAZADOS ========================================="
+                    retornoReemplazados +=
+                        this.listaPoliciaReemplazados
+                            .joinToString (separator = ""){ elemento  ->
+                                val policia = elemento as PoliciaReemplazados
+                                var str = "-------------------------------------\n"
+                                str += policia.toString() + "\n"
+                                str += "---------------- Registros ---------------\n"
+                                str += listaRegistrosToPolimorficString(policia, listaParejaFiltrar) + "\n"
+                                str
+                            }
+                    retorno += "$retornoReemplazados\n"
+                }
             }
         }
         return retorno

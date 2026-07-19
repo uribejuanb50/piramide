@@ -3,6 +3,7 @@ package piramide.policias.dominio
 import piramide.policias.factories.PoliciaFactory
 import piramide.policias.factories.RegistroFactory
 import piramide.utils.escribirArchivo
+import piramide.utils.toCustomString
 import java.nio.file.Files
 import java.nio.file.Path
 import kotlin.io.path.extension
@@ -59,6 +60,22 @@ class PoliciaReemplazados(
     }
 
 
+    @JvmName("toStringClassPoliciaReemplazados")
+    fun toString(mostrarLista : Boolean = false) : String{
+        var retorno = ""
+
+        retorno += "carpetaGuardandoRespaldos: ${carpetaGuardandoRespaldos.toAbsolutePath()?:"null"}\n"
+        retorno += "pathCarpetaGuardando: ${pathCarpetaGuardando.toAbsolutePath()}\n"
+        retorno += "id : $id\n"
+        retorno += "tipo : $tipo\n"
+        retorno +=
+            if(mostrarLista)
+                this.listaRegistro.map(devolverFormatoRegistro).toCollection(ArrayList()).toCustomString()
+            else
+                ""
+
+        return retorno
+    }
     override fun devolverFormatoListaRegistro(listaRegistro: ArrayList<Registro>): ArrayList<String> {
         TODO("Not yet implemented")
     }
