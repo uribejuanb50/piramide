@@ -1,6 +1,7 @@
 package piramide.cli
 
 import piramide.arbol.Arbol
+import piramide.policias.dominio.PoliciaReemplazados
 import piramide.policias.negocio.GestorPolicias
 import piramide.utils.Rutas
 import piramide.utils.escribirArchivo
@@ -184,7 +185,7 @@ class Asignacion(
                     println("       Usa la etiqueta --force")
                 }
 
-                val policiaReemplazados = gestorPolicias
+                val policiaReemplazados = gestorPolicias.devolverPolicia("reemplazados") as PoliciaReemplazados
 
                 arbol.eliminarPalabra(palabraAntigua, palabrareemplazo, nivelMax, (force && ocultos), policiaReemplazados)
             }

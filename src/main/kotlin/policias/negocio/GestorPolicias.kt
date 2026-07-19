@@ -2,6 +2,7 @@ package piramide.policias.negocio
 
 import piramide.policias.dominio.Policia
 import piramide.policias.dominio.PoliciaArbol
+import piramide.policias.dominio.PoliciaReemplazados
 import piramide.policias.factories.PoliciaFactory
 import piramide.policias.repo.PoliciaRepository
 import piramide.utils.toCustomString
@@ -74,8 +75,7 @@ class GestorPolicias(
         //el policia arbol si se carga porque es necesario para las operaciones tipo arbol
     }
 
-    fun devolverPolicia(tipo : String) {
-
+    fun devolverPolicia(tipo : String) : Policia{
         val pathArbol =
             this.policiaArbol.pathRaizArbolUsando
                 ?: throw IllegalStateException("[GestorPolicias] El valor pathRaizArbolUsando está en nulo | fun devolverPolicia()")
@@ -87,18 +87,13 @@ class GestorPolicias(
             //el id del registro del policia arbol, es decir el id del arbol actual en los registros de Policia Arbol
             registrosDevueltos.first().id
 
-        val listaPoliciasUsando =
-            when(tipo){
-                "reemplazados" -> this.listaPoliciaReemplazados
-                "aplanados" -> this.listaPoliciaReemplazados
-                else -> throw IllegalArgumentException("[GestorPolicias] El tipo $tipo de lista policias no existe | fun devolverPolicia()")
-            }
-
-        val policia : Policia =
-            if (listaPoliciaReemplazados.isEmpty())
+        return when(tipo){
+            "reemplazados" -> devolverPoliciaReemplazados(idArbolUsando)
+            else -> throw IllegalArgumentException("[GestorPolicias] tipo : $tipo no est+a incluido en los tipos de lista | fun devolverPolicia")
+        }
     }
 
-    fun devolverPoliciaReemplazados(idArbolUsando : Long){
+    fun devolverPoliciaReemplazados(idArbolUsando : Long) : PoliciaReemplazados{
         val policiaReemplazados =
             if(this.listaPoliciaReemplazados.isEmpty()) //si no existe lo crea y lo guarda
                 policiaFactory.crearPoliciaReemplazados(
@@ -109,8 +104,8 @@ class GestorPolicias(
                     this.listaPoliciaReemplazados.add(it)
                 }
             else //si existe lo devuelve
-                this.listaPoliciaReemplazados.filter { policia -> }
+                this.listaPoliciaReemplazados.find{ it.id == idArbolUsando}
 
-
+        return policiaReemplazados as PoliciaReemplazados
     }
 }
