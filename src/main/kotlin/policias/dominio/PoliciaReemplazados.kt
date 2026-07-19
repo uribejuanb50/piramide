@@ -58,9 +58,6 @@ class PoliciaReemplazados(
         this.listaRegistro.add(nuevoRegistro)
     }
 
-    override fun nuevoSeguimiento() {
-        TODO("Not yet implemented")
-    }
 
     override fun devolverFormatoListaRegistro(listaRegistro: ArrayList<Registro>): ArrayList<String> {
         TODO("Not yet implemented")

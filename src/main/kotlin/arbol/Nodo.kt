@@ -240,7 +240,7 @@ class Nodo (val nombre : String, val path : File) {
             if(debeExcluir(this.path)){ println("[Nodo] se excluyó el archivo ${this.path.absolutePath}");return false}
             if(esProbablementeBinario(this.path)) { println("[Nodo] es probablemente binario el archivo ${this.path.absolutePath}");return false}
 
-            return limpiarArchivoJson(palabraAntigua, palabraReemplazo, this.path)
+            return limpiarArchivoJson(palabraAntigua, palabraReemplazo, this.path, policiaReemplazados)
         }
 
         if(this.listaSubArchivos.isEmpty())
@@ -282,10 +282,17 @@ class Nodo (val nombre : String, val path : File) {
         }
     }
 
-    fun limpiarArchivoJson(patron : Regex, palabraReemplazo: String, archivo: File) : Boolean {
+    fun limpiarArchivoJson(patron : Regex, palabraReemplazo: String, archivo: File, policiaReemplazados: PoliciaReemplazados) : Boolean {
         return try
         {
             val contenidoOriginal = archivo.readText()
+
+            policiaReemplazados.nuevoSeguimiento(
+                contenidoOriginal,
+                patron,
+                palabraReemplazo,
+                archivo.toPath()
+            )
 
             // Usamos un Regex para asegurar que capture exactamente el guion largo/corto y los paréntesis
             val contenidoLimpio = contenidoOriginal.replace(patron, palabraReemplazo)

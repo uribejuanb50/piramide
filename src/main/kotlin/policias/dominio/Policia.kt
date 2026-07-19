@@ -60,7 +60,6 @@ abstract class Policia (
         }
     )
 
-    abstract fun nuevoSeguimiento()
     abstract fun devolverFormatoListaRegistro(listaRegistro: ArrayList<Registro>) : ArrayList<String>
     abstract fun transdormarListaToSetPorAtributo(lista : ArrayList<Registro>) : Set<Path> //tranformar por registro.pathActual opathOriginal
 
