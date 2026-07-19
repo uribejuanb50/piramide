@@ -6,7 +6,8 @@ import java.time.LocalTime
 import kotlin.system.exitProcess
 
 abstract class Policia (
-    val pathCarpetaGuardando : Path, val id : Long,
+    val pathCarpetaGuardando : Path,
+    val id : Long,
     val tipo : String
 ){
     abstract val devolverFormatoRegistro : (registro : Registro) -> String

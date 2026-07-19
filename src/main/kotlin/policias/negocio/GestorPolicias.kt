@@ -15,12 +15,12 @@ class GestorPolicias(
     val policiaArbol : PoliciaArbol =
         policiaRepository.cargarPoliciaArbol() ?:
         policiaFactory.crearPoliciaArbol(
-            policiaRepository.rutaGuardadoArbol,
+            policiaRepository.rutaGuardadoObjetoArbol,
             1
         )
 
-    var listaPoliciaReemplazados: ArrayList<Policia>? = null
-    var listaPoliciaAplanados : ArrayList<Policia>? = null
+    var listaPoliciaReemplazados: ArrayList<Policia> = arrayListOf()
+    var listaPoliciaAplanados : ArrayList<Policia> = arrayListOf()
 
     fun listarRegistros(
         solo : ArrayList<String>?, //tipos arbol, borrados, aplanados, reemplazados
@@ -62,7 +62,7 @@ class GestorPolicias(
         val registroBuscado = this.policiaArbol.buscarPor(arrayListOf<Pair<Any, String>>(busquedaPorID))
 
         if(registroBuscado.isEmpty())
-            throw IllegalStateException("[GestorPolicias] No había registros con el id ${busquedaPorID.first}")
+            throw IllegalStateException("[GestorPolicias] No había registros con el id ${busquedaPorID.first} | fun actualizarOrigenArbol()")
 
         this.policiaArbol.pathRaizArbolUsando = registroBuscado.first().pathOriginal
     }
@@ -72,5 +72,45 @@ class GestorPolicias(
         //para guardar las listas solo se guardan los que no estén en null así mismo como se cargan según si se llaman
         //en vez de cargar todo de una vez,
         //el policia arbol si se carga porque es necesario para las operaciones tipo arbol
+    }
+
+    fun devolverPolicia(tipo : String) {
+
+        val pathArbol =
+            this.policiaArbol.pathRaizArbolUsando
+                ?: throw IllegalStateException("[GestorPolicias] El valor pathRaizArbolUsando está en nulo | fun devolverPolicia()")
+
+        val busqueda: Pair<Path, String> = Pair(pathArbol, "file")
+        val registrosDevueltos = this.policiaArbol.buscarPor(arrayListOf<Pair<Any, String>>(busqueda))
+
+        val idArbolUsando =
+            //el id del registro del policia arbol, es decir el id del arbol actual en los registros de Policia Arbol
+            registrosDevueltos.first().id
+
+        val listaPoliciasUsando =
+            when(tipo){
+                "reemplazados" -> this.listaPoliciaReemplazados
+                "aplanados" -> this.listaPoliciaReemplazados
+                else -> throw IllegalArgumentException("[GestorPolicias] El tipo $tipo de lista policias no existe | fun devolverPolicia()")
+            }
+
+        val policia : Policia =
+            if (listaPoliciaReemplazados.isEmpty())
+    }
+
+    fun devolverPoliciaReemplazados(idArbolUsando : Long){
+        val policiaReemplazados =
+            if(this.listaPoliciaReemplazados.isEmpty()) //si no existe lo crea y lo guarda
+                policiaFactory.crearPoliciaReemplazados(
+                    policiaRepository.rutaGuardadoObjetoReemplazados,
+                    idArbolUsando,
+                    policiaRepository.rutaGuardadoRespaldosReemplazados
+                ).also {
+                    this.listaPoliciaReemplazados.add(it)
+                }
+            else //si existe lo devuelve
+                this.listaPoliciaReemplazados.filter { policia -> }
+
+
     }
 }

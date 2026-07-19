@@ -11,16 +11,19 @@ import java.time.LocalTime
 
 class PoliciaRepository(
 
-    val rutaGuardadoArbol : Path =
+    val rutaGuardadoObjetoArbol : Path =
         Rutas.carpetaPolicias
-            .resolve("PoliciaArbol.json")
+            .resolve("PoliciaArbol.json")//para el objeto unico policiaarbol
             .also { if (Files.notExists(it)) Files.createFile(it) }, //crea el archivo si no existe
 
-    val rutaGuardadoReemplazados : Path =
+    val rutaGuardadoObjetoReemplazados : Path =
         Rutas.carpetaPolicias
-            .resolve("PoliciaReemplazados")
+            .resolve("PoliciasReemplazados.json") //para el arraylist policiasreemplazados
             .also { if (Files.notExists(it)) Files.createFile(it) }, //esto crea es la carpeta de guardado del objeto arbol
                                                                                     //no de los registros
+    val rutaGuardadoRespaldosReemplazados : Path =
+        Rutas.carpetaReemplazados
+            .also { if (Files.notExists(it)) Files.createFile(it) },
 
     val registroFactory: RegistroFactory = RegistroFactory
 ) {
@@ -49,8 +52,8 @@ class PoliciaRepository(
 
     fun cargarPoliciaArbol() : PoliciaArbol?{
 
-        if(!Files.exists(rutaGuardadoArbol)) return null
-        val json = Files.readString(rutaGuardadoArbol)
+        if(!Files.exists(rutaGuardadoObjetoArbol)) return null
+        val json = Files.readString(rutaGuardadoObjetoArbol)
         val policiaArbolDTO = gson.fromJson(json, PoliciaArbolDTO::class.java)
 
         try{
@@ -70,9 +73,9 @@ class PoliciaRepository(
     }
 
     fun guardarPoliciaArbol(policiaArbol: PoliciaArbol) { //Aquí deberiamos enviar es el dto, igual al cargar solo se lee lo que los campos en el que el dto se llama igual
-        Files.createDirectories(rutaGuardadoArbol.parent)
+        Files.createDirectories(rutaGuardadoObjetoArbol.parent)
         val json = gson.toJson(policiaArbol)
-        Files.writeString(rutaGuardadoArbol, json)
+        Files.writeString(rutaGuardadoObjetoArbol, json)
     }
     fun cargarListaPoliciaReemplazados(){
 

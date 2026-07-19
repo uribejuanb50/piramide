@@ -184,7 +184,9 @@ class Asignacion(
                     println("       Usa la etiqueta --force")
                 }
 
-                arbol.eliminarPalabra(palabraAntigua, palabrareemplazo, nivelMax, (force && ocultos))
+                val policiaReemplazados = gestorPolicias
+
+                arbol.eliminarPalabra(palabraAntigua, palabrareemplazo, nivelMax, (force && ocultos), policiaReemplazados)
             }
             else -> {
                 System.err.println("¿Cómo llegaste aquí? La cagué re duro en algo")
