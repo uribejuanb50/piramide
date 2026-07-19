@@ -41,6 +41,12 @@ object Rutas{
         }
     }
 
+    val carpetaReemplazados : Path by lazy {
+        raizProyecto.resolve("data").resolve("reemplazados").resolve("").also{
+            Files.createDirectories(it)
+        }
+    }
+
     val directorioInvocacion by lazy{
         Path.of(System.getProperty("user.dir")).toAbsolutePath()
     }

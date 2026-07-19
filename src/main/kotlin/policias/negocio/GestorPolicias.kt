@@ -15,7 +15,7 @@ class GestorPolicias(
     val policiaArbol : PoliciaArbol =
         policiaRepository.cargarPoliciaArbol() ?:
         policiaFactory.crearPoliciaArbol(
-            policiaRepository.rutaGuardadoArbol.also { println("RutaGuardado desde repository: ${policiaRepository.rutaGuardadoArbol.absolutePathString()}") },
+            policiaRepository.rutaGuardadoArbol,
             1
         )
 
@@ -35,7 +35,9 @@ class GestorPolicias(
         for(objeto in objetosListar){
             when(objeto){
                 "arbol" ->{
-                    var retornoArbol = "====================== REGISTROS ARBOL ${policiaArbol.id} =========================\n"
+                    var retornoArbol = "============================= ARBOL ===============================================\n"
+                    retornoArbol += policiaArbol.toString() +"\n"
+                    retornoArbol += "====================== REGISTROS ARBOL ${policiaArbol.id} =========================\n"
                     retornoArbol += listaRegistrosToPolimorficString(this.policiaArbol, listaParejaFiltrar) + "\n"
                     retorno += "$retornoArbol\n"
                 }

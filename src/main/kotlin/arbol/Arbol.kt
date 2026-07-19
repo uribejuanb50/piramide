@@ -1,9 +1,11 @@
 package piramide.arbol
 
+import piramide.policias.dominio.PoliciaReemplazados
+import piramide.policias.negocio.GestorPolicias
 import piramide.utils.toCustomString
 import java.io.File
 
-class Arbol (val path : File){
+class Arbol (val path : File, gestorPolicias: GestorPolicias){
 
     val raiz = Nodo(path.name, path)
     var profundidad : Int = 0
@@ -116,8 +118,16 @@ class Arbol (val path : File){
     }
 
     //elimina esa palabra hasta cierta cantidad de niveles
-    fun eliminarPalabra(palabraAntigua : Regex, palabraReemplazo : String,  nivelMax : Int? = null, mostrarOcultos: Boolean) : String{
-        val resultado = this.raiz.eliminarPalabra(palabraAntigua, palabraReemplazo, nivelMax, mostrarOcultos)
+    fun eliminarPalabra(
+        palabraAntigua : Regex,
+        palabraReemplazo : String,
+        nivelMax : Int? = null,
+        mostrarOcultos: Boolean,
+        policiaReemplazados: PoliciaReemplazados
+    ) : String{
+
+        val resultado =
+            this.raiz.eliminarPalabra(palabraAntigua, palabraReemplazo, policiaReemplazados, nivelMax, mostrarOcultos)
 
         return if(resultado)
             "Intercambio de la palabra $palabraAntigua, exitosa"

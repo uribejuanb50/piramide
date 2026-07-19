@@ -10,10 +10,18 @@ import java.time.LocalDate
 import java.time.LocalTime
 
 class PoliciaRepository(
+
     val rutaGuardadoArbol : Path =
         Rutas.carpetaPolicias
             .resolve("PoliciaArbol.json")
             .also { if (Files.notExists(it)) Files.createFile(it) }, //crea el archivo si no existe
+
+    val rutaGuardadoReemplazados : Path =
+        Rutas.carpetaPolicias
+            .resolve("PoliciaReemplazados")
+            .also { if (Files.notExists(it)) Files.createFile(it) }, //esto crea es la carpeta de guardado del objeto arbol
+                                                                                    //no de los registros
+
     val registroFactory: RegistroFactory = RegistroFactory
 ) {
 
@@ -65,9 +73,6 @@ class PoliciaRepository(
         Files.createDirectories(rutaGuardadoArbol.parent)
         val json = gson.toJson(policiaArbol)
         Files.writeString(rutaGuardadoArbol, json)
-    }
-    fun cargarListaPoliciaBorrados(){
-
     }
     fun cargarListaPoliciaReemplazados(){
 

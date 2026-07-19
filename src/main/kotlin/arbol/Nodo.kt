@@ -1,5 +1,8 @@
 package piramide.arbol
 
+import piramide.policias.dominio.Policia
+import piramide.policias.dominio.PoliciaReemplazados
+import piramide.policias.negocio.GestorPolicias
 import java.io.File
 
 class Nodo (val nombre : String, val path : File) {
@@ -220,6 +223,7 @@ class Nodo (val nombre : String, val path : File) {
     fun eliminarPalabra(
         palabraAntigua : Regex,
         palabraReemplazo : String,
+        policiaReemplazados: PoliciaReemplazados,
         nivelMax : Int? = null,
         mostrarOcultos : Boolean = false,
         carry : Int = 0
@@ -245,7 +249,15 @@ class Nodo (val nombre : String, val path : File) {
         var retorno = false
 
         for(subdirectorio in this.listaSubArchivos) {
-            val retornoRecursivo = subdirectorio.eliminarPalabra(palabraAntigua, palabraReemplazo, nivelMax, mostrarOcultos, carry + 1)
+            val retornoRecursivo =
+                subdirectorio.eliminarPalabra(
+                    palabraAntigua,
+                    palabraReemplazo,
+                    policiaReemplazados,
+                    nivelMax,
+                    mostrarOcultos,
+                    carry + 1
+                )
             retorno = (retorno || retornoRecursivo)
         }
 

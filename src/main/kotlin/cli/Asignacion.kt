@@ -38,7 +38,7 @@ class Asignacion(
 
     //usar las funciones específicas integrando los flags
     fun manejarArbol(raiz: File, opcion: Int, args : ArrayList<String>, flags : Map<String, Any?>) : String {
-        val arbol = Arbol(raiz)
+        val arbol = Arbol(raiz, gestorPolicias)
         if(args.size != 2){
             arbol.crearSubDirectorios()
             arbol.nPalabraMasLarga()

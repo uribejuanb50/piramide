@@ -23,24 +23,26 @@ class PoliciaArbol (
         retornar += "Fecha: ${registro.fecha}"
         "$retornar---------------------------------------------\n"
     }
-
-    override fun toString() : String{
-        var retorno = "["
+    @JvmName("toStringClassPoliciaArbol")
+    fun toString(mostrarLista : Boolean = false) : String{
+        var retorno = ""
 
         retorno += "pathRaizUsando: ${pathRaizArbolUsando?.toAbsolutePath()?:"null"}\n"
         retorno += "pathCarpetaGuardando : ${pathCarpetaGuardando.toAbsolutePath()}\n"
         retorno += "id : $id\n"
         retorno += "tipo : $tipo\n"
-        retorno += this.listaRegistro.map(devolverFormatoRegistro).toCollection(ArrayList()).toCustomString()
+        retorno +=
+            if(mostrarLista)
+                this.listaRegistro.map(devolverFormatoRegistro).toCollection(ArrayList()).toCustomString()
+            else
+                ""
 
         return retorno
     }
     fun registrarArbol(pathRaiz : Path, descripcion : String?, usar : Boolean = true){
 
         val ultimoID : Long =
-            if(!this.listaRegistro.isEmpty())this.listaRegistro.last().id else 0
-
-        val nuevoRegistro = registroFactory.generarRegistroArbol(ultimoID, "arbol", descripcion, pathRaiz)
+            if(!this.listaRegistro.isEmpty()) this.listaRegistro.last().id else 0
 
         this.listaRegistro.add(
             //Quitar lo de los nodos, literal son puras ganas de joder jaja
@@ -48,17 +50,6 @@ class PoliciaArbol (
         )
         if(usar)
             this.pathRaizArbolUsando = pathRaiz
-    }
-
-    fun devolverArbolFuncionando() : Arbol{
-
-        val pathArbol =
-           this.pathRaizArbolUsando?.toFile() ?: throw IllegalStateException("[PoliciaArbol] No había árboles disponibles")
-
-        val arbol : Arbol = Arbol(pathArbol)
-        arbol.crearSubDirectorios()
-
-        return arbol
     }
 
 
