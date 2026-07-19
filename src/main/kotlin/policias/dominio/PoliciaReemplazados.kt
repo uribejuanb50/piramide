@@ -37,7 +37,7 @@ class PoliciaReemplazados(
         val respaldoGenerado =
             carpetaGuardandoRespaldos
                 .resolve(
-                    "ida-arbol-$id-idr-registro-${idRegistro + 1}-palabra_antigua-$palabraAntigua-palabra_nueva-$palabraNueva.$extension"
+                    "ida-arbol-$id-idr-registro-${idRegistro + 1}.$extension"
                 )
                 .also{
                     if(Files.notExists(it)) Files.createFile(it)

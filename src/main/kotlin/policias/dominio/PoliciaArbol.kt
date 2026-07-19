@@ -52,11 +52,6 @@ class PoliciaArbol (
             this.pathRaizArbolUsando = pathRaiz
     }
 
-
-    override fun nuevoSeguimiento() {
-        TODO("Not yet implemented")
-    }
-
     override fun devolverFormatoListaRegistro(listaRegistro: ArrayList<Registro>): ArrayList<String> {
         TODO("Not yet implemented")
     }
