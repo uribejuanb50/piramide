@@ -229,6 +229,25 @@ class Asignacion(
 
                 "Arbol asignado con el path ${gestorPolicias.origenArbol()}"
             }
+            42 -> {
+                var indiceConIDs = 3 //desde aquí comienzan a haber ids
+
+                var siguiente : Int? = args.getOrNull(indiceConIDs)?.toIntOrNull()?: throw IllegalArgumentException(
+                    "[Asignacion] Después del >policia arbol eliminar _< no había un número válido"
+                )
+
+                val arrayListIDs : ArrayList<Int> = arrayListOf()
+
+                while(siguiente != null){
+                    arrayListIDs.add(siguiente)
+
+                    indiceConIDs++
+
+                    siguiente = args.getOrNull(indiceConIDs)?.toIntOrNull()
+                }
+
+                println("[Asignacion] lista ids: $arrayListIDs")
+            }
             else->{
                 System.err.println("¿Cómo llegaste aquí? La cagué re duro en algo")
             }

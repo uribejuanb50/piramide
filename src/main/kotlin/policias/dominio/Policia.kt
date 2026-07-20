@@ -146,27 +146,29 @@ abstract class Policia (
     }
 
     fun eliminarRegistros( //básicamente elimina los registros que no existan o hayan sido movidos o que se quieran eliminar, borra es
-        listaRegistroEliminar : ArrayList<Path>?, //eliminar uno solo, o varios, conectarlos desde el cli
+        listaRegistroEliminar : ArrayList<Int>?, //eliminar uno solo, o varios, conectarlos desde el cli
         listaExclusiones : ArrayList<Path> //viene o vacio o con exclusiones
     ) : ArrayList<String> {
         //se usan los paths actuales
         val listaRegistrosEliminar =
-            listaRegistroEliminar ?: this.listaRegistro
+            listaRegistroEliminar ?: this.listaRegistro.map{it.id}
 
         val funcEliminacion = mapaMetodoBusqueda["id"]?: throw IllegalArgumentException(
             "[Policia$tipo] Tipo de búsqueda no estaba en mapaMetodosBusqueda"
         )
 
         val arrayListDevuelto : ArrayList<Registro> = arrayListOf()
-        for(registro in this.listaRegistro){
+
+        for(id in listaRegistroEliminar){
             arrayListDevuelto.addAll(
-                ejecutarBusqueda(registro.id, funcEliminacion)
+                ejecutarBusqueda(id, funcEliminacion)
             )
         }
 
         println("[Policia] Lista registros: ${
             arrayListDevuelto.map(devolverFormatoRegistro).toCollection(ArrayList()).toCustomString()
         }")
+
         TODO("return")
     }
 
