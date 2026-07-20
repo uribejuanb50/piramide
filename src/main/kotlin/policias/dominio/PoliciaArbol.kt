@@ -54,14 +54,4 @@ class PoliciaArbol (
         return retorno
     }
 
-    override fun devolverFormatoListaRegistro(listaRegistro: ArrayList<Registro>): ArrayList<String> {
-        TODO("Not yet implemented")
-    }
-
-
-    override fun transdormarListaToSetPorAtributo(lista: ArrayList<Registro>): Set<Path> {
-        TODO("Not yet implemented")
-    }
-
-
 }

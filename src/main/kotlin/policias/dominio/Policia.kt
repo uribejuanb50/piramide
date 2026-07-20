@@ -1,5 +1,6 @@
 package piramide.policias.dominio
 
+import piramide.utils.toCustomString
 import java.nio.file.Path
 import java.time.LocalDate
 import java.time.LocalTime
@@ -59,9 +60,6 @@ abstract class Policia (
             registro
         }
     )
-
-    abstract fun devolverFormatoListaRegistro(listaRegistro: ArrayList<Registro>) : ArrayList<String>
-    abstract fun transdormarListaToSetPorAtributo(lista : ArrayList<Registro>) : Set<Path> //tranformar por registro.pathActual opathOriginal
 
     //para implementar en el cli
     fun buscarPor(listaParejaFiltrar : ArrayList<Pair<Any, String>>) : ArrayList<Registro> { //el primero es el tipo dato de la busqueda
@@ -155,23 +153,21 @@ abstract class Policia (
         val listaRegistrosEliminar =
             listaRegistroEliminar ?: this.listaRegistro
 
-        val eliminacion : ArrayList<Registro> = arrayListOf()
-        val funcEliminacion = mapaMetodoBusqueda["eliminar"]?: throw IllegalArgumentException(
+        val funcEliminacion = mapaMetodoBusqueda["id"]?: throw IllegalArgumentException(
             "[Policia$tipo] Tipo de búsqueda no estaba en mapaMetodosBusqueda"
         )
 
-        for(registro in listaRegistrosEliminar){
-            val listaRegistroResultado = ejecutarBusqueda(registro, funcEliminacion)
-            eliminacion.addAll(listaRegistroResultado)
+        val arrayListDevuelto : ArrayList<Registro> = arrayListOf()
+        for(registro in this.listaRegistro){
+            arrayListDevuelto.addAll(
+                ejecutarBusqueda(registro.id, funcEliminacion)
+            )
         }
 
-        val setEliminar = transdormarListaToSetPorAtributo(eliminacion) //implementar en cada
-
-        this.listaRegistro
-            .filterNot { it.pathOriginal in setEliminar }
-            .toCollection(ArrayList())
-
-        return arrayListOf("[Policia$tipo] ") //am validar eliminados supongo
+        println("[Policia] Lista registros: ${
+            arrayListDevuelto.map(devolverFormatoRegistro).toCollection(ArrayList()).toCustomString()
+        }")
+        TODO("return")
     }
 
     init{
