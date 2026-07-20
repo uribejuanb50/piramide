@@ -1,2 +1,2 @@
-sexo s 2
-sexo s 3
+sexo = 2
+sexo = 3

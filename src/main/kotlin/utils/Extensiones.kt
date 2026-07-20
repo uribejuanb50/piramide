@@ -6,6 +6,7 @@ import java.nio.file.Path
 import java.time.LocalDate
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import piramide.policias.dominio.PoliciaReemplazados
 
 //ARRAY
 fun Array<String>.toCustomString() : String {
@@ -138,6 +139,29 @@ fun ArrayList<Pair<Any, String>>?.toCustomString() : String {
     }
     return "$retorno]"
 }
+
+@JvmName("toCustomStringArrayListPoliciaReemplazados")
+fun ArrayList<PoliciaReemplazados>.toCustomString() : String {
+
+    if(this.isEmpty()) return "[Vacío]"
+
+    var retorno = "[\n"
+
+    for((indice, policia) in this.withIndex()){
+
+        if(indice != this.lastIndex){
+            retorno += "${policia.toCustomString()}\n----------------------------------\n"
+        }
+        else{
+            retorno += policia.toCustomString() + "\n"
+        }
+    }
+
+    return "$retorno]"
+}
+
+
+
 //MAP -----------------------------------------------------------------
 @JvmName("toCustomStringArrayListAny")
 fun Map<String, Any?>.toCustomString() : Pair<String, Int> {

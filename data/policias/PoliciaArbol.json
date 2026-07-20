@@ -1,6 +1,6 @@
 {
   "registroFactory": {},
-  "pathRaizArbolUsando": "E:\\Ingenieria de sistemas\\Proyectos Propios\\pruebas\\pr-arq\\dir_src\\auth\\Repeater",
+  "pathRaizArbolUsando": "E:\\Ingenieria de sistemas\\Proyectos Propios\\pruebas\\pr-arq\\dir_src\\auth\\Guard",
   "pathCarpetaGuardando": "E:\\Ingenieria de sistemas\\Proyectos Propios\\piramide\\data\\policias\\PoliciaArbol.json",
   "id": 1,
   "tipo": "arbol",
@@ -74,6 +74,22 @@
       "fecha": "2026-07-19",
       "hora": "16:59:55.886569",
       "pathOriginal": "E:\\Ingenieria de sistemas\\Proyectos Propios\\pruebas\\pr-arq\\dir_src\\auth\\Repeater",
+      "tipo": "arbol",
+      "desc": "N/A descripción"
+    },
+    {
+      "id": 10,
+      "fecha": "2026-07-19",
+      "hora": "23:31:38.859249100",
+      "pathOriginal": "E:\\Ingenieria de sistemas\\Proyectos Propios\\piramide\\data",
+      "tipo": "arbol",
+      "desc": "N/A descripción"
+    },
+    {
+      "id": 11,
+      "fecha": "2026-07-20",
+      "hora": "12:16:41.624576100",
+      "pathOriginal": "E:\\Ingenieria de sistemas\\Proyectos Propios\\pruebas\\pr-arq\\dir_src\\auth\\Guard",
       "tipo": "arbol",
       "desc": "N/A descripción"
     }

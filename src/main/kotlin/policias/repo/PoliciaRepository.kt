@@ -97,7 +97,7 @@ class PoliciaRepository(
                         dto.pathCarpetaGuardando,
                         dto.id,
                         dto.tipo,
-                        dto.carpetaGuardandoRespaldos,
+                        rutaGuardadoRespaldosReemplazados,
                         registroFactory
                     ).also {
                         it.listaRegistro.addAll(dto.listaRegistro)

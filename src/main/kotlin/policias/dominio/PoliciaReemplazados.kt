@@ -6,6 +6,7 @@ import piramide.utils.escribirArchivo
 import piramide.utils.toCustomString
 import java.nio.file.Files
 import java.nio.file.Path
+import kotlin.io.path.absolutePathString
 import kotlin.io.path.extension
 
 class PoliciaReemplazados(
@@ -19,6 +20,7 @@ class PoliciaReemplazados(
 
     //crea la carpeta donde vamos a estar guardando los registros respectivos al arbol
     val carpetaGuardandoRespaldos : Path = pathCarpetaReemplazados.resolve(id.toString()).also{
+        println("en Archivos = ${it.absolutePathString()}")
         Files.createDirectories(it) //ej : data/reemplazados/1 ; 1 porque es el id del policia
     }
 
@@ -36,7 +38,6 @@ class PoliciaReemplazados(
         "$retornar---------------------------------------------\n"
     }
 
-    //pathnuevo: id-arbol-$id-id-registro-$id-palabra-antigua-$palabraAntigua-palabra-nueva
     fun nuevoSeguimiento(stringOriginal : String, palabraAntigua : Regex, palabraNueva : String, pathOriginal : Path) {
 
         val idRegistro =

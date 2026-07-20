@@ -115,6 +115,9 @@ class GestorPolicias(
     }
 
     fun devolverPoliciaReemplazados(idArbolUsando : Long) : PoliciaReemplazados{
+
+        println("[GestorPolicias] fun devolverPoliciaReemplazados")
+        println("                 this.listaPoliciasReemplazados: ${this.listaPoliciaReemplazados.toCustomString()}")
         val policiaReemplazados =
             if(this.listaPoliciaReemplazados.isEmpty()) //si no existe lo crea y lo guarda
                 policiaFactory.crearPoliciaReemplazados(
@@ -122,11 +125,22 @@ class GestorPolicias(
                     idArbolUsando,
                     policiaRepository.rutaGuardadoRespaldosReemplazados
                 ).also {
+                    println("                 .also: ${it.toCustomString(true)}")
                     this.listaPoliciaReemplazados.add(it)
                 }
             else //si existe lo devuelve
-                this.listaPoliciaReemplazados.find{ it.id == idArbolUsando}
+                this.listaPoliciaReemplazados
+                    .find{
+                        println("                 En find it : ${it.id} | idArbolUsando: $idArbolUsando")
+                        it.id == idArbolUsando
+                    }
+                    ?: policiaFactory.crearPoliciaReemplazados( //en caso de que no encuentre policiasreemplazados en lista, genera uno
+                        policiaRepository.rutaGuardadoObjetoReemplazados,
+                        idArbolUsando,
+                        policiaRepository.rutaGuardadoRespaldosReemplazados
+                    )
 
-        return policiaReemplazados as PoliciaReemplazados
+
+        return policiaReemplazados as PoliciaReemplazados //por alguna razon no lo encuentra a veces
     }
 }

@@ -36,7 +36,8 @@ object Rutas{
 
     val carpetaPolicias : Path by lazy {
         //println("[Archivos] raizProyecto: ${raizProyecto.absolutePathString()}")
-        raizProyecto.resolve("data").resolve("policias").resolve("").also{
+        raizProyecto.resolve("data").resolve("policias").also{
+            println("en Archivos = ${it.absolutePathString()}")
             Files.createDirectories(it)
         }
     }
