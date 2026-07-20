@@ -20,8 +20,11 @@ class GestorPolicias(
             1
         )
 
-    var listaPoliciaReemplazados: ArrayList<Policia> = arrayListOf()
-    var listaPoliciaAplanados : ArrayList<Policia> = arrayListOf()
+    val listaPoliciaReemplazados: ArrayList<PoliciaReemplazados> by lazy {
+        policiaRepository.cargarListaPoliciaReemplazados()
+    }
+
+    var listaPoliciaAplanados : ArrayList<Policia> = arrayListOf() //
 
     fun listarRegistros(
         solo : ArrayList<String>?, //tipos arbol, borrados, aplanados, reemplazados
@@ -84,6 +87,7 @@ class GestorPolicias(
 
     fun cerrarGestor(){
         policiaRepository.guardarPoliciaArbol(policiaArbol)
+        if(!this.listaPoliciaReemplazados.isEmpty()) policiaRepository.guardarListaPoliciaReemplazados(this.listaPoliciaReemplazados)
         //para guardar las listas solo se guardan los que no estén en null así mismo como se cargan según si se llaman
         //en vez de cargar todo de una vez,
         //el policia arbol si se carga porque es necesario para las operaciones tipo arbol

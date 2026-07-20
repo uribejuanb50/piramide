@@ -23,6 +23,20 @@ class PoliciaArbol (
         retornar += "Fecha: ${registro.fecha}"
         "$retornar---------------------------------------------\n"
     }
+
+    fun registrarArbol(pathRaiz : Path, descripcion : String?, usar : Boolean = true){
+
+        val ultimoID : Long =
+            if(!this.listaRegistro.isEmpty()) this.listaRegistro.last().id else 0
+
+        this.listaRegistro.add(
+            //Quitar lo de los nodos, literal son puras ganas de joder jaja
+            registroFactory.generarRegistroArbol(ultimoID, "arbol", descripcion, pathRaiz)
+        )
+        if(usar)
+            this.pathRaizArbolUsando = pathRaiz
+    }
+
     @JvmName("toStringClassPoliciaArbol")
     fun toString(mostrarLista : Boolean = false) : String{
         var retorno = ""
@@ -38,18 +52,6 @@ class PoliciaArbol (
                 ""
 
         return retorno
-    }
-    fun registrarArbol(pathRaiz : Path, descripcion : String?, usar : Boolean = true){
-
-        val ultimoID : Long =
-            if(!this.listaRegistro.isEmpty()) this.listaRegistro.last().id else 0
-
-        this.listaRegistro.add(
-            //Quitar lo de los nodos, literal son puras ganas de joder jaja
-            registroFactory.generarRegistroArbol(ultimoID, "arbol", descripcion, pathRaiz)
-        )
-        if(usar)
-            this.pathRaizArbolUsando = pathRaiz
     }
 
     override fun devolverFormatoListaRegistro(listaRegistro: ArrayList<Registro>): ArrayList<String> {

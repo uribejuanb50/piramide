@@ -4,6 +4,8 @@ import piramide.arbol.Nodo
 import java.io.File
 import java.nio.file.Path
 import java.time.LocalDate
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
 //ARRAY
 fun Array<String>.toCustomString() : String {
@@ -172,3 +174,9 @@ fun MutableList<Nodo>.toCustomString() : String{
     return "$retorno]"
 }
 
+
+//Extension de gson para arraylists
+inline fun <reified T> Gson.fromJsonList(json : String) : ArrayList<T> {
+    val type = object : TypeToken<ArrayList<T>>() {}.type
+    return this.fromJson(json, type)
+}

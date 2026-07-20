@@ -22,8 +22,18 @@ class PoliciaReemplazados(
         Files.createDirectories(it) //ej : data/reemplazados/1 ; 1 porque es el id del policia
     }
 
+    @Transient
     override val devolverFormatoRegistro: (registro: Registro) -> String = { registro ->
-        " "
+        var retornar = "\n"
+        retornar += "ID: ${registro.id}\n"
+        retornar += "Tipo: ${registro.tipo}\n"
+        retornar += "Descrpcion: ${registro.desc}\n"
+        retornar += "Path original: ${registro.pathOriginal}\n"
+        retornar += "Path actual: ${registro.pathActual}"
+        retornar += "Fecha: ${registro.fecha}"
+        retornar += "Palabra borrada: ${registro.palabraBorrada}"
+        retornar += "Palabra nueva: ${registro.palabraNueva}"
+        "$retornar---------------------------------------------\n"
     }
 
     //pathnuevo: id-arbol-$id-id-registro-$id-palabra-antigua-$palabraAntigua-palabra-nueva

@@ -2,8 +2,11 @@ package piramide.policias.repo
 
 import com.google.gson.*
 import piramide.policias.dominio.PoliciaArbol
+import piramide.policias.dominio.PoliciaReemplazados
+import piramide.policias.factories.PoliciaFactory
 import piramide.policias.factories.RegistroFactory
 import piramide.utils.Rutas
+import piramide.utils.fromJsonList
 import java.nio.file.Files
 import java.nio.file.Path
 import java.time.LocalDate
@@ -77,9 +80,42 @@ class PoliciaRepository(
         val json = gson.toJson(policiaArbol)
         Files.writeString(rutaGuardadoObjetoArbol, json)
     }
-    fun cargarListaPoliciaReemplazados(){
+
+    fun cargarListaPoliciaReemplazados() : ArrayList<PoliciaReemplazados> {
+        if(!Files.exists(rutaGuardadoObjetoReemplazados)) return arrayListOf()
+        val json = Files.readString(rutaGuardadoObjetoReemplazados)
+        val arrayListDTO = gson.fromJsonList<PoliciaReemplazadosDTO>(json)
+
+        try{
+            return arrayListDTO
+                .map{ dto ->
+                    PoliciaReemplazados(
+                        dto.pathCarpetaGuardando,
+                        dto.id,
+                        dto.tipo,
+                        dto.carpetaGuardandoRespaldos,
+                        registroFactory
+                    ).also {
+                        it.listaRegistro.addAll(dto.listaRegistro)
+                    }
+                }
+                .toCollection(ArrayList())
+        }
+        catch (e : Exception){
+            println("[PoliciaRepository] Lectura del archivo tiró error, probablemente corrupto o manipulado.\n" +
+                    "                    RetornandoListaVacia")
+
+            return arrayListOf()
+        }
 
     }
+
+    fun guardarListaPoliciaReemplazados( listaPoliciaReemplazados: ArrayList<PoliciaReemplazados>){
+        Files.createDirectories(rutaGuardadoObjetoReemplazados.parent)
+        val json = gson.toJson(listaPoliciaReemplazados)
+        Files.writeString(rutaGuardadoObjetoReemplazados, json)
+    }
+
     fun cargarListaPoliciaAplanados(){
 
     }
