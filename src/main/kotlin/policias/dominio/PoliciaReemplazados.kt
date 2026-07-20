@@ -70,8 +70,8 @@ class PoliciaReemplazados(
     }
 
 
-    @JvmName("toStringClassPoliciaReemplazados")
-    fun toString(mostrarLista : Boolean = false) : String{
+    //@JvmName("toStringClassPoliciaReemplazados")
+    fun toCustomString(mostrarLista : Boolean = false) : String{
         var retorno = ""
 
         retorno += "carpetaGuardandoRespaldos: ${carpetaGuardandoRespaldos.toAbsolutePath()?:"null"}\n"

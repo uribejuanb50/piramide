@@ -20,9 +20,11 @@ class GestorPolicias(
             1
         )
 
-    val listaPoliciaReemplazados: ArrayList<PoliciaReemplazados> by lazy {
+    private val delegadorReemplazados = lazy {
         policiaRepository.cargarListaPoliciaReemplazados()
     }
+    val listaPoliciaReemplazados: ArrayList<PoliciaReemplazados>
+        get() = delegadorReemplazados.value
 
     var listaPoliciaAplanados : ArrayList<Policia> = arrayListOf() //
 
@@ -40,7 +42,7 @@ class GestorPolicias(
             when(objeto){
                 "arbol" ->{
                     var retornoArbol = "============================= ARBOL ===============================================\n"
-                    retornoArbol += policiaArbol.toString() +"\n"
+                    retornoArbol += policiaArbol.toCustomString() +"\n"
                     retornoArbol += "====================== REGISTROS ARBOL ${policiaArbol.id} =========================\n"
                     retornoArbol += listaRegistrosToPolimorficString(this.policiaArbol, listaParejaFiltrar) + "\n"
                     retorno += "$retornoArbol\n"
@@ -49,10 +51,9 @@ class GestorPolicias(
                     var retornoReemplazados = "================================ REEMPLAZADOS ========================================="
                     retornoReemplazados +=
                         this.listaPoliciaReemplazados
-                            .joinToString (separator = ""){ elemento  ->
-                                val policia = elemento as PoliciaReemplazados
+                            .joinToString (separator = ""){ policia  ->
                                 var str = "-------------------------------------\n"
-                                str += policia.toString() + "\n"
+                                str += policia.toCustomString() + "\n"
                                 str += "---------------- Registros ---------------\n"
                                 str += listaRegistrosToPolimorficString(policia, listaParejaFiltrar) + "\n"
                                 str
@@ -87,7 +88,9 @@ class GestorPolicias(
 
     fun cerrarGestor(){
         policiaRepository.guardarPoliciaArbol(policiaArbol)
-        if(!this.listaPoliciaReemplazados.isEmpty()) policiaRepository.guardarListaPoliciaReemplazados(this.listaPoliciaReemplazados)
+
+        if(delegadorReemplazados.isInitialized())
+            policiaRepository.guardarListaPoliciaReemplazados(this.listaPoliciaReemplazados)
         //para guardar las listas solo se guardan los que no estén en null así mismo como se cargan según si se llaman
         //en vez de cargar todo de una vez,
         //el policia arbol si se carga porque es necesario para las operaciones tipo arbol

@@ -37,8 +37,8 @@ class PoliciaArbol (
             this.pathRaizArbolUsando = pathRaiz
     }
 
-    @JvmName("toStringClassPoliciaArbol")
-    fun toString(mostrarLista : Boolean = false) : String{
+    //@JvmName("toStringClassPoliciaArbol")
+    fun toCustomString(mostrarLista : Boolean = false) : String{
         var retorno = ""
 
         retorno += "pathRaizUsando: ${pathRaizArbolUsando?.toAbsolutePath()?:"null"}\n"

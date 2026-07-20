@@ -1,0 +1,33 @@
+[
+  {
+    "registroFactory": {},
+    "carpetaGuardandoRespaldos": "E:\\Ingenieria de sistemas\\Proyectos Propios\\piramide\\data\\reemplazados\\9\\9\\9",
+    "pathCarpetaGuardando": "E:\\Ingenieria de sistemas\\Proyectos Propios\\piramide\\data\\policias\\PoliciasReemplazados.json",
+    "id": 9,
+    "tipo": "reemplazados",
+    "listaRegistro": [
+      {
+        "id": 1,
+        "fecha": "2026-07-19",
+        "hora": "20:27:07.614328700",
+        "pathOriginal": "E:\\Ingenieria de sistemas\\Proyectos Propios\\pruebas\\pr-arq\\dir_src\\auth\\Repeater\\norma.txt",
+        "pathActual": "E:\\Ingenieria de sistemas\\Proyectos Propios\\piramide\\data\\reemplazados\\9\\ida-arbol-9-idr-registro-1.txt",
+        "tipo": "reemplazo",
+        "desc": "palabra antigua: (?\u003c!\\w)\\Qs\\E(?!\\w) | palabra nueva : \u003d | archivo originario : E:\\Ingenieria de sistemas\\Proyectos Propios\\pruebas\\pr-arq\\dir_src\\auth\\Repeater\\norma.txt",
+        "palabraBorrada": "(?\u003c!\\w)\\Qs\\E(?!\\w)",
+        "palabraNueva": "\u003d"
+      },
+      {
+        "id": 2,
+        "fecha": "2026-07-19",
+        "hora": "20:27:07.618328200",
+        "pathOriginal": "E:\\Ingenieria de sistemas\\Proyectos Propios\\pruebas\\pr-arq\\dir_src\\auth\\Repeater\\norme.txt",
+        "pathActual": "E:\\Ingenieria de sistemas\\Proyectos Propios\\piramide\\data\\reemplazados\\9\\ida-arbol-9-idr-registro-2.txt",
+        "tipo": "reemplazo",
+        "desc": "palabra antigua: (?\u003c!\\w)\\Qs\\E(?!\\w) | palabra nueva : \u003d | archivo originario : E:\\Ingenieria de sistemas\\Proyectos Propios\\pruebas\\pr-arq\\dir_src\\auth\\Repeater\\norme.txt",
+        "palabraBorrada": "(?\u003c!\\w)\\Qs\\E(?!\\w)",
+        "palabraNueva": "\u003d"
+      }
+    ]
+  }
+]

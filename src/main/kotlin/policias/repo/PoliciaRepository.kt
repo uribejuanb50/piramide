@@ -83,7 +83,11 @@ class PoliciaRepository(
 
     fun cargarListaPoliciaReemplazados() : ArrayList<PoliciaReemplazados> {
         if(!Files.exists(rutaGuardadoObjetoReemplazados)) return arrayListOf()
+
         val json = Files.readString(rutaGuardadoObjetoReemplazados)
+
+        if(json.isBlank()) return arrayListOf()
+
         val arrayListDTO = gson.fromJsonList<PoliciaReemplazadosDTO>(json)
 
         try{
