@@ -203,7 +203,6 @@ class Asignacion(
             ArrayList(lista.map { it as String })
         }
 
-
         val listaParejaFiltrar = (flags["filtrar"] as? List<*>)?.mapNotNull { item ->
             (item as? Pair<*, *>)?.let { par ->
                 val clave = par.first
@@ -212,7 +211,11 @@ class Asignacion(
             }
         }?.let { ArrayList(it) } //Falta la opcion de filtrar por descripcion > --filtrar descripcion str
 
-        // println("listaFiltar ${listaParejaFiltrar.toCustomString()}")
+        val ids = (flags["ids"] as? List<*>)?.let{ lista ->
+            ArrayList(lista.map{it as Long})
+        }
+
+        println("listaIds $ids")
         return "[Asignacion] " + when (opcion) {
             20 ->{
                 gestorPolicias.listarRegistros(solo, listaParejaFiltrar)
@@ -230,23 +233,7 @@ class Asignacion(
                 "Arbol asignado con el path ${gestorPolicias.origenArbol()}"
             }
             42 -> {
-                var indiceConIDs = 3 //desde aquí comienzan a haber ids
-
-                var siguiente : Int? = args.getOrNull(indiceConIDs)?.toIntOrNull()?: throw IllegalArgumentException(
-                    "[Asignacion] Después del >policia arbol eliminar _< no había un número válido"
-                )
-
-                val arrayListIDs : ArrayList<Int> = arrayListOf()
-
-                while(siguiente != null){
-                    arrayListIDs.add(siguiente)
-
-                    indiceConIDs++
-
-                    siguiente = args.getOrNull(indiceConIDs)?.toIntOrNull()
-                }
-
-                println("[Asignacion] lista ids: $arrayListIDs")
+                gestorPolicias.policiaArbol.eliminarRegistros(ids, setOf())
             }
             else->{
                 System.err.println("¿Cómo llegaste aquí? La cagué re duro en algo")

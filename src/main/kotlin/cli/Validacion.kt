@@ -233,7 +233,8 @@ class Validacion() {
         val opcionesValidas = listOf(
             "--excluir", //Excluir paths de dirs o archivos, captura varios ej: --excluir path1 path2 .. pathn
             "--solo",
-            "--filtrar"
+            "--filtrar",
+            "--ids"
         )
 
         val nuevosArgs : ArrayList<String> = arrayListOf()
@@ -243,6 +244,7 @@ class Validacion() {
             "excluir" to null, //Set<Path>
             "solo" to null, //ArrayList<String>
             "filtrar" to null, //ArrayList<Pair<Any, String>>
+            "ids" to null //ArrayList<Int>
         )
 
         for ((indice, argumento) in args.withIndex()){
@@ -252,6 +254,29 @@ class Validacion() {
             }
 
             when(argumento){
+                "--ids" -> {
+                    var salir = true
+                    var indiceSumarSiguiente = 1
+
+                    val arrayListIDs : ArrayList<Long> = arrayListOf()
+
+                    while(salir){
+                        val siguiente = args.getOrNull(indice + indiceSumarSiguiente)?.toLongOrNull()
+
+                        if(siguiente == null){
+                            salir = false
+                        }
+                        else{
+                            arrayListIDs.add(siguiente)
+                            argsRestar.add(siguiente.toString())
+                        }
+                        indiceSumarSiguiente++
+                    }
+
+                    if(arrayListIDs.isEmpty()) throw IllegalArgumentException("[Asignacion] Después del >policia arbol eliminar _< no había un número válido")
+
+                    diccionarioFlags["ids"] = arrayListIDs
+                }
                 "--excluir" -> {
 
                     var salir : Boolean = true
@@ -432,7 +457,7 @@ class Validacion() {
                     args.size == 2 && args[1] == "origen" -> 21 //policia origen -> devuelve el path actual del arbol
                     args.size == 4 && args[1] == "origen" -> 40
                     args.size == 4 && args[1] == "arbol" && args[2] == "asignar" -> 41 //policia arbol asignar "id del registro"
-                    args[1] == "arbol" && args[2] == "eliminar" -> 42//policia arbol eliminar "id1, id2, ..., idn"
+                    args.size == 3 && args[1] == "arbol" && args[2] == "eliminar" -> 42//policia arbol eliminar "id1, id2, ..., idn"
                     else -> {
                         System.err.println("[Main] Los argumentos recibidos no sirven, inserta --ayuda para una guía")
                         exitProcess(1)
