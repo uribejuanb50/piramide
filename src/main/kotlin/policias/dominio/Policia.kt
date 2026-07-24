@@ -4,6 +4,7 @@ import piramide.utils.toCustomString
 import java.nio.file.Path
 import java.time.LocalDate
 import java.time.LocalTime
+import kotlin.io.path.absolutePathString
 import kotlin.system.exitProcess
 
 abstract class Policia (
@@ -148,7 +149,7 @@ abstract class Policia (
     fun eliminarRegistros( //básicamente elimina los registros que no existan o hayan sido movidos o que se quieran eliminar, borra es
         listaRegistroEliminar : ArrayList<Long>?, //eliminar uno solo, o varios, conectarlos desde el cli
         listaExclusiones : Set<Int> //viene o vacio o con exclusiones
-    ) : ArrayList<String> {
+    ) : String {
 
         //se usan los paths actuales
         val listaRegistrosPorIdEliminar =
@@ -170,10 +171,16 @@ abstract class Policia (
             arrayListDevuelto.map(devolverFormatoRegistro).toCollection(ArrayList()).toCustomString()
         }")
 
-        //devuelve bien todo, solo falta eliminar
-        
+        val idsExcluir = arrayListDevuelto.map { it.id }.toSet()
 
-        TODO("return")
+        this.listaRegistro.removeAll{ it.id in idsExcluir }
+
+        return arrayListDevuelto
+            .map{
+                "${it.id}\n${it.pathOriginal.absolutePathString()}\n${it.pathActual.absolutePathString()},\n"
+            }
+            .toCollection(ArrayList())
+            .toCustomString()
     }
 
     init{
