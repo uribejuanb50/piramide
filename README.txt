@@ -29,6 +29,7 @@ flags: //2 tipos funcionalidad, interna de cada clase que entra por param y exte
  --toArchivo "path_archivo"  	//guardar en archivo (borra el contenido)
  --ayuda                     	//Imprime este txt
 
+
 //Falta hacer los warnings de categoria
 //Incluir el flag --incluir para reemplazar, así se incluiria los que empiezan con .
 comandos:
