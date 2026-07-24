@@ -233,7 +233,10 @@ class Asignacion(
                 "Arbol asignado con el path ${gestorPolicias.origenArbol()}"
             }
             42 -> {
-                gestorPolicias.policiaArbol.eliminarRegistros(ids, setOf())
+                "Del policia arbol " +
+                        gestorPolicias.policiaArbol.id +
+                        " se eliminaron los registros: " +
+                        gestorPolicias.policiaArbol.eliminarRegistros(ids, setOf()) //vacio el set
             }
             else->{
                 System.err.println("¿Cómo llegaste aquí? La cagué re duro en algo")
