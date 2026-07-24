@@ -177,7 +177,7 @@ abstract class Policia (
 
         return arrayListDevuelto
             .map{
-                "${it.id}\n${it.pathOriginal.absolutePathString()}\n${it.pathActual.absolutePathString()},\n"
+                "${it.id}\n${it.pathOriginal.absolutePathString()}\n${it.pathActual?.absolutePathString()},\n"
             }
             .toCollection(ArrayList())
             .toCustomString()
