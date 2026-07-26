@@ -32,6 +32,8 @@ flags: //2 tipos funcionalidad, interna de cada clase que entra por param y exte
 
 //Falta hacer los warnings de categoria
 //Incluir el flag --incluir para reemplazar, así se incluiria los que empiezan con .
+
+Toca a cabar esta mierda antes de entrar a claro
 comandos:
  ...main.jar "path_original" //genera un arbol
  ...main.jar "path_original" "borrar" "palabra" 				//elimina esa palabra de todo el arbol (falta implementar) //meterle un regex y un respaldo
