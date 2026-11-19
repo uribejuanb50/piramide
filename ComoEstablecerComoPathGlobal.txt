@@ -1,0 +1,13 @@
+En powershell como admin
+
+PS C:\WINDOWS\system32> @"
+>> @echo off
+>> java -jar "E:\scripts_globales\piramid\piramide-all.jar" %*
+>> "@ | Out-File -Encoding ASCII E:\scripts_globales\piramid\piramide.bat
+>>
+PS C:\WINDOWS\system32> [Environment]::SetEnvironmentVariable(
+>>     "Path",
+>>     [Environment]::GetEnvironmentVariable("Path", "User") + ";C:\Herramientas\piramide",
+>>     "User"
+>> )
+PS C:\WINDOWS\system32>
